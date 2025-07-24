@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Menu as MenuIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, Logout } from '@mui/icons-material';
+import { useAuth } from '../context/AuthContext'; // CORRECTED PATH
 
 const navItems = [
   { label: 'Home', path: '/' },
@@ -17,6 +18,8 @@ const navItems = [
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +31,11 @@ function Navbar() {
   
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   const drawer = (
@@ -77,54 +85,33 @@ function Navbar() {
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1 }}>
             {navItems.map((item) => (
-              <Button
-                key={item.label}
-                component={Link}
-                to={item.path}
-                sx={{
-                  color: 'text.secondary',
-                  fontFamily: 'Orbitron',
-                  fontWeight: 400,
-                  borderRadius: '8px',
-                  '&:hover': {
-                    color: 'text.primary',
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  },
-                }}
-              >
+              <Button key={item.label} component={Link} to={item.path} sx={{ color: 'text.secondary', fontFamily: 'Orbitron', fontWeight: 400, borderRadius: '8px', '&:hover': { color: 'text.primary', backgroundColor: 'rgba(255, 255, 255, 0.05)' }}}>
                 {item.label}
               </Button>
             ))}
-             <Button variant="contained" color="primary" component={Link} to="/login" sx={{ ml: 2 }}>
-              Login
-            </Button>
+             {user ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
+                    <Typography sx={{ mr: 2 }}>Welcome, {user.username}</Typography>
+                    <Button variant="contained" color="secondary" onClick={handleLogout} startIcon={<Logout />}>
+                        Logout
+                    </Button>
+                </Box>
+             ) : (
+                <Button variant="contained" color="primary" component={Link} to="/login" sx={{ ml: 2 }}>
+                    Login
+                </Button>
+             )}
           </Box>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="end"
-            onClick={handleDrawerToggle}
-            sx={{ display: { md: 'none' } }}
-          >
+          <IconButton color="inherit" aria-label="open drawer" edge="end" onClick={handleDrawerToggle} sx={{ display: { md: 'none' } }}>
             <MenuIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
       <Box component="nav">
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
-          }}
-        >
+        <Drawer variant="temporary" open={mobileOpen} onClose={handleDrawerToggle} ModalProps={{ keepMounted: true }} sx={{ display: { xs: 'block', md: 'none' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 }}}>
           {drawer}
         </Drawer>
       </Box>
-      {/* Add a Toolbar component to offset the content below the fixed AppBar */}
       <Toolbar />
     </>
   );
