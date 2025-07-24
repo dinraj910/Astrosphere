@@ -32,7 +32,7 @@ function RegisterPage() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" sx={{ display: 'flex', justifyContent: 'center',marginLeft:'530px' }}>
       <Paper
         component={motion.div}
         initial={{ opacity: 0, y: 50 }}
@@ -96,13 +96,13 @@ function RegisterPage() {
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, textDecoration: 'none' ,fontFamily: 'Orbitron', fontSize: '16px' }}
           >
             Sign Up
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <MuiLink component={Link} to="/login" variant="body2">
+              <MuiLink component={Link} to="/login" variant="body2" sx={{ color: 'white', textDecoration: 'none' ,fontFamily: 'Orbitron', fontSize: '16px',marginRight:'15px'}}>
                 Already have an account? Sign in
               </MuiLink>
             </Grid>

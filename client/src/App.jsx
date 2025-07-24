@@ -7,6 +7,7 @@ import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import theme from './styles/theme';
 import { AuthProvider } from "./context/AuthContext";
+import CosmicBackground from './components/CosmicBackground'; // Import the new component
 
 function App() {
   return (
@@ -14,7 +15,16 @@ function App() {
       <CssBaseline />
       <AuthProvider>
         <Router>
-          <Box sx={{ bgcolor: 'background.default', color: 'text.primary', minHeight: '100vh' }}>
+          {/* This is where the CosmicBackground is integrated.
+            It sits here, outside the main content Box, so it acts as a fixed background
+            for the entire application.
+          */}
+          <Box sx={{ 
+            color: 'text.primary', 
+            minHeight: '100vh', 
+            position: 'relative', // This makes sure the content appears on top of the background
+            zIndex: 1 
+          }}>
             <Navbar />
             <main>
               <Routes>
