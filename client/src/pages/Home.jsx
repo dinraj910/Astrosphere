@@ -3,6 +3,13 @@ import { Container, Typography, Box, Card, CardMedia, CardContent, Button, Grid,
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { ArrowForward, RocketLaunch, Public, Newspaper } from '@mui/icons-material';
+import FeaturedContent from '../components/FeaturedContent';
+import APODCard from '../components/APODCard';
+import PlanetsSection from '../components/PlanetsSection';
+import FunFactCard from '../components/FunFactCard';
+import ISSLocationCard from '../components/ISSLocationCard';
+import SolarSystem3D from '../components/SolarSystem3D';
+
 
 // --- UPGRADED Interactive Starfield Background Component ---
 const Starfield = () => {
@@ -50,7 +57,7 @@ const Starfield = () => {
         const starsFar = createStars(300, 1.0, 0.1); // Distant, slow stars
         const starsMid = createStars(300, 1.5, 0.2); // Mid-distance stars
         const starsClose = createStars(100, 2.0, 0.4); // Closer, faster stars
-        const shootingStars = createShootingStars(20);
+        const shootingStars = createShootingStars(30);
 
         const render = () => {
             if (!ctx) return;
@@ -147,12 +154,6 @@ function Home() {
     };
     fetchAPOD();
   }, []);
-
-  const featuredContent = [
-      { icon: <RocketLaunch />, title: "Upcoming Launches", description: "Track the next missions heading to the stars.", tag: "Live Data" },
-      { icon: <Newspaper />, title: "Latest Discoveries", description: "Read about groundbreaking findings from JWST and more.", tag: "News" },
-      { icon: <Public />, title: "Interactive Solar System", description: "Fly through a 3D model of our cosmic neighborhood.", tag: "3D Model" },
-  ];
   
   const planets = [
       { name: 'Earth', image: 'https://science.nasa.gov/wp-content/uploads/2024/03/blue-marble-apollo-17-16x9-1.jpg?resize=1200,675', path: '/planets/earth', desc: 'Our home planet.' },
@@ -165,11 +166,6 @@ function Home() {
       { name: 'Venus', image: 'https://science.nasa.gov/wp-content/uploads/2024/03/venus-mariner-10-pia23791-fig2-16x9-1.jpg?resize=1200,675', path: '/planets/venus', desc: 'The second smallest planet.' },
       { name: 'Sun', image: 'https://science.nasa.gov/wp-content/uploads/2023/05/sun-jpg.webp?w=628', path: '/planets/sun', desc: 'The star.' },
   ];
-
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-  };
 
   return (
     <Box>
@@ -197,65 +193,23 @@ function Home() {
 
       <Container maxWidth="xl" sx={{ py: 8, position: 'relative', zIndex: 1, bgcolor: 'background.default' }}>
         {/* Featured Content Section */}
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={sectionVariants}>
-            <Typography variant="h2" align="center" gutterBottom sx={{ mb: 6 }}>Featured Content</Typography>
-            {/* FIXED: Updated Grid syntax */}
-            <Grid container spacing={4} justifyContent="center">
-                {featuredContent.map(item => (
-                    <Grid item xs={12} md={4} key={item.title}>
-                        <Paper elevation={0} sx={{ p: 4, textAlign: 'center', border: '1px solid', borderColor: 'primary.main', borderRadius: 4, height: '100%', background: 'linear-gradient(145deg, rgba(26, 26, 61, 0.3), rgba(12, 10, 24, 0.5))' }}>
-                            <Box sx={{ color: 'primary.main', fontSize: 40, mb: 2 }}>{item.icon}</Box>
-                            <Typography variant="h5" sx={{ fontFamily: 'Orbitron', mb: 1 }}>{item.title}</Typography>
-                            <Typography color="text.secondary" sx={{ mb: 3 }}>{item.description}</Typography>
-                            <Chip label={item.tag} color="secondary" size="small" />
-                        </Paper>
-                    </Grid>
-                ))}
-            </Grid>
-        </motion.div>
+        <FeaturedContent />
         
         {/* APOD Section */}
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={sectionVariants}>
-          <Box sx={{ my: 12 }}>
-            <Typography variant="h2" align="center" gutterBottom>Astronomy Picture of the Day</Typography>
-            {apod ? (
-              <Card sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-                <CardMedia component="img" image={apod.url} alt={apod.title} sx={{ width: { xs: '100%', md: '55%' }, objectFit: 'cover', aspectRatio: '16/10' }}/>
-                <Box sx={{ display: 'flex', flexDirection: 'column', p: 4, flex: 1 }}>
-                  <Typography variant="h4" component="h3" sx={{ fontFamily: 'Orbitron' }}>{apod.title}</Typography>
-                  <Typography variant="caption" color="text.secondary" sx={{ mb: 2 }}>{new Date(apod.date).toDateString()}</Typography>
-                  <Typography variant="body1" color="text.secondary" sx={{ flexGrow: 1, overflowY: 'auto', maxHeight: '250px', pr: 1 }}>
-                    {apod.explanation}
-                  </Typography>
-                  <Button variant="text" color="secondary" sx={{ mt: 2, alignSelf: 'flex-start' }} href={apod.hdurl || apod.url} target="_blank">View High-Res</Button>
-                </Box>
-              </Card>
-            ) : <Typography>Loading APOD...</Typography>}
-          </Box>
-        </motion.div>
+        <APODCard apod={apod} loading={!apod} />
+
 
         {/* Planets Section */}
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={sectionVariants}>
-            <Typography variant="h2" align="center" gutterBottom sx={{ mb: 6 }}>Explore Our Solar System</Typography>
-            {/* FIXED: Updated Grid syntax */}
-            <Grid container spacing={4}>
-                {planets.map((planet) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={planet.name}>
-                        <Card sx={{ position: 'relative', borderRadius: 4, overflow: 'hidden', '&:hover .planet-details': { bottom: 0 }, '&:hover img': { transform: 'scale(1.1)' } }}>
-                            <CardMedia component="img" image={planet.image} alt={planet.name} sx={{ height: 350, objectFit: 'cover', transition: 'transform 0.4s ease', ...planet.imageSx }} />
-                            <Box className="planet-details" sx={{ position: 'absolute', bottom: '-100%', left: 0, width: '100%', p: 3, background: 'linear-gradient(to top, rgba(12, 10, 24, 0.95), transparent)', transition: 'bottom 0.4s ease' }}>
-                                <Typography variant="h4" sx={{ fontFamily: 'Orbitron', color: 'white' }}>{planet.name}</Typography>
-                                <Typography color="text.secondary">{planet.desc}</Typography>
-                                <Button variant="contained" color="secondary" size="small" sx={{ mt: 1 }} component="a" href={planet.path}>
-                                    Explore
-                                </Button>
-                            </Box>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
-        </motion.div>
+        <PlanetsSection planets={planets} />
 
+        {/* Fun Fact Card */}
+        <FunFactCard />
+
+        {/* ISS Location Card */}
+        <ISSLocationCard />
+
+        {/* 3D Solar System Section <SolarSystem3D /> */}
+      
         {/* Footer */}
         <Box sx={{ mt: 16, py: 6, textAlign: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
           <Typography variant="h4" sx={{ fontFamily: 'Orbitron', mb: 2 }}>Astrosphere</Typography>
