@@ -140,7 +140,7 @@ function Home() {
     const fetchAPOD = async () => {
       try {
         const dateString = new Date().toISOString().split('T')[0];
-        const response = await axios.get(`http://localhost:5000/api/nasa/apod?date=${dateString}`);
+        const response = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=qQsJqXKNsGAxJMpJeh5VOZnOh1HGkYZzts4JvuKp&date=${dateString}`);
         setApod(response.data);
       } catch (error) {
         console.error('Error fetching APOD: The backend endpoint might not be running or configured.', error);

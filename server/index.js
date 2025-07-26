@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 const mongoose = require('mongoose');
 const User = require('./models/User'); 
 const authRoutes = require('./routes/authRoutes');
+const apodRoutes = require('./routes/apodRoutes');
 
 dotenv.config();
 
@@ -24,6 +25,8 @@ app.get('/',(req,res)=>{
 })
 
 app.use('/api/auth', require('./routes/authRoutes'));
+
+app.use('/api/nasa', apodRoutes);
 
 const PORT = process.env.PORT || 5000;
 
