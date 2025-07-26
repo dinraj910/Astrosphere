@@ -9,7 +9,7 @@ import PlanetsSection from '../components/PlanetsSection';
 import FunFactCard from '../components/FunFactCard';
 import ISSLocationCard from '../components/ISSLocationCard';
 import SolarSystem3D from '../components/SolarSystem3D';
-
+import Footer from '../components/Footer';
 
 // --- UPGRADED Interactive Starfield Background Component ---
 const Starfield = () => {
@@ -201,23 +201,37 @@ function Home() {
 
         {/* Planets Section */}
         <PlanetsSection planets={planets} />
+        <br /><br /><br />
 
-        {/* Fun Fact Card */}
-        <FunFactCard />
+        {/* ISS Location Card - Large and Centered */}
+        <Box sx={{ my: 6, display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ width: '850px', maxWidth: '100%' }}>
+            <ISSLocationCard />
+          </Box>
+        </Box>
 
-        {/* ISS Location Card */}
-        <ISSLocationCard />
+        {/* Fun Fact Card at the End */}
+        <Box sx={{ my: 6, display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ width: { xs: '100%', sm: 500 } }}>
+            <FunFactCard />
+          </Box>
+        </Box>
 
         {/* 3D Solar System Section <SolarSystem3D /> */}
-      
-        {/* Footer */}
-        <Box sx={{ mt: 16, py: 6, textAlign: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-          <Typography variant="h4" sx={{ fontFamily: 'Orbitron', mb: 2 }}>Astrosphere</Typography>
-          <Typography variant="body2" color="text.secondary">
-            © {new Date().getFullYear()} | Built for the explorers and the dreamers.
+
+        {/* Ending Section */}
+        <Box sx={{ my: 10, textAlign: 'center',marginTop: '50px' }}>
+          <Typography variant="h4" sx={{ fontFamily: 'Orbitron', mb: 2 }}>
+            Thank you for exploring Astrosphere!
           </Typography>
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 3 }}>
+            The universe is vast—keep looking up and stay curious.
+          </Typography>
+          <hr style={{ maxWidth: 320, margin: '32px auto', border: '1px solid #444', opacity: 0.2 }} />
         </Box>
       </Container>
+      {/* Footer Section */}
+      <Footer />
     </Box>
   );
 }

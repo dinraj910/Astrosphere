@@ -44,7 +44,7 @@ function APODCard({ apod, loading }) {
               objectFit: 'cover',
               aspectRatio: '16/10',
               minHeight: 320,
-              maxHeight: 420,
+              maxHeight: 470,
               filter: 'brightness(0.95) contrast(1.08)',
               transition: 'transform 0.4s',
               '&:hover': { transform: 'scale(1.03)' },

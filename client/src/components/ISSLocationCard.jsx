@@ -1,66 +1,90 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Button, Box, CircularProgress } from '@mui/material';
-import PublicIcon from '@mui/icons-material/Public';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { Box, Typography, CircularProgress, Card, CardContent } from '@mui/material';
+
+// Custom satellite icon
+const satelliteIcon = new L.Icon({
+  iconUrl: 'https://cdn-icons-png.flaticon.com/512/1042/1042820.png', // Place your image in public/satellite.png
+  iconSize: [30, 30],
+  iconAnchor: [20, 20],
+  popupAnchor: [0, -20],
+  shadowUrl: null,
+  shadowSize: null,
+  shadowAnchor: null,
+});
+
+function ISSMarker({ position }) {
+  const map = useMap();
+  useEffect(() => {
+    if (position) {
+      map.setView(position, map.getZoom(), { animate: true });
+    }
+  }, [position, map]);
+  return (
+    <Marker position={position} icon={satelliteIcon}>
+      <Popup>
+        <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+          ISS Current Location
+        </Typography>
+        <Typography variant="body2">
+          Lat: {position[0].toFixed(2)}, Lon: {position[1].toFixed(2)}
+        </Typography>
+      </Popup>
+    </Marker>
+  );
+}
 
 function ISSLocationCard() {
-  const [iss, setIss] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchISS = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('http://api.open-notify.org/iss-now.json');
-      const data = await res.json();
-      setIss(data);
-    } catch (e) {
-      setIss(null);
-      console.error('Error fetching ISS location:', e);
-    }
-    setLoading(false);
-  };
+  const [position, setPosition] = useState(null);
 
   useEffect(() => {
+    let interval;
+    const fetchISS = async () => {
+      try {
+        const res = await fetch('http://api.open-notify.org/iss-now.json');
+        const data = await res.json();
+        setPosition([
+          parseFloat(data.iss_position.latitude),
+          parseFloat(data.iss_position.longitude),
+        ]);
+      } catch (e) {
+        setPosition(null);
+        console.error('Error fetching ISS location:', e); 
+      }
+    };
     fetchISS();
-    const interval = setInterval(fetchISS, 10000); // update every 10s
+    interval = setInterval(fetchISS, 5000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <Box sx={{ my: 8, display: 'flex', justifyContent: 'center' }}>
-      <Card sx={{ maxWidth: 420, borderRadius: 4, boxShadow: '0 4px 32px rgba(129,140,248,0.10)', p: 2 }}>
-        <CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <PublicIcon color="primary" sx={{ mr: 1, fontSize: 32 }} />
-            <Typography variant="h5" sx={{ fontFamily: 'Orbitron', fontWeight: 700 }}>
-              ISS Live Location
-            </Typography>
-          </Box>
-          {loading ? (
+    <Card sx={{ borderRadius: 4, boxShadow: '0 4px 32px rgba(129,140,248,0.10)', p: 2 }}>
+      <CardContent>
+        <Typography variant="h5" align="center" sx={{ mb: 2, fontFamily: 'Orbitron', fontWeight: 700 }}>
+          ISS Live Location
+        </Typography>
+        {position ? (
+          <MapContainer
+            center={position}
+            zoom={2}
+            scrollWheelZoom={true}
+            style={{ height: 300, width: '100%', borderRadius: 12 }}
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution="&copy; OpenStreetMap contributors"
+            />
+            <ISSMarker position={position} />
+          </MapContainer>
+        ) : (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
             <CircularProgress color="primary" />
-          ) : iss && iss.iss_position ? (
-            <>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 1 }}>
-                <strong>Latitude:</strong> {iss.iss_position.latitude}
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-                <strong>Longitude:</strong> {iss.iss_position.longitude}
-              </Typography>
-              <Button
-                variant="outlined"
-                color="primary"
-                href={`https://www.google.com/maps?q=${iss.iss_position.latitude},${iss.iss_position.longitude}`}
-                target="_blank"
-                rel="noopener"
-              >
-                View on Map
-              </Button>
-            </>
-          ) : (
-            <Typography color="error">Could not fetch ISS location.</Typography>
-          )}
-        </CardContent>
-      </Card>
-    </Box>
+          </Box>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
