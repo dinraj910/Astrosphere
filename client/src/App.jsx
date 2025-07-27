@@ -8,6 +8,7 @@ import RegisterPage from './pages/Register';
 import theme from './styles/theme';
 import { AuthProvider } from "./context/AuthContext";
 import CosmicBackground from './components/CosmicBackground'; // Import the new component
+import UniverseStory from './pages/UniverseStory';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/universe-story" element={<UniverseStory />} />
               </Routes>
             </main>
           </Box>

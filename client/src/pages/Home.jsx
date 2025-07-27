@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container, Typography, Box, Card, CardMedia, CardContent, Button, Grid, Paper, Chip } from '@mui/material';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { ArrowForward, RocketLaunch, Public, Newspaper } from '@mui/icons-material';
 import FeaturedContent from '../components/FeaturedContent';
 import APODCard from '../components/APODCard';
@@ -135,6 +136,7 @@ const Starfield = () => {
 
 function Home() {
   const [apod, setApod] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAPOD = async () => {
@@ -184,7 +186,7 @@ function Home() {
             </Typography>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.8 }}>
-            <Button variant="contained" color="primary" size="large" endIcon={<ArrowForward />}>
+            <Button variant="contained" color="primary" size="large" endIcon={<ArrowForward />} onClick={() => navigate('/universe-story')}>
               Begin Exploration
             </Button>
           </motion.div>
