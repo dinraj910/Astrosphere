@@ -7,8 +7,9 @@ import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import theme from './styles/theme';
 import { AuthProvider } from "./context/AuthContext";
-import CosmicBackground from './components/CosmicBackground'; // Import the new component
 import UniverseStory from './pages/UniverseStory';
+import UniverseEventDetail from './pages/UniverseEventDetail';
+//import './styles/responsive.css'; 
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/universe-story" element={<UniverseStory />} />
+                <Route path="/universe-story/:eventIndex" element={<UniverseEventDetail />} />
               </Routes>
             </main>
           </Box>
