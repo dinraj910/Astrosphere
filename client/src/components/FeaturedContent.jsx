@@ -7,9 +7,9 @@ import { Public, RocketLaunch, Event, Collections, SmartToy } from '@mui/icons-m
 const features = [
   {
     icon: <Public sx={{ fontSize: 40 }} />,
-    title: "Planet Explorer",
-    description: "Journey through our solar system with detailed data and stunning visuals for every planet.",
-    path: "/planets",
+    title: "Universe Explorer",
+    description: "Journey through our universe with detailed data and stunning visuals for every celestial body.",
+    path: "/universe",
   },
   {
     icon: <RocketLaunch sx={{ fontSize: 40 }} />,

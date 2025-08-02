@@ -9,6 +9,7 @@ import theme from './styles/theme';
 import { AuthProvider } from "./context/AuthContext";
 import UniverseStory from './pages/UniverseStory';
 import UniverseEventDetail from './pages/UniverseEventDetail';
+import UniverseExplorer from './pages/UniverseExplorer';
 //import './styles/responsive.css'; 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/universe-story" element={<UniverseStory />} />
                 <Route path="/universe-story/:eventIndex" element={<UniverseEventDetail />} />
+                <Route path="/universe" element={<UniverseExplorer />} />
               </Routes>
             </main>
           </Box>

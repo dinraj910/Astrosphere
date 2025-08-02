@@ -1,7 +1,20 @@
 import React from 'react';
 import { Box, Typography, Container, Button } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, useAnimation, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+
+// Add a color/glow for each event for more "feeling"
+const eventStyles = [
+  { bg: 'radial-gradient(ellipse at top, #2b1055 0%, #7597de 100%)', glow: '0 0 32px #f472b6, 0 0 64px #818cf8' },
+  { bg: 'radial-gradient(ellipse at top, #1b2735 0%, #fbbf24 100%)', glow: '0 0 32px #fbbf24, 0 0 64px #f472b6' },
+  { bg: 'radial-gradient(ellipse at top, #090a0f 0%, #818cf8 100%)', glow: '0 0 32px #818cf8, 0 0 64px #fbbf24' },
+  { bg: 'radial-gradient(ellipse at top, #1b2735 0%, #34d399 100%)', glow: '0 0 32px #34d399, 0 0 64px #818cf8' },
+  { bg: 'radial-gradient(ellipse at top, #090a0f 0%, #f472b6 100%)', glow: '0 0 32px #f472b6, 0 0 64px #fbbf24' },
+  { bg: 'radial-gradient(ellipse at top, #1b2735 0%, #fbbf24 100%)', glow: '0 0 32px #fbbf24, 0 0 64px #34d399' },
+  { bg: 'radial-gradient(ellipse at top, #090a0f 0%, #818cf8 100%)', glow: '0 0 32px #818cf8, 0 0 64px #f472b6' },
+  { bg: 'radial-gradient(ellipse at top, #1b2735 0%, #34d399 100%)', glow: '0 0 32px #34d399, 0 0 64px #818cf8' },
+];
 
 const events = [
   {
@@ -32,7 +45,7 @@ const events = [
     title: "Birth of Earth",
     emoji: "🌍",
     image: "https://www.shutterstock.com/shutterstock/videos/1079639573/thumb/1.jpg?ip=x480",
-    text: "approximately 4.54 billion years ago from the accretion of gas and dust in the early solar system.",
+    text: "Approximately 4.54 billion years ago, Earth formed from the accretion of gas and dust in the early solar system.",
   },
   {
     title: "Life on Earth",
@@ -54,65 +67,139 @@ const events = [
   },
 ];
 
+function AnimatedEvent({ event, idx, onLearnMore }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+  const controls = useAnimation();
+
+  React.useEffect(() => {
+    if (inView) {
+      controls.start('visible');
+    }
+  }, [inView, controls]);
+
+  // Unique style for each event
+  const style = eventStyles[idx % eventStyles.length];
+
+  return (
+    <Box
+      ref={ref}
+      sx={{
+        position: 'relative',
+        mb: 8,
+        borderRadius: 4,
+        overflow: 'hidden',
+        boxShadow: 3,
+        background: style.bg,
+        color: 'white',
+        transition: 'background 0.8s',
+      }}
+    >
+      {/* Cosmic background glow */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 0.5 } : { opacity: 0 }}
+        transition={{ duration: 1.2 }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          background: style.bg,
+          filter: 'blur(32px)',
+        }}
+      />
+      <Box
+        sx={{
+          position: 'relative',
+          zIndex: 1,
+          p: { xs: 2, md: 4 },
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          alignItems: 'center',
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+          animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
+          transition={{ duration: 0.9, type: 'spring', bounce: 0.3 }}
+          style={{ flex: 1, marginBottom: 16, marginRight: 32 }}
+        >
+          <Typography
+            variant="h3"
+            sx={{
+              fontFamily: 'Orbitron',
+              mb: 1,
+              textShadow: style.glow,
+              letterSpacing: 2,
+            }}
+          >
+            {event.emoji} {event.title}
+          </Typography>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            <Typography variant="h6" sx={{ mb: 2, color: 'rgba(255,255,255,0.85)' }}>
+              {event.text}
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ mt: 3, fontWeight: 600, borderRadius: 2, boxShadow: style.glow }}
+              onClick={onLearnMore}
+            >
+              Learn More
+            </Button>
+          </motion.div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 1.1, y: 40 }}
+          animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+          transition={{ delay: 0.3, duration: 1.1, type: 'spring', bounce: 0.2 }}
+          style={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <motion.img
+            src={event.image}
+            alt={event.title}
+            style={{
+              width: '100%',
+              maxWidth: 360,
+              borderRadius: 16,
+              boxShadow: style.glow,
+              objectFit: 'cover',
+            }}
+            whileHover={{ scale: 1.04, boxShadow: style.glow + ', 0 0 64px #fff2' }}
+            transition={{ type: 'spring', stiffness: 200 }}
+          />
+        </motion.div>
+      </Box>
+    </Box>
+  );
+}
+
 function UniverseStory() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8,marginLeft: '210px' }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8, marginLeft: '210px' }}>
       <Container maxWidth="md" sx={{ pt: 8 }}>
         <Typography variant="h2" align="center" sx={{ fontFamily: 'Orbitron', mb: 6 }}>
           The Story of the Universe
         </Typography>
         {events.map((event, idx) => (
-          <motion.div
+          <AnimatedEvent
             key={event.title}
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: idx * 0.1 }}
-            style={{ marginBottom: 64 }}
-          >
-            <Box
-              sx={{
-                boxShadow: 3,
-                borderRadius: 4,
-                overflow: 'hidden',
-                mb: 2,
-                background: 'linear-gradient(120deg, #1b2735 60%, #090a0f 100%)',
-                color: 'white',
-              }}
-            >
-              <Box sx={{ p: { xs: 2, md: 4 }, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center' }}>
-                <Box sx={{ flex: 1, mb: { xs: 2, md: 0 }, mr: { md: 4 } }}>
-                  <Typography variant="h3" sx={{ fontFamily: 'Orbitron', mb: 1 }}>
-                    {event.emoji} {event.title}
-                  </Typography>
-                  <Typography variant="h6" sx={{ mb: 2, color: 'rgba(255,255,255,0.85)' }}>
-                    {event.text}
-                  </Typography>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      sx={{ mt: 3, fontWeight: 600, borderRadius: 2 }}
-                      onClick={() => navigate(`/universe-story/${idx}`)}>
-                      Learn More
-                    </Button>
-                </Box>
-                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    style={{
-                      width: '100%',
-                      maxWidth: 340,
-                      borderRadius: 16,
-                      boxShadow: '0 4px 32px rgba(129,140,248,0.18)',
-                    }}
-                  />
-                </Box>
-              </Box>
-            </Box>
-          </motion.div>
+            event={event}
+            idx={idx}
+            onLearnMore={() => navigate(`/universe-story/${idx}`)}
+          />
         ))}
         <Box sx={{ textAlign: 'center', mt: 8 }}>
           <Button variant="contained" color="secondary" size="large" onClick={() => navigate('/')}>

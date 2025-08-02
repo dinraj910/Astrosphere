@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext'; // CORRECTED PATH
 
 const navItems = [
   { label: 'Home', path: '/' },
-  { label: 'Planets', path: '/planets' },
+  { label: 'Universe', path: '/universe' },
   { label: 'Satellites', path: '/satellites' },
   { label: 'Galaxy', path: '/galaxy' },
   { label: 'Events', path: '/events' },
