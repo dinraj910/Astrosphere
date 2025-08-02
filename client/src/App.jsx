@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/AuthContext";
 import UniverseStory from './pages/UniverseStory';
 import UniverseEventDetail from './pages/UniverseEventDetail';
 import UniverseExplorer from './pages/UniverseExplorer';
+import ObjectDetail from './pages/ObjectDetail';
 //import './styles/responsive.css'; 
 
 function App() {
@@ -36,6 +37,9 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/universe-story" element={<UniverseStory />} />
                 <Route path="/universe-story/:eventIndex" element={<UniverseEventDetail />} />
+                <Route path="/universe-explorer" element={<UniverseExplorer />} />
+                <Route path="/universe-explorer/:slug" element={<ObjectDetail />} />
+                {/* Keep the old route for backwards compatibility */}
                 <Route path="/universe" element={<UniverseExplorer />} />
               </Routes>
             </main>
