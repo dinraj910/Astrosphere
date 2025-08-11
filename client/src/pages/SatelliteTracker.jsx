@@ -120,6 +120,8 @@ function SatelliteTracker() {
   const [notificationMessage, setNotificationMessage] = useState('');
   const [mapStyle, setMapStyle] = useState('dark');
   const [showOrbitalPaths, setShowOrbitalPaths] = useState(true);
+  const [apiStatus, setApiStatus] = useState({ daily: 0, hourly: 0, maxDaily: 1000, maxHourly: 100 });
+  const [systemMode, setSystemMode] = useState('hybrid'); // hybrid, prediction, api
   
   const socketRef = useRef();
   const mapRef = useRef();
@@ -139,6 +141,9 @@ function SatelliteTracker() {
       console.log('Connected to satellite tracker');
       setConnectionStatus('connected');
       showNotificationMessage('Connected to satellite network! 🛰️');
+      
+      // Request current API status on connect
+      socketRef.current.emit('getApiStatus');
     });
 
     socketRef.current.on('disconnect', () => {
@@ -163,9 +168,14 @@ function SatelliteTracker() {
     });
 
     socketRef.current.on('satelliteUpdate', (satelliteData) => {
+      console.log('Satellite update received:', satelliteData.name, satelliteData.dataSource);
+      
       setSatellites(prev => {
         const updated = prev.map(sat => 
-          sat.noradId === satelliteData.noradId ? satelliteData : sat
+          sat.noradId === satelliteData.noradId ? {
+            ...satelliteData,
+            position: satelliteData.position
+          } : sat
         );
         
         // Update trails with smooth animation
@@ -175,13 +185,15 @@ function SatelliteTracker() {
             newTrails[satelliteData.noradId] = [];
           }
           
-          newTrails[satelliteData.noradId].push([
-            satelliteData.position.satlatitude,
-            satelliteData.position.satlongitude
-          ]);
-          
-          if (newTrails[satelliteData.noradId].length > 30) {
-            newTrails[satelliteData.noradId] = newTrails[satelliteData.noradId].slice(-30);
+          if (satelliteData.position) {
+            newTrails[satelliteData.noradId].push([
+              satelliteData.position.satlatitude,
+              satelliteData.position.satlongitude
+            ]);
+            
+            if (newTrails[satelliteData.noradId].length > 30) {
+              newTrails[satelliteData.noradId] = newTrails[satelliteData.noradId].slice(-30);
+            }
           }
           
           return newTrails;
@@ -189,10 +201,43 @@ function SatelliteTracker() {
         
         return updated;
       });
+
+      // Update selected satellite if it's the one being updated
+      setSelectedSatellite(prev => {
+        if (prev && prev.noradId === satelliteData.noradId) {
+          return {
+            ...satelliteData,
+            position: satelliteData.position
+          };
+        }
+        return prev;
+      });
     });
 
     socketRef.current.on('searchResults', (results) => {
       setSearchResults(results);
+    });
+
+    // Add new event listeners for API status
+    socketRef.current.on('apiStatus', (status) => {
+      setApiStatus({
+        daily: status.dailyUsage || 0,
+        hourly: status.hourlyUsage || 0,
+        maxDaily: status.dailyLimit || 1000,
+        maxHourly: status.hourlyLimit || 100
+      });
+      
+      // Determine system mode based on API usage
+      const dailyUsage = (status.dailyUsage || 0) / (status.dailyLimit || 1000);
+      const hourlyUsage = (status.hourlyUsage || 0) / (status.hourlyLimit || 100);
+      
+      if (dailyUsage > 0.9 || hourlyUsage > 0.9) {
+        setSystemMode('prediction');
+      } else if (status.canMakeCalls) {
+        setSystemMode('hybrid');
+      } else {
+        setSystemMode('prediction');
+      }
     });
 
     return () => {
@@ -201,6 +246,17 @@ function SatelliteTracker() {
       }
     };
   }, [selectedSatellite]);
+
+  // Request API status updates periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (socketRef.current && connectionStatus === 'connected') {
+        socketRef.current.emit('getApiStatus');
+      }
+    }, 10000); // Every 10 seconds
+
+    return () => clearInterval(interval);
+  }, [connectionStatus]);
 
   const showNotificationMessage = (message) => {
     setNotificationMessage(message);
@@ -217,6 +273,11 @@ function SatelliteTracker() {
   };
 
   const handleSatelliteSelect = (satellite) => {
+    // Unselect previous satellite
+    if (selectedSatellite && socketRef.current) {
+      socketRef.current.emit('unselectSatellite', selectedSatellite.noradId);
+    }
+    
     setSelectedSatellite(satellite);
     if (satellite.position) {
       setMapCenter([satellite.position.satlatitude, satellite.position.satlongitude]);
@@ -224,6 +285,11 @@ function SatelliteTracker() {
     setSearchResults([]);
     setSearchTerm('');
     showNotificationMessage(`Tracking ${satellite.name} 🎯`);
+    
+    // Select new satellite for real-time updates
+    if (socketRef.current) {
+      socketRef.current.emit('selectSatellite', satellite.noradId);
+    }
   };
 
   const toggleFavorite = (satelliteId) => {
@@ -727,7 +793,7 @@ function SatelliteTracker() {
                         }}>
                           {selectedSatellite.name}
                         </Typography>
-                        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <Chip 
                             label={selectedSatellite.category}
                             size="small"
@@ -873,7 +939,6 @@ function SatelliteTracker() {
                 position: 'relative',
                 right: '650px',
                 width: '800px'
-
               }}>
                 <CardContent>
                   <Typography variant="h5" sx={{ 
@@ -946,6 +1011,18 @@ function SatelliteTracker() {
                                     size="small"
                                     color={satellite.priority === 1 ? 'error' : satellite.priority === 2 ? 'warning' : 'default'}
                                   />
+                                  <Chip 
+                                    label={satellite.dataSource?.toUpperCase() || 'LOADING'}
+                                    size="small"
+                                    sx={{
+                                      bgcolor: 
+                                        satellite.dataSource === 'api' ? '#4caf50' :
+                                        satellite.dataSource === 'predicted' ? '#ff9800' :
+                                        satellite.dataSource === 'mock' ? '#9c27b0' : '#757575',
+                                      color: 'white',
+                                      fontSize: '0.6rem'
+                                    }}
+                                  />
                                 </Box>
                               </Box>
                               <Box sx={{ textAlign: 'right' }}>
@@ -982,6 +1059,159 @@ function SatelliteTracker() {
                         </Card>
                       </motion.div>
                     ))}
+                  </Box>
+                </CardContent>
+              </Card>
+
+              {/* API Status & System Monitoring */}
+              <Card sx={{ 
+                mt: 3,
+                borderRadius: 4,
+                background: 'rgba(0, 0, 0, 0.8)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                position: 'relative',
+                right: '650px',
+                width: '800px'
+              }}>
+                <CardContent>
+                  <Typography variant="h5" sx={{ 
+                    mb: 3, 
+                    fontFamily: 'Orbitron',
+                    fontWeight: 600,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2
+                  }}>
+                    <SignalCellularAlt sx={{ color: '#00bcd4' }} />
+                    SYSTEM STATUS
+                  </Typography>
+                  
+                  <Box sx={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: '1fr 1fr', 
+                    gap: 3,
+                    mb: 3
+                  }}>
+                    <Box sx={{ 
+                      p: 2, 
+                      bgcolor: 'rgba(0, 188, 212, 0.1)',
+                      borderRadius: 2,
+                      border: '1px solid rgba(0, 188, 212, 0.3)'
+                    }}>
+                      <Typography variant="h6" sx={{ 
+                        color: '#00bcd4', 
+                        mb: 2,
+                        fontFamily: 'Orbitron'
+                      }}>
+                        Daily API Usage
+                      </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
+                        <LinearProgress 
+                          variant="determinate" 
+                          value={(apiStatus.daily / apiStatus.maxDaily) * 100}
+                          sx={{ 
+                            flex: 1, 
+                            height: 8, 
+                            borderRadius: 4,
+                            '& .MuiLinearProgress-bar': {
+                              bgcolor: (apiStatus.daily / apiStatus.maxDaily) > 0.8 ? '#f44336' : '#4caf50'
+                            }
+                          }} 
+                        />
+                        <Typography variant="body2" sx={{ fontFamily: 'monospace', minWidth: '80px' }}>
+                          {apiStatus.daily}/{apiStatus.maxDaily}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    
+                    <Box sx={{ 
+                      p: 2, 
+                      bgcolor: 'rgba(63, 81, 181, 0.1)',
+                      borderRadius: 2,
+                      border: '1px solid rgba(63, 81, 181, 0.3)'
+                    }}>
+                      <Typography variant="h6" sx={{ 
+                        color: '#3f51b5', 
+                        mb: 2,
+                        fontFamily: 'Orbitron'
+                      }}>
+                        Hourly API Usage
+                      </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
+                        <LinearProgress 
+                          variant="determinate" 
+                          value={(apiStatus.hourly / apiStatus.maxHourly) * 100}
+                          sx={{ 
+                            flex: 1, 
+                            height: 8, 
+                            borderRadius: 4,
+                            '& .MuiLinearProgress-bar': {
+                              bgcolor: (apiStatus.hourly / apiStatus.maxHourly) > 0.8 ? '#f44336' : '#4caf50'
+                            }
+                          }} 
+                        />
+                        <Typography variant="body2" sx={{ fontFamily: 'monospace', minWidth: '80px' }}>
+                          {apiStatus.hourly}/{apiStatus.maxHourly}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                  
+                  <Box sx={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center',
+                    p: 2,
+                    bgcolor: 'rgba(255, 255, 255, 0.05)',
+                    borderRadius: 2
+                  }}>
+                    <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                      System Mode:
+                    </Typography>
+                    <Chip 
+                      label={systemMode.toUpperCase()}
+                      color={
+                        systemMode === 'api' ? 'success' : 
+                        systemMode === 'prediction' ? 'warning' : 'info'
+                      }
+                      sx={{ 
+                        fontFamily: 'Orbitron',
+                        fontWeight: 600
+                      }}
+                    />
+                  </Box>
+                  
+                  <Box sx={{ 
+                    mt: 3,
+                    display: 'grid', 
+                    gridTemplateColumns: '1fr 1fr 1fr', 
+                    gap: 2 
+                  }}>
+                    <Box sx={{ textAlign: 'center', p: 2, bgcolor: 'rgba(76, 175, 80, 0.1)', borderRadius: 2 }}>
+                      <Typography variant="h6" sx={{ color: '#4caf50', fontFamily: 'monospace' }}>
+                        {satellites.filter(s => s.dataSource === 'api').length}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        REAL-TIME API
+                      </Typography>
+                    </Box>
+                    <Box sx={{ textAlign: 'center', p: 2, bgcolor: 'rgba(255, 152, 0, 0.1)', borderRadius: 2 }}>
+                      <Typography variant="h6" sx={{ color: '#ff9800', fontFamily: 'monospace' }}>
+                        {satellites.filter(s => s.dataSource === 'predicted').length}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        PREDICTED
+                      </Typography>
+                    </Box>
+                    <Box sx={{ textAlign: 'center', p: 2, bgcolor: 'rgba(156, 39, 176, 0.1)', borderRadius: 2 }}>
+                      <Typography variant="h6" sx={{ color: '#9c27b0', fontFamily: 'monospace' }}>
+                        {satellites.filter(s => s.dataSource === 'mock').length}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        SIMULATED
+                      </Typography>
+                    </Box>
                   </Box>
                 </CardContent>
               </Card>
