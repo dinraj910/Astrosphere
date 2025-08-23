@@ -12,6 +12,7 @@ import UniverseEventDetail from './pages/UniverseEventDetail';
 import UniverseExplorer from './pages/UniverseExplorer';
 import ObjectDetail from './pages/ObjectDetail';
 import SatelliteTracker from './pages/SatelliteTracker';
+import Galaxy from './pages/Galaxy';
 //import './styles/responsive.css'; 
 
 function App() {
@@ -43,6 +44,8 @@ function App() {
                 {/* Keep the old route for backwards compatibility */}
                 <Route path="/universe" element={<UniverseExplorer />} />
                 <Route path="/satellites" element={<SatelliteTracker />} />
+                <Route path="/galaxy" element={<Galaxy />} />
+                {/* Add other routes here as needed */}
               </Routes>
             </main>
           </Box>
