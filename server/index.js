@@ -575,7 +575,294 @@ app.get('/api/satellite-status', (req, res) => {
   });
 });
 
+// ...existing code...
+
+// Enhanced Cosmic Events API with multiple real data sources
+app.get('/api/cosmic-events', async (req, res) => {
+  const { year, month } = req.query;
+  try {
+    console.log(`📡 Fetching cosmic events for ${year}-${month}`);
+    
+    // Try multiple APIs in parallel for comprehensive data
+    const [inTheSkyEvents, nasaEvents, eclipseEvents] = await Promise.allSettled([
+      fetchInTheSkyEvents(year, month),
+      fetchNASAEvents(year, month),
+      fetchEclipseEvents(year)
+    ]);
+
+    // Combine all successful API responses
+    let allEvents = [];
+    
+    if (inTheSkyEvents.status === 'fulfilled') {
+      allEvents = [...allEvents, ...inTheSkyEvents.value];
+    }
+    
+    if (nasaEvents.status === 'fulfilled') {
+      allEvents = [...allEvents, ...nasaEvents.value];
+    }
+    
+    if (eclipseEvents.status === 'fulfilled') {
+      allEvents = [...allEvents, ...eclipseEvents.value];
+    }
+
+    console.log(`✅ Combined ${allEvents.length} events from multiple APIs`);
+    res.json({ events: allEvents, sources: ['in-the-sky', 'nasa', 'eclipse'] });
+    
+  } catch (err) {
+    console.error('❌ Cosmic events API error:', err);
+    res.status(500).json({ error: 'Failed to fetch events', details: err.message });
+  }
+});
+
+// NASA Events API (DONKI - Space Weather Database)
+async function fetchNASAEvents(year, month) {
+  try {
+    const NASA_API_KEY = process.env.NASA_API_KEY || 'DEMO_KEY';
+    const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+    const endDate = month === 12 ? `${year}-12-31` : `${year}-${String(month + 1).padStart(2, '0')}-01`;
+    
+    // Multiple NASA APIs for different event types
+    const [cmeEvents, solarFlares, geomagneticStorms] = await Promise.allSettled([
+      axios.get(`https://api.nasa.gov/DONKI/CME?startDate=${startDate}&endDate=${endDate}&api_key=${NASA_API_KEY}`),
+      axios.get(`https://api.nasa.gov/DONKI/FLR?startDate=${startDate}&endDate=${endDate}&api_key=${NASA_API_KEY}`),
+      axios.get(`https://api.nasa.gov/DONKI/GST?startDate=${startDate}&endDate=${endDate}&api_key=${NASA_API_KEY}`)
+    ]);
+
+    let events = [];
+
+    // Process CME events
+    if (cmeEvents.status === 'fulfilled' && cmeEvents.value.data) {
+      events = [...events, ...cmeEvents.value.data.map(event => ({
+        id: `nasa-cme-${event.activityID}`,
+        title: 'Coronal Mass Ejection (CME)',
+        date: new Date(event.startTime).toLocaleDateString(),
+        description: `A coronal mass ejection with speed of ${event.cmeAnalyses?.[0]?.speed || 'unknown'} km/s detected by ${event.instruments?.[0]?.displayName || 'solar observatory'}.`,
+        type: 'Solar Activity',
+        image: 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        url: event.link || 'https://ccmc.gsfc.nasa.gov/donki/',
+        source: 'NASA DONKI',
+        major: true,
+        year: parseInt(year),
+        month: parseInt(month)
+      }))];
+    }
+
+    // Process Solar Flares
+    if (solarFlares.status === 'fulfilled' && solarFlares.value.data) {
+      events = [...events, ...solarFlares.value.data.map(event => ({
+        id: `nasa-flr-${event.flrID}`,
+        title: `${event.classType} Class Solar Flare`,
+        date: new Date(event.beginTime).toLocaleDateString(),
+        description: `A ${event.classType} class solar flare peaked at ${new Date(event.peakTime).toLocaleTimeString()} UTC. Solar flares can affect radio communications and satellite operations.`,
+        type: 'Solar Flare',
+        image: 'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        url: event.link || 'https://ccmc.gsfc.nasa.gov/donki/',
+        source: 'NASA DONKI',
+        major: event.classType.includes('X'), // X-class flares are major
+        year: parseInt(year),
+        month: parseInt(month)
+      }))];
+    }
+
+    // Process Geomagnetic Storms
+    if (geomagneticStorms.status === 'fulfilled' && geomagneticStorms.value.data) {
+      events = [...events, ...geomagneticStorms.value.data.map(event => ({
+        id: `nasa-gst-${event.gstID}`,
+        title: 'Geomagnetic Storm',
+        date: new Date(event.startTime).toLocaleDateString(),
+        description: `Geomagnetic storm with Kp index reaching ${event.allKpIndex?.[0]?.kpIndex || 'high levels'}. May cause aurora displays and affect GPS systems.`,
+        type: 'Space Weather',
+        image: 'https://images.unsplash.com/photo-1502781252888-9143ba7f074e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        url: event.link || 'https://ccmc.gsfc.nasa.gov/donki/',
+        source: 'NASA DONKI',
+        major: false,
+        year: parseInt(year),
+        month: parseInt(month)
+      }))];
+    }
+
+    return events;
+  } catch (error) {
+    console.error('NASA DONKI API error:', error.message);
+    return [];
+  }
+}
+
+// In-The-Sky.org Events API
+async function fetchInTheSkyEvents(year, month) {
+  try {
+    const url = `https://in-the-sky.org/newscal.php?year=${year}&month=${month}&max=100&output=json`;
+    const response = await axios.get(url);
+    
+    if (response.data && response.data.events) {
+      return response.data.events.map(event => ({
+        id: `sky-${event.id || Math.random()}`,
+        title: event.title || 'Astronomical Event',
+        date: event.date || `${year}-${month}`,
+        description: event.description || event.desc || 'Astronomical event visible from Earth.',
+        type: event.type || 'General',
+        image: getEventImageByType(event.type, event.title),
+        url: event.url || 'https://in-the-sky.org/',
+        source: 'In-The-Sky.org',
+        major: event.major || false,
+        year: parseInt(year),
+        month: parseInt(month)
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error('In-The-Sky API error:', error.message);
+    return [];
+  }
+}
+
+// Eclipse Predictions API
+async function fetchEclipseEvents(year) {
+  try {
+    // Use NASA Eclipse API for accurate eclipse data
+    const [solarEclipses, lunarEclipses] = await Promise.allSettled([
+      axios.get(`https://eclipse.gsfc.nasa.gov/JSEX/JSEX-AS.html`, { timeout: 5000 }),
+      axios.get(`https://eclipse.gsfc.nasa.gov/JLEX/JLEX-AS.html`, { timeout: 5000 })
+    ]);
+
+    let events = [];
+
+    // Since direct NASA eclipse API is complex, use known eclipse data for 2024-2026
+    const knownEclipses = getKnownEclipses(year);
+    events = [...events, ...knownEclipses];
+
+    return events;
+  } catch (error) {
+    console.error('Eclipse API error:', error.message);
+    return getKnownEclipses(year);
+  }
+}
+
+// Known eclipse data from NASA Eclipse Predictions
+function getKnownEclipses(year) {
+  const eclipses = {
+    2024: [
+      {
+        id: 'eclipse-2024-04-08',
+        title: 'Total Solar Eclipse',
+        date: 'April 8, 2024',
+        description: 'Total solar eclipse visible from North America, crossing Mexico, United States, and Canada.',
+        type: 'Solar Eclipse',
+        image: 'https://images.unsplash.com/photo-1566207474742-de921626ad0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        url: 'https://eclipse.gsfc.nasa.gov/SEsearch/SEsearchmap.php?Ecl=20240408',
+        source: 'NASA Eclipse Predictions',
+        major: true,
+        year: 2024,
+        month: 4
+      }
+    ],
+    2025: [
+      {
+        id: 'eclipse-2025-03-29',
+        title: 'Total Solar Eclipse',
+        date: 'March 29, 2025',
+        description: 'Total solar eclipse visible from the Atlantic, Europe, Asia, Africa, North America, South America, Pacific, Arctic, and Antarctica.',
+        type: 'Solar Eclipse',
+        image: 'https://images.unsplash.com/photo-1566207474742-de921626ad0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        url: 'https://eclipse.gsfc.nasa.gov/SEsearch/SEsearchmap.php?Ecl=20250329',
+        source: 'NASA Eclipse Predictions',
+        major: true,
+        year: 2025,
+        month: 3
+      },
+      {
+        id: 'eclipse-2025-09-07',
+        title: 'Total Lunar Eclipse',
+        date: 'September 7, 2025',
+        description: 'Total lunar eclipse visible from Europe, Asia, Australia, Africa, West in North America, East in South America, Pacific, Atlantic, Indian Ocean, Arctic, Antarctica.',
+        type: 'Lunar Eclipse',
+        image: 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        url: 'https://eclipse.gsfc.nasa.gov/LEsearch/LEsearchmap.php?Ecl=20250907',
+        source: 'NASA Eclipse Predictions',
+        major: true,
+        year: 2025,
+        month: 9
+      }
+    ],
+    2026: [
+      {
+        id: 'eclipse-2026-08-12',
+        title: 'Total Solar Eclipse',
+        date: 'August 12, 2026',
+        description: 'Total solar eclipse visible from Arctic, Greenland, Iceland, Spain, Russia, and Portugal.',
+        type: 'Solar Eclipse',
+        image: 'https://images.unsplash.com/photo-1566207474742-de921626ad0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+        url: 'https://eclipse.gsfc.nasa.gov/SEsearch/SEsearchmap.php?Ecl=20260812',
+        source: 'NASA Eclipse Predictions',
+        major: true,
+        year: 2026,
+        month: 8
+      }
+    ]
+  };
+
+  return eclipses[year] || [];
+}
+
+// Image selection based on event type
+function getEventImageByType(type, title) {
+  const typeStr = (type || '').toLowerCase();
+  const titleStr = (title || '').toLowerCase();
+  
+  const images = {
+    eclipse: 'https://images.unsplash.com/photo-1566207474742-de921626ad0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    meteor: 'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    planet: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    moon: 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    conjunction: 'https://images.unsplash.com/photo-1502781252888-9143ba7f074e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    comet: 'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    solar: 'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    aurora: 'https://images.unsplash.com/photo-1502781252888-9143ba7f074e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80',
+    default: 'https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'
+  };
+
+  if (titleStr.includes('eclipse') || typeStr.includes('eclipse')) return images.eclipse;
+  if (titleStr.includes('meteor') || titleStr.includes('shower') || typeStr.includes('meteor')) return images.meteor;
+  if (titleStr.includes('planet') || titleStr.includes('mars') || titleStr.includes('venus') || titleStr.includes('jupiter')) return images.planet;
+  if (titleStr.includes('moon') || titleStr.includes('lunar') || typeStr.includes('moon')) return images.moon;
+  if (titleStr.includes('conjunction') || titleStr.includes('opposition') || typeStr.includes('conjunction')) return images.conjunction;
+  if (titleStr.includes('comet') || typeStr.includes('comet')) return images.comet;
+  if (titleStr.includes('solar') || titleStr.includes('flare') || titleStr.includes('cme')) return images.solar;
+  if (titleStr.includes('aurora') || titleStr.includes('storm') || titleStr.includes('magnetic')) return images.aurora;
+  
+  return images.default;
+}
+
+// NASA Image API for dynamic images
+app.get('/api/nasa-image/:query', async (req, res) => {
+  try {
+    const query = req.params.query;
+    const response = await axios.get(
+      `https://images-api.nasa.gov/search?q=${encodeURIComponent(query)}&media_type=image&page_size=5`
+    );
+    
+    const items = response.data.collection.items;
+    if (items.length > 0) {
+      const images = items.map(item => ({
+        url: item.links?.[0]?.href,
+        title: item.data[0]?.title,
+        description: item.data[0]?.description,
+        date: item.data[0]?.date_created
+      }));
+      res.json({ images });
+    } else {
+      res.json({ images: [] });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch NASA images' });
+  }
+});
+
+// ...existing code..
 // Enhanced initialization with staggered API calls
+
+
+
 const initializeSatelliteData = async () => {
   console.log('🚀 Loading initial satellite positions (static)...');
   

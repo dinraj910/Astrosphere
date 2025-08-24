@@ -13,6 +13,7 @@ import UniverseExplorer from './pages/UniverseExplorer';
 import ObjectDetail from './pages/ObjectDetail';
 import SatelliteTracker from './pages/SatelliteTracker';
 import Galaxy from './pages/Galaxy';
+import CosmicEvents from './pages/CosmicEvents';
 //import './styles/responsive.css'; 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/universe" element={<UniverseExplorer />} />
                 <Route path="/satellites" element={<SatelliteTracker />} />
                 <Route path="/galaxy" element={<Galaxy />} />
+                <Route path="/events" element={<CosmicEvents />} />
                 {/* Add other routes here as needed */}
               </Routes>
             </main>
