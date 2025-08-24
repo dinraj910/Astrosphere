@@ -506,22 +506,29 @@ function Galaxy() {
   }
 
   return (
-    <Box sx={{ 
-      bgcolor: 'background.default', 
-      minHeight: '100vh', 
-      background: 'linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%)',
-      width: '100%',
-      overflowX: 'hidden'
-    }}>
-      <Container 
-        maxWidth={false}
-        sx={{ 
-          maxWidth: '1400px',
-          pt: { xs: 6, sm: 8 }, 
+    <Box
+      sx={{
+        bgcolor: 'background.default',
+        minHeight: '100vh',
+        width: '100vw',
+        background: 'linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%)',
+        overflowX: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Container
+        maxWidth="md"
+        sx={{
+          pt: { xs: 4, sm: 8 },
           pb: 4,
           px: { xs: 1, sm: 2, md: 3 },
           width: '100%',
-          margin: '0 auto'
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
         {/* Header */}
