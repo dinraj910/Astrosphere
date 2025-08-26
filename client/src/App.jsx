@@ -14,6 +14,7 @@ import ObjectDetail from './pages/ObjectDetail';
 import SatelliteTracker from './pages/SatelliteTracker';
 import Galaxy from './pages/Galaxy';
 import CosmicEvents from './pages/CosmicEvents';
+import Gallery from './pages/Gallery';
 //import './styles/responsive.css'; 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
                 <Route path="/satellites" element={<SatelliteTracker />} />
                 <Route path="/galaxy" element={<Galaxy />} />
                 <Route path="/events" element={<CosmicEvents />} />
+                <Route path="/gallery" element={<Gallery />} />
                 {/* Add other routes here as needed */}
               </Routes>
             </main>

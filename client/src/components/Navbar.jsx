@@ -11,8 +11,8 @@ const navItems = [
   { label: 'Satellites', path: '/satellites' },
   { label: 'Galaxy', path: '/galaxy' },
   { label: 'Events', path: '/events' },
-  { label: 'Dashboard', path: '/dashboard' },
-  { label: 'Chatroom', path: '/chatroom' },
+  { label: 'Gallery', path: '/gallery' },
+  { label: 'AI Chatbot', path: '/chatbot' },
 ];
 
 function Navbar() {

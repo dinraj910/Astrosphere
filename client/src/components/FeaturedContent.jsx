@@ -33,7 +33,7 @@ const features = [
     icon: <SmartToy sx={{ fontSize: 40 }} />,
     title: "Cosmic Companion",
     description: "Ask our AI assistant anything about the universe, from black holes to the Big Bang.",
-    path: "/companion",
+    path: "/chatbot",
   },
 ];
 
