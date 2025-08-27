@@ -691,6 +691,86 @@ async function fetchInTheSkyEvents(year, month) {
   }
 }
 
+//const GROQ_API_URL = 'https://your-groq-api-endpoint.com/v1/data/query/your-dataset';
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+
+// Replace the existing /api/chat endpoint (around line 680-700) with this corrected version
+
+// Chatbot API endpoint using GROQ API
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { messages } = req.body;
+    
+    if (!messages || !Array.isArray(messages)) {
+      return res.status(400).json({ error: 'Messages array is required' });
+    }
+
+    // Check if GROQ API key is available
+    if (!GROQ_API_KEY) {
+      console.error('GROQ_API_KEY not found in environment variables');
+      return res.status(500).json({ 
+        error: 'AI service not configured',
+        choices: [{
+          message: {
+            role: 'assistant',
+            content: 'Sorry, the AI service is not configured. Please contact the administrator.'
+          }
+        }]
+      });
+    }
+
+    const systemPrompt = {
+      role: 'system',
+      content: 'You are AstroBot, an AI assistant for the Astrosphere website specialized in astronomy. Only answer questions related to astronomy, space exploration, astrophysics, cosmology, planetary science, telescopes, celestial events, and related scientific fields. If the query is off-topic, politely say: "Sorry, I can only discuss astronomy-related topics." Keep all responses concise, under 200 words, and focused—no lengthy explanations unless requested.'
+    };
+
+    console.log('🤖 Sending request to GROQ API...');
+
+    const response = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
+      model: 'llama-3.3-70b-versatile',
+      messages: [systemPrompt, ...messages], // Fixed: 'messages' not 'message'
+      temperature: 0.7,
+      max_tokens: 300,
+      top_p: 0.9
+    }, {
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      timeout: 15000
+    });
+
+    console.log('✅ GROQ API response received');
+    res.json(response.data);
+
+  } catch (error) {
+    console.error('Chatbot API error:', error.response?.data || error.message);
+    
+    // Provide helpful error responses based on error type
+    let errorMessage = 'Sorry, I encountered an error. Please try again!';
+    
+    if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
+      errorMessage = 'Sorry, I\'m having trouble connecting to the AI service. Please check your internet connection and try again.';
+    } else if (error.response?.status === 401) {
+      errorMessage = 'Sorry, there\'s an authentication issue with the AI service. Please contact support.';
+    } else if (error.response?.status === 429) {
+      errorMessage = 'Sorry, I\'m currently experiencing high demand. Please wait a moment and try again.';
+    } else if (error.response?.status === 400) {
+      errorMessage = 'Sorry, there was an issue with your request. Please try rephrasing your question.';
+    }
+
+    res.status(500).json({ 
+      error: 'AI service error',
+      choices: [{
+        message: {
+          role: 'assistant',
+          content: errorMessage
+        }
+      }]
+    });
+  }
+});
+
 // Helper: Categorize event types for better display
 function categorizeEventType(title, originalType) {
   const titleLower = (title || '').toLowerCase();

@@ -12,7 +12,6 @@ const navItems = [
   { label: 'Galaxy', path: '/galaxy' },
   { label: 'Events', path: '/events' },
   { label: 'Gallery', path: '/gallery' },
-  { label: 'AI Chatbot', path: '/chatbot' },
 ];
 
 function Navbar() {
