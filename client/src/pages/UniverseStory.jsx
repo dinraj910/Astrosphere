@@ -93,6 +93,7 @@ function AnimatedEvent({ event, idx, onLearnMore }) {
         background: style.bg,
         color: 'white',
         transition: 'background 0.8s',
+        left: '70px',
       }}
     >
       {/* Cosmic background glow */}
@@ -190,7 +191,7 @@ function UniverseStory() {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8, marginLeft: '210px' }}>
       <Container maxWidth="md" sx={{ pt: 8 }}>
-        <Typography variant="h2" align="center" sx={{ fontFamily: 'Orbitron', mb: 6 }}>
+        <Typography variant="h2" align="center" sx={{ fontFamily: 'Orbitron', mb: 6, ml: '150px' }}>
           The Story of the Universe
         </Typography>
         {events.map((event, idx) => (

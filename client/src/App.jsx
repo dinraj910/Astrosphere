@@ -17,6 +17,7 @@ import CosmicEvents from './pages/CosmicEvents';
 import Gallery from './pages/Gallery';
 import Chatbot from './components/Chatbot';
 import ChatbotPage from './pages/ChatbotPage';
+import PlanetDetails from './pages/PlanetDetails';
 //import './styles/responsive.css'; 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
                 <Route path="/events" element={<CosmicEvents />} />
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/chatbot" element={<ChatbotPage />} /> {/* Add this route */}
+                <Route path="/planets/:planetName" element={<PlanetDetails />} />
                 {/* Add other routes here as needed */}
               </Routes>
             </main>
