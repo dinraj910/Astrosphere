@@ -107,7 +107,7 @@ function CosmicEvents() {
       }
       
       setEvents(monthEvents);
-      setDataSource(monthEvents.length > 0 ? `Live data from multiple APIs` : 'No current events');
+      setDataSource(monthEvents.length > 0 ? `Live data from ${monthEvents[0].source}` : 'No current events');
       setLoading(false);
     }).catch((err) => {
       setError(`Failed to load events: ${err.message}`);

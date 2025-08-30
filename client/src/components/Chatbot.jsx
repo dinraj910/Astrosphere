@@ -189,7 +189,7 @@ const Chatbot = () => {
             bottom: isMinimized ? 24 : 100,
             right: 24,
             width: isMinimized ? 320 : 380,
-            height: 500,
+            height: 460,
             display: isOpen ? 'flex' : 'none',
             flexDirection: 'column',
             borderRadius: 3,
