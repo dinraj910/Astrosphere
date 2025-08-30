@@ -1,0 +1,223 @@
+/* Home Page Mobile Responsive Styles */
+
+/* About Section Mobile Responsive */
+@media (max-width: 599px) {
+  /* About Section Container */
+  .about-section-container {
+    margin: 24px -16px !important;
+    padding: 32px 16px !important;
+    border-radius: 0 !important;
+  }
+  
+  /* About Section Title */
+  .about-section-title {
+    font-size: 1.8rem !important;
+    margin-bottom: 24px !important;
+    letter-spacing: 1px !important;
+    line-height: 1.3 !important;
+    padding: 0 8px;
+  }
+  
+  /* About Section Description */
+  .about-section-description {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 32px !important;
+    padding: 0 8px;
+    max-width: 100% !important;
+  }
+  
+  /* Features Grid Mobile */
+  .about-features-grid .MuiGrid-item {
+    padding: 8px !important;
+  }
+  
+  .about-feature-card {
+    padding: 24px 16px !important;
+    margin-bottom: 16px !important;
+    border-radius: 12px !important;
+  }
+  
+  .about-feature-icon {
+    font-size: 32px !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .about-feature-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .about-feature-description {
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Mission Statement Mobile */
+  .about-mission-card {
+    padding: 24px 16px !important;
+    margin-top: 32px !important;
+    border-radius: 12px !important;
+  }
+  
+  .about-mission-title {
+    font-size: 1.2rem !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .about-mission-description {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    max-width: 100% !important;
+  }
+  
+  /* Tech Stack Mobile */
+  .about-tech-section {
+    margin-top: 32px !important;
+    padding: 0 8px;
+  }
+  
+  .about-tech-title {
+    font-size: 1rem !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .about-tech-stack {
+    gap: 8px !important;
+    justify-content: center !important;
+  }
+  
+  .about-tech-chip {
+    padding: 6px 12px !important;
+    font-size: 0.75rem !important;
+    border-radius: 16px !important;
+    margin: 4px !important;
+  }
+}
+
+/* Ending Section Mobile Responsive */
+@media (max-width: 599px) {
+  /* Ending Section Container */
+  .ending-section-container {
+    margin: 40px 0 !important;
+    padding: 0 16px !important;
+    text-align: center !important;
+  }
+  
+  /* Thank You Title */
+  .ending-section-title {
+    font-size: 1.5rem !important;
+    margin-bottom: 16px !important;
+    line-height: 1.3 !important;
+    padding: 0 8px;
+  }
+  
+  /* Universe Quote */
+  .ending-section-subtitle {
+    font-size: 1rem !important;
+    margin-bottom: 24px !important;
+    line-height: 1.5 !important;
+    padding: 0 8px;
+  }
+  
+  /* Divider Line */
+  .ending-section-divider {
+    max-width: 200px !important;
+    margin: 24px auto !important;
+    border: 1px solid #444 !important;
+    opacity: 0.3 !important;
+  }
+}
+
+/* Tablet View Adjustments */
+@media (min-width: 600px) and (max-width: 899px) {
+  /* About Section Tablet */
+  .about-section-container {
+    padding: 48px 24px !important;
+    margin: 32px 0 !important;
+  }
+  
+  .about-section-title {
+    font-size: 2.2rem !important;
+    margin-bottom: 32px !important;
+  }
+  
+  .about-section-description {
+    font-size: 1rem !important;
+    margin-bottom: 40px !important;
+  }
+  
+  .about-feature-card {
+    padding: 32px 24px !important;
+  }
+  
+  .about-mission-card {
+    padding: 32px 24px !important;
+  }
+  
+  /* Ending Section Tablet */
+  .ending-section-container {
+    margin: 60px 0 !important;
+  }
+  
+  .ending-section-title {
+    font-size: 2rem !important;
+  }
+  
+  .ending-section-subtitle {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Very Small Mobile Devices */
+@media (max-width: 480px) {
+  .about-section-title {
+    font-size: 1.6rem !important;
+  }
+  
+  .about-section-description {
+    font-size: 0.85rem !important;
+  }
+  
+  .about-feature-title {
+    font-size: 1rem !important;
+  }
+  
+  .about-feature-description {
+    font-size: 0.8rem !important;
+  }
+  
+  .about-mission-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .about-mission-description {
+    font-size: 0.85rem !important;
+  }
+  
+  .about-tech-chip {
+    font-size: 0.7rem !important;
+    padding: 4px 8px !important;
+  }
+  
+  .ending-section-title {
+    font-size: 1.3rem !important;
+  }
+  
+  .ending-section-subtitle {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Container adjustments for mobile */
+@media (max-width: 599px) {
+  .MuiContainer-root {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  .about-background-pattern {
+    width: 150px !important;
+    height: 150px !important;
+  }
+}

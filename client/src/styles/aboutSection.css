@@ -1,0 +1,140 @@
+/* AboutSection Mobile Responsive Styles */
+
+/* Mobile View - About Section */
+@media (max-width: 599px) {
+
+  .about-section-main {
+    margin: 32px 0 !important;
+    padding: 40px 16px !important;
+    border-radius: 16px !important;
+  }
+  
+  .about-title-mobile {
+    font-size: 1.8rem !important;
+    margin-bottom: 24px !important;
+    letter-spacing: 1px !important;
+    text-align: center !important;
+  }
+  
+  .about-description-mobile {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+    margin-bottom: 32px !important;
+    padding: 0 8px !important;
+  }
+  
+  .about-features-grid-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    margin-bottom: 32px !important;
+    align-items: center !important;
+  }
+
+  .about-features-grid-mobile .MuiGrid-item {
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  } 
+  
+  .about-feature-card-mobile {
+    padding: 24px 16px !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    margin: 0 auto !important;
+  }
+  
+  .about-feature-icon-mobile {
+    margin-bottom: 16px !important;
+  }
+  
+  .about-feature-title-mobile {
+    font-size: 1.1rem !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .about-feature-description-mobile {
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  .about-mission-mobile {
+    margin-top: 32px !important;
+    padding: 24px 16px !important;
+    text-align: center !important;
+  }
+  
+  .about-mission-title-mobile {
+    font-size: 1.2rem !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .about-mission-text-mobile {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+  }
+  
+  .about-tech-mobile {
+    margin-top: 32px !important;
+    text-align: center !important;
+    padding: 0 8px !important;
+  }
+  
+  .about-tech-title-mobile {
+    font-size: 1rem !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .about-tech-stack-mobile {
+    gap: 8px !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .about-tech-chip-mobile {
+    font-size: 0.75rem !important;
+    padding: 6px 12px !important;
+    margin: 4px !important;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 600px) and (max-width: 899px) {
+  .about-section-main {
+    padding: 48px 24px !important;
+  }
+  
+  .about-title-mobile {
+    font-size: 2.2rem !important;
+  }
+  
+  .about-description-mobile {
+    font-size: 1rem !important;
+  }
+}
+
+/* Very small mobile */
+@media (max-width: 480px) {
+  .about-title-mobile {
+    font-size: 1.6rem !important;
+  }
+  
+  .about-description-mobile {
+    font-size: 0.85rem !important;
+  }
+  
+  .about-feature-title-mobile {
+    font-size: 1rem !important;
+  }
+  
+  .about-feature-description-mobile {
+    font-size: 0.8rem !important;
+  }
+
+  .about-feature-card-mobile {
+    max-width: 300px !important;
+    padding: 20px 12px !important;
+  }
+}

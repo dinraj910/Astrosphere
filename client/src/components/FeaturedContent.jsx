@@ -1,15 +1,18 @@
-import React from 'react';
-import { Typography, Box, Grid, Paper, Button } from '@mui/material';
+import React, { useEffect, useRef, useState } from 'react';
+import { Typography, Box, Paper, Button } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Public, RocketLaunch, Event, Collections, SmartToy } from '@mui/icons-material';
+
+// Import the CSS file
+import '../styles/featuredContent.css';
 
 const features = [
   {
     icon: <Public sx={{ fontSize: 40 }} />,
     title: "Universe Explorer",
     description: "Journey through our universe with detailed data and stunning visuals for every celestial body.",
-    path: "/universe",
+    path: "/universe-explorer",
   },
   {
     icon: <RocketLaunch sx={{ fontSize: 40 }} />,
@@ -48,61 +51,91 @@ const itemVariants = {
 };
 
 function FeaturedContent() {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <Box sx={{ my: 8 }}>
-      <Typography variant="h2" align="center" gutterBottom sx={{ mb: 4 }}>
-        Explore The Universe
-        <br />
-      </Typography>
-      <Grid
-        container
-        spacing={3}
-        justifyContent="center"
-        alignItems="stretch"
-        component={motion.div}
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
+    <Box 
+      className="featured-content-container"
+      ref={containerRef}
+    >
+      <Typography 
+        variant="h2" 
+        className={`featured-section-title featured-content-animate ${isVisible ? 'animate-visible' : ''}`}
+        sx={{ 
+          fontFamily: 'Orbitron',
+          background: 'linear-gradient(135deg, #4c63d2 0%, #7c3aed 100%)',
+          backgroundClip: 'text',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' }
+        }}
       >
-        {features.map((item) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
+        Explore The Universe
+      </Typography>
+
+      <br />
+      
+      <div className={`featured-content-grid featured-content-animate ${isVisible ? 'animate-visible' : ''}`}>
+        {features.map((item, index) => (
+          <motion.div
             key={item.title}
-            component={motion.div}
+            className="featured-item"
             variants={itemVariants}
-            sx={{ display: 'flex' }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ delay: index * 0.1 }}
           >
             <Paper
               elevation={2}
+              className="featured-paper"
               sx={{
-                p: 2,
-                textAlign: 'center',
-                border: '1px solid',
                 borderColor: 'primary.main',
-                borderRadius: 3,
-                width: '100%',
-                minHeight: 220,
-                background: 'linear-gradient(145deg, rgba(26,26,61,0.2), rgba(12,10,24,0.3))',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                transition: 'transform 0.3s, box-shadow 0.3s',
                 '&:hover': {
-                  transform: 'translateY(-6px) scale(1.02)',
-                  boxShadow: '0 8px 32px rgba(129,140,248,0.18)'
+                  borderColor: 'secondary.main',
                 }
               }}
             >
               <Box>
-                <Box sx={{ color: 'primary.main', mb: 1 }}>{item.icon}</Box>
-                <Typography variant="h6" sx={{ fontFamily: 'Orbitron', mb: 0.5 }}>
+                <Box 
+                  className="featured-icon" 
+                  sx={{ color: 'primary.main' }}
+                >
+                  {item.icon}
+                </Box>
+                <Typography 
+                  variant="h6" 
+                  className="featured-title"
+                  sx={{ color: 'text.primary' }}
+                >
                   {item.title}
                 </Typography>
-                <Typography color="text.secondary" sx={{ mb: 2, fontSize: 14, minHeight: 40 }}>
+                <Typography 
+                  className="featured-description"
+                  sx={{ color: 'text.secondary' }}
+                >
                   {item.description}
                 </Typography>
               </Box>
@@ -111,20 +144,21 @@ function FeaturedContent() {
                 to={item.path}
                 variant="outlined"
                 color="secondary"
+                className="featured-button"
                 sx={{
-                  borderRadius: 2,
-                  px: 3,
-                  fontWeight: 600,
-                  letterSpacing: 1,
-                  fontSize: 14,
+                  '&:hover': {
+                    backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                    borderColor: 'secondary.main',
+                    transform: 'scale(1.05)',
+                  }
                 }}
               >
                 Explore
               </Button>
             </Paper>
-          </Grid>
+          </motion.div>
         ))}
-      </Grid>
+      </div>
     </Box>
   );
 }

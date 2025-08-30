@@ -1,0 +1,57 @@
+/* Mobile ONLY - 1 card per row */
+@media (max-width: 599px) {
+  .planets-grid-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    padding: 0 16px !important;
+    align-items: center !important;
+  }
+
+  .planets-section-title {
+    text-align: center !important;
+  }
+
+  .planets-grid-item {
+    width: 100% !important;
+    max-width: 350px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .planet-card-mobile {
+    width: 100% !important;
+    border-radius: 12px !important;
+  }
+
+  .planet-image-mobile {
+    height: 200px !important;
+  }
+
+  .planet-details-mobile {
+    padding: 16px !important;
+  }
+
+  .planet-name-mobile {
+    font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .planet-desc-mobile {
+    font-size: 0.85rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 12px !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    display: -webkit-box !important;
+    overflow: hidden !important;
+  }
+
+  .planet-button-mobile {
+    font-size: 0.8rem !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+  }
+}
+
+/* Desktop - NO CHANGES AT ALL */

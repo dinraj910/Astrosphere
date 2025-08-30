@@ -1,0 +1,45 @@
+/* Mobile-specific styles for phone screens */
+@media (max-width: 600px) {
+  .hero-heading-mobile {
+    text-align: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .hero-container-mobile {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    text-align: center !important;
+  }
+
+  .hero-section-mobile {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* Ensure proper spacing on mobile */
+  .hero-typography-mobile {
+    width: 100% !important;
+    text-align: center !important;
+    display: block !important;
+  }
+
+  /* FIX: Remove the left positioning that causes overflow */
+  .ending-section-title{
+    position: relative;
+    left: 0 !important; /* Changed from left: 30% */
+    text-align: center !important;
+  }
+  .ending-section-subtitle{
+    position: relative;
+    left: 0 !important; /* Changed from left: 25% */
+    text-align: center !important;
+  }
+}

@@ -21,6 +21,7 @@ import {
   Minimize as MinimizeIcon
 } from '@mui/icons-material';
 import axios from 'axios';
+import '../styles/chatbot.css';
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -105,6 +106,7 @@ const Chatbot = () => {
       {/* Chat Toggle Button - Space themed */}
       <Grow in timeout={1000}>
         <Box
+          className="chatbot-toggle-button"
           sx={{
             position: 'fixed',
             bottom: 24,
@@ -152,6 +154,7 @@ const Chatbot = () => {
           {/* AI Badge */}
           {!isOpen && (
             <Box
+              className="chatbot-ai-badge"
               sx={{
                 position: 'absolute',
                 top: -8,
@@ -184,6 +187,7 @@ const Chatbot = () => {
       <Fade in={isOpen} timeout={400}>
         <Paper
           elevation={24}
+          className={`chatbot-window ${isMinimized ? 'minimized' : ''}`}
           sx={{
             position: 'fixed',
             bottom: isMinimized ? 24 : 100,
@@ -203,7 +207,7 @@ const Chatbot = () => {
           }}
         >
           {/* Chat Header - Dark Theme */}
-          <Box sx={{ 
+          <Box className="chatbot-header" sx={{ 
             p: 2,
             background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
             color: 'white', 
@@ -282,7 +286,7 @@ const Chatbot = () => {
           {!isMinimized && (
             <>
               {/* Quick Questions - Dark Theme */}
-              <Box sx={{ p: 1.5, bgcolor: 'rgba(51, 65, 85, 0.5)', borderBottom: '1px solid rgba(148, 163, 184, 0.1)' }}>
+              <Box className="chatbot-quick-questions" sx={{ p: 1.5, bgcolor: 'rgba(51, 65, 85, 0.5)', borderBottom: '1px solid rgba(148, 163, 184, 0.1)' }}>
                 <Typography variant="caption" sx={{ color: '#94a3b8', mb: 1, display: 'block', fontSize: '0.7rem' }}>
                   Quick questions:
                 </Typography>
@@ -312,7 +316,7 @@ const Chatbot = () => {
               </Box>
 
               {/* Messages Area - Dark Theme */}
-              <Box sx={{ 
+              <Box className="chatbot-messages" sx={{ 
                 flex: 1, 
                 p: 1.5, 
                 overflowY: 'auto', 
@@ -331,7 +335,7 @@ const Chatbot = () => {
               }}>
                 {messages.map((msg, idx) => (
                   <Fade in key={idx} timeout={600} style={{ transitionDelay: `${idx * 100}ms` }}>
-                    <Box sx={{ 
+                    <Box className="chatbot-message-container" sx={{ 
                       mb: 2, 
                       display: 'flex',
                       justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
@@ -340,6 +344,7 @@ const Chatbot = () => {
                     }}>
                       {msg.role === 'assistant' && (
                         <Avatar
+                          className="chatbot-message-avatar"
                           sx={{
                             width: 28,
                             height: 28,
@@ -354,6 +359,7 @@ const Chatbot = () => {
                       
                       {msg.role === 'user' && (
                         <Avatar
+                          className="chatbot-message-avatar"
                           sx={{
                             width: 28,
                             height: 28,
@@ -369,6 +375,7 @@ const Chatbot = () => {
 
                       <Paper
                         elevation={msg.role === 'user' ? 4 : 2}
+                        className={`chatbot-message-paper ${msg.role === 'user' ? 'user' : ''}`}
                         sx={{ 
                           p: 1.5,
                           maxWidth: '75%',
@@ -389,6 +396,7 @@ const Chatbot = () => {
                       >
                         <Typography 
                           variant="body2" 
+                          className="chatbot-message-text"
                           sx={{ 
                             whiteSpace: 'pre-line',
                             lineHeight: 1.5,
@@ -407,6 +415,7 @@ const Chatbot = () => {
                 {loading && (
                   <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: 1, mb: 2 }}>
                     <Avatar
+                      className="chatbot-message-avatar"
                       sx={{
                         width: 28,
                         height: 28,
@@ -418,6 +427,7 @@ const Chatbot = () => {
                     </Avatar>
                     <Paper 
                       elevation={2} 
+                      className="chatbot-loading-paper"
                       sx={{ 
                         p: 1.5, 
                         borderRadius: '18px 18px 18px 6px',
@@ -427,8 +437,8 @@ const Chatbot = () => {
                       }}
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <CircularProgress size={14} sx={{ color: '#4c63d2' }} />
-                        <Typography variant="body2" sx={{ color: '#94a3b8', fontStyle: 'italic', fontSize: '0.8rem' }}>
+                        <CircularProgress className="chatbot-loading-spinner" size={14} sx={{ color: '#4c63d2' }} />
+                        <Typography variant="body2" className="chatbot-loading-text" sx={{ color: '#94a3b8', fontStyle: 'italic', fontSize: '0.8rem' }}>
                           AstroBot is thinking...
                         </Typography>
                       </Box>
@@ -439,7 +449,7 @@ const Chatbot = () => {
               </Box>
 
               {/* Input Area - Dark Theme */}
-              <Box sx={{ 
+              <Box className="chatbot-input-area" sx={{ 
                 p: 1.5, 
                 background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(51, 65, 85, 0.8) 100%)',
                 borderTop: '1px solid rgba(148, 163, 184, 0.2)',
@@ -458,6 +468,7 @@ const Chatbot = () => {
                   disabled={loading}
                   multiline
                   maxRows={3}
+                  className="chatbot-input"
                   sx={{ 
                     '& .MuiOutlinedInput-root': {
                       borderRadius: 2.5,
@@ -484,6 +495,7 @@ const Chatbot = () => {
                 <IconButton 
                   onClick={sendMessage}
                   disabled={loading || !input.trim()}
+                  className="chatbot-send-button"
                   sx={{ 
                     background: 'linear-gradient(135deg, #4c63d2 0%, #7c3aed 100%)',
                     color: 'white',

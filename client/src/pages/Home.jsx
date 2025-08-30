@@ -11,6 +11,11 @@ import FunFactCard from '../components/FunFactCard';
 import ISSLocationCard from '../components/ISSLocationCard';
 import SolarSystem3D from '../components/SolarSystem3D';
 import Footer from '../components/Footer';
+import AboutSection from '../components/AboutSection';
+// Add this import with your other imports
+
+// Import mobile-specific styles
+import '../styles/mobile.css';
 
 // --- UPGRADED Interactive Starfield Background Component ---
 const Starfield = () => {
@@ -172,34 +177,97 @@ function Home() {
   return (
     <Box>
       <Starfield />
-      {/* Hero Section */}
-      <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', position: 'relative' }}>
-        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1 }}>
-          <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2 }}>
-            <Typography variant="h1" sx={{ color: 'white', textShadow: '0 0 25px rgba(244, 114, 182, 0.7), 0 0 10px rgba(129, 140, 248, 0.7)', mb: 2 }}>
+      {/* Hero Section - Updated with mobile-specific classes */}
+      <Box 
+        className="hero-section-mobile"
+        sx={{ 
+          height: '100vh', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          textAlign: 'center', 
+          position: 'relative' 
+        }}
+      >
+        <Container 
+          maxWidth="md" 
+          className="hero-container-mobile"
+          sx={{ 
+            position: 'relative', 
+            zIndex: 1 
+          }}
+        >
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            <Typography 
+              variant="h1" 
+              className="hero-heading-mobile hero-typography-mobile"
+              sx={{ 
+                color: 'white', 
+                textShadow: '0 0 25px rgba(244, 114, 182, 0.7), 0 0 10px rgba(129, 140, 248, 0.7)', 
+                mb: 2, 
+                fontSize: { xs: '2.5rem', sm: '4rem', md: '5rem' }, 
+                fontFamily: 'Orbitron' 
+              }}
+            >
               The Cosmos Awaits
             </Typography>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5 }}>
-            <Typography variant="h5" component="p" sx={{ color: 'text.secondary', maxWidth: '700px', mx: 'auto', mb: 4 }}>
+            <Typography 
+              variant="h5" 
+              component="p" 
+              className="hero-typography-mobile"
+              sx={{ 
+                color: 'text.secondary', 
+                maxWidth: '700px', 
+                mx: 'auto', 
+                mb: 4,
+                px: { xs: 2, sm: 0 } // Add padding for mobile
+              }}
+            >
               An immersive, next-generation encyclopedia to explore the universe like never before.
             </Typography>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.8 }}>
-            <Button variant="contained" color="primary" size="large" endIcon={<ArrowForward />} onClick={() => navigate('/universe-story')}>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              size="large" 
+              endIcon={<ArrowForward />} 
+              onClick={() => navigate('/universe-story')}
+              sx={{
+                px: { xs: 3, sm: 4 }, // Responsive padding
+                py: { xs: 1.5, sm: 2 }, // Responsive padding
+                fontSize: { xs: '1rem', sm: '1.125rem' } // Responsive font size
+              }}
+            >
               Begin Exploration
             </Button>
           </motion.div>
         </Container>
       </Box>
 
-      <Container maxWidth="xl" sx={{ py: 8, position: 'relative', zIndex: 1, bgcolor: 'background.default' }}>
+      <Container 
+  maxWidth={false}
+  sx={{ 
+    py: 8, 
+    position: 'relative', 
+    zIndex: 1, 
+    bgcolor: 'background.default',
+    width: '100%',
+    px: { xs: 1, sm: 2, md: 3 },
+    boxSizing: 'border-box'
+  }}
+>
         {/* Featured Content Section */}
         <FeaturedContent />
         
         {/* APOD Section */}
         <APODCard apod={apod} loading={!apod} />
-
 
         {/* Planets Section */}
         <PlanetsSection planets={planets} />
@@ -219,17 +287,34 @@ function Home() {
           </Box>
         </Box>
 
+        <AboutSection />
+
         {/* 3D Solar System Section <SolarSystem3D /> */}
 
-        {/* Ending Section */}
-        <Box sx={{ my: 10, textAlign: 'center',marginTop: '50px' }}>
-          <Typography variant="h4" sx={{ fontFamily: 'Orbitron', mb: 2 }}>
+         {/* Ending Section */}
+        <Box 
+          className="ending-section-container"
+          sx={{ my: 10, textAlign: 'center', marginTop: '50px' }}
+        >
+          <Typography 
+            variant="h4" 
+            className="ending-section-title"
+            sx={{ fontFamily: 'Orbitron', mb: 2 }}
+          >
             Thank you for exploring Astrosphere!
           </Typography>
-          <Typography variant="h6" color="text.secondary" sx={{ mb: 3 }}>
+          <Typography 
+            variant="h6" 
+            className="ending-section-subtitle"
+            color="text.secondary" 
+            sx={{ mb: 3 }}
+          >
             The universe is vast—keep looking up and stay curious.
           </Typography>
-          <hr style={{ maxWidth: 320, margin: '32px auto', border: '1px solid #444', opacity: 0.2 }} />
+          <hr 
+            className="ending-section-divider"
+            style={{ maxWidth: 320, margin: '32px auto', border: '1px solid #444', opacity: 0.2 }} 
+          />
         </Box>
       </Container>
       {/* Footer Section */}

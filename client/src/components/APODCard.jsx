@@ -124,32 +124,38 @@ import { Card, CardMedia, Box, Typography, Button, Chip, Skeleton } from '@mui/m
 import { motion } from 'framer-motion';
 import { OpenInNew } from '@mui/icons-material';
 
+// Import the custom CSS
+import '../styles/apodCard.css';
+
 function APODCard({ apod, loading }) {
   // Helper to render media
   const renderMedia = () => {
     if (!apod) return null;
+    
     if (apod.media_type === "image") {
       return (
-        <CardMedia
-          component="img"
-          image={apod.url}
-          alt={apod.title}
-          sx={{
-            width: { xs: '100%', md: '55%' },
-            objectFit: 'cover',
-            aspectRatio: '16/10',
-            minHeight: 320,
-            maxHeight: 470,
-            filter: 'brightness(0.95) contrast(1.08)',
-            transition: 'transform 0.4s',
-            '&:hover': { transform: 'scale(1.03)' },
-          }}
+        <Box className="apod-media-container" sx={{ width: { xs: '100%', md: '55%' } }}>
+          <CardMedia
+            component="img"
+            image={apod.url}
+            alt={apod.title}
+            className="apod-image"
+            sx={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              display: 'block',
+              margin: '0 auto',
+            }}
         />
+        </Box>
       );
     }
+
     if (apod.media_type === "video") {
       const isEmbeddable = apod.url.includes("youtube.com") || apod.url.includes("youtu.be") || apod.url.includes("vimeo.com");
       let embedUrl = apod.url;
+      
       if (apod.url.includes("youtube.com/watch")) {
         const videoId = apod.url.split("v=")[1]?.split("&")[0];
         embedUrl = `https://www.youtube.com/embed/${videoId}`;
@@ -158,17 +164,18 @@ function APODCard({ apod, loading }) {
         const videoId = apod.url.split("youtu.be/")[1];
         embedUrl = `https://www.youtube.com/embed/${videoId}`;
       }
+      
       if (isEmbeddable) {
         return (
           <Box
+            className="apod-video-container"
             sx={{
               width: { xs: '100%', md: '55%' },
-              minHeight: 320,
-              maxHeight: 470,
+              minHeight: { xs: 250, sm: 320 },
+              maxHeight: { xs: 300, md: 500 },
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: '#000',
             }}
           >
             <iframe
@@ -178,10 +185,9 @@ function APODCard({ apod, loading }) {
               height="100%"
               style={{
                 border: 0,
-                minHeight: 320,
-                maxHeight: 470,
+                minHeight: 250,
+                maxHeight: 500,
                 width: '100%',
-                borderRadius: 8,
               }}
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
@@ -190,14 +196,31 @@ function APODCard({ apod, loading }) {
         );
       } else {
         return (
-          <Box sx={{ width: { xs: '100%', md: '55%' }, minHeight: 320, maxHeight: 470, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#222' }}>
+          <Box 
+            className="apod-interactive-content"
+            sx={{ 
+              width: { xs: '100%', md: '55%' }, 
+              minHeight: { xs: 250, sm: 320 }, 
+              maxHeight: { xs: 300, md: 500 }, 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              p: 3
+            }}
+          >
             <Button
               variant="contained"
               color="secondary"
               startIcon={<OpenInNew />}
               href={apod.url}
               target="_blank"
-              sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}
+              sx={{ 
+                borderRadius: 2, 
+                fontWeight: 600, 
+                px: 3, 
+                py: 1.5,
+                fontSize: '1rem'
+              }}
             >
               Watch Video
             </Button>
@@ -205,12 +228,36 @@ function APODCard({ apod, loading }) {
         );
       }
     }
+    
     // Handle "other" and unknown media types
     return (
-      <Box sx={{ width: { xs: '100%', md: '55%' }, minHeight: 320, maxHeight: 470, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#222', p: 3 }}>
-        <Typography color="text.secondary" sx={{ mb: 2 }}>
-          This APOD is interactive or uses a format not supported here.<br />
-          <span style={{ fontSize: 12 }}>Type: {apod.media_type || "unknown"}</span>
+      <Box 
+        className="apod-interactive-content"
+        sx={{ 
+          width: { xs: '100%', md: '55%' }, 
+          minHeight: { xs: 250, sm: 320 }, 
+          maxHeight: { xs: 300, md: 500 }, 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          p: 3,
+          textAlign: 'center'
+        }}
+      >
+        <Typography 
+          color="text.secondary" 
+          sx={{ 
+            mb: 3,
+            fontSize: { xs: '0.9rem', sm: '1rem' },
+            lineHeight: 1.6
+          }}
+        >
+          This APOD is interactive or uses a format not supported here.
+          <br />
+          <Box component="span" sx={{ fontSize: '0.85em', opacity: 0.8 }}>
+            Type: {apod.media_type || "unknown"}
+          </Box>
         </Typography>
         <Button
           variant="contained"
@@ -218,7 +265,13 @@ function APODCard({ apod, loading }) {
           startIcon={<OpenInNew />}
           href={apod.url}
           target="_blank"
-          sx={{ borderRadius: 2, fontWeight: 600, px: 3 }}
+          sx={{ 
+            borderRadius: 2, 
+            fontWeight: 600, 
+            px: 3, 
+            py: 1.5,
+            fontSize: '1rem'
+          }}
         >
           View on NASA APOD
         </Button>
@@ -227,93 +280,83 @@ function APODCard({ apod, loading }) {
   };
 
   return (
-    <Box sx={{ my: 10 }}>
+    <Box className="apod-container">
       <Typography
         variant="h2"
-        align="center"
-        gutterBottom
-        sx={{ mb: 5, fontWeight: 700, letterSpacing: 1, fontFamily: 'Orbitron' }}
+        className="apod-section-title"
         component={motion.div}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
+        sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' } }}
       >
         Astronomy Picture of the Day
       </Typography>
+      
       <Card
+        className="apod-card"
         component={motion.div}
-        initial={{ opacity: 0, scale: 0.97 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.7 }}
+        transition={{ duration: 0.7, delay: 0.2 }}
         sx={{
-          display: 'flex',
           flexDirection: { xs: 'column', md: 'row' },
-          borderRadius: 5,
-          overflow: 'hidden',
-          boxShadow: '0 8px 40px 0 rgba(129,140,248,0.18)',
-          background: 'linear-gradient(120deg, rgba(26,26,61,0.7) 60%, rgba(12,10,24,0.9) 100%)',
         }}
       >
         {loading ? (
-          <Skeleton variant="rectangular" width="100%" height={350} />
+          <Skeleton 
+            variant="rectangular" 
+            width="100%" 
+            height={350} 
+            className="apod-skeleton"
+            sx={{ minHeight: { xs: 250, md: 350 } }}
+          />
         ) : (
           renderMedia()
         )}
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            p: { xs: 3, md: 5 },
-            flex: 1,
-            justifyContent: 'center',
-            minWidth: 0,
-          }}
-        >
+        
+        <Box className="apod-content" sx={{ p: { xs: 3, sm: 4, md: 5 } }}>
           {loading ? (
             <>
-              <Skeleton width="60%" height={40} sx={{ mb: 2 }} />
-              <Skeleton width="30%" height={20} sx={{ mb: 2 }} />
-              <Skeleton width="100%" height={120} sx={{ mb: 2 }} />
-              <Skeleton width="40%" height={36} />
+              <Skeleton width="60%" height={40} className="apod-skeleton" sx={{ mb: 2 }} />
+              <Skeleton width="30%" height={20} className="apod-skeleton" sx={{ mb: 2 }} />
+              <Skeleton width="100%" height={120} className="apod-skeleton" sx={{ mb: 2 }} />
+              <Skeleton width="40%" height={36} className="apod-skeleton" />
             </>
           ) : (
             <>
-              <Typography variant="h4" sx={{ fontFamily: 'Orbitron', mb: 1 }}>
+              <Typography 
+                variant="h4" 
+                className="apod-title"
+                sx={{ fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' } }}
+              >
                 {apod?.title}
               </Typography>
+              
               <Chip
                 label={new Date(apod?.date).toDateString()}
-                color="primary"
+                className="apod-date-chip"
                 size="small"
-                sx={{ mb: 2, fontWeight: 600, letterSpacing: 1 }}
               />
+              
               <Typography
                 variant="body1"
                 color="text.secondary"
+                className="apod-description"
                 sx={{
-                  flexGrow: 1,
-                  overflowY: 'auto',
-                  maxHeight: { xs: 120, md: 200 },
-                  pr: 1,
-                  mb: 2,
-                  fontSize: 16,
+                  maxHeight: { xs: 140, sm: 180, md: 280 },
+                  fontSize: { xs: '15px', sm: '16px', md: '17px' }
                 }}
               >
                 {apod?.explanation}
               </Typography>
+              
               <Button
                 variant="contained"
-                color="secondary"
+                className="apod-button"
                 startIcon={<OpenInNew />}
                 href={apod?.hdurl || apod?.url}
                 target="_blank"
-                sx={{
-                  alignSelf: 'flex-start',
-                  borderRadius: 2,
-                  fontWeight: 600,
-                  px: 3,
-                  boxShadow: '0 2px 8px rgba(129,140,248,0.10)',
-                }}
               >
                 View High-Res
               </Button>

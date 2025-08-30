@@ -1,0 +1,291 @@
+/* Footer Mobile Responsive Styles */
+
+/* Desktop - keep original styling */
+@media (min-width: 900px) {
+  .footer-earth-section {
+    display: block;
+  }
+  
+  .footer-grid-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+/* Tablet View */
+@media (min-width: 600px) and (max-width: 899px) {
+  .footer-earth-section {
+    display: none; /* Hide image on tablet */
+  }
+  
+  .footer-main-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  .footer-brand-section,
+  .footer-contact-section {
+    flex: 1;
+    min-width: 300px;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Mobile View - Fully responsive and centered */
+@media (max-width: 599px) {
+  .footer-earth-section {
+    display: none !important;
+  }
+  
+  /* Main footer container - fix width issues */
+  .footer-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    left: auto !important;
+    right: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+  
+  .MuiGrid-container {
+    padding: 0 16px !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .MuiGrid-item {
+    padding: 12px 8px !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+  
+  /* Brand Section - Mobile optimized */
+  .footer-brand-section {
+    margin-bottom: 2.5rem !important;
+    padding: 0 12px !important;
+  }
+  
+  .footer-brand-section .MuiTypography-h4 {
+    font-size: 1.8rem !important;
+    text-align: center !important;
+    margin-bottom: 16px !important;
+    letter-spacing: 1.5px !important;
+  }
+  
+  .footer-brand-section .MuiTypography-body1 {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+    text-align: center !important;
+    margin-bottom: 24px !important;
+    padding: 0 8px !important;
+    max-width: 100% !important;
+  }
+  
+  /* Explore Section - Mobile centered */
+  .footer-brand-section .MuiTypography-h6 {
+    font-size: 1.1rem !important;
+    text-align: center !important;
+    margin-bottom: 16px !important;
+    color: #4c63d2 !important;
+  }
+  
+  .footer-brand-section .MuiStack-root {
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .footer-brand-section .MuiStack-root .MuiLink-root {
+    font-size: 0.9rem !important;
+    padding: 6px 12px !important;
+    border-radius: 16px !important;
+    background: rgba(76, 99, 210, 0.1) !important;
+    transition: all 0.3s !important;
+  }
+  
+  .footer-brand-section .MuiStack-root .MuiLink-root:hover {
+    background: rgba(76, 99, 210, 0.2) !important;
+    transform: translateY(-2px) !important;
+  }
+  
+  /* Contact Section - Mobile optimized */
+  .footer-contact-section {
+    margin-bottom: 2rem !important;
+    padding: 0 12px !important;
+  }
+  
+  .footer-contact-section .MuiTypography-h6 {
+    font-size: 1.1rem !important;
+    text-align: center !important;
+    margin-bottom: 20px !important;
+    color: #4c63d2 !important;
+  }
+  
+  /* Developer Info - Mobile centered */
+  .footer-contact-section .MuiBox-root {
+    text-align: center !important;
+    margin-bottom: 24px !important;
+  }
+  
+  .footer-contact-section .MuiTypography-body2 {
+    font-size: 0.85rem !important;
+    text-align: center !important;
+    margin-bottom: 12px !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Location and Portfolio - Mobile centered */
+  .footer-contact-section .MuiStack-root {
+    justify-content: center !important;
+    margin-bottom: 12px !important;
+    flex-wrap: wrap !important;
+  }
+  
+  .footer-contact-section .MuiStack-root .MuiTypography-body2,
+  .footer-contact-section .MuiStack-root .MuiLink-root {
+    font-size: 0.8rem !important;
+    text-align: center !important;
+  }
+  
+  /* Social Icons - Mobile optimized */
+  .footer-contact-section .MuiStack-root:has(.MuiIconButton-root) {
+    justify-content: center !important;
+    gap: 12px !important;
+    margin: 24px 0 !important;
+  }
+  
+  .footer-contact-section .MuiIconButton-root {
+    padding: 10px !important;
+    margin: 0 4px !important;
+    font-size: 1.2rem !important;
+  }
+  
+  /* Business Inquiry - Mobile centered */
+  .footer-contact-section .MuiTypography-body2:last-child {
+    font-size: 0.8rem !important;
+    text-align: center !important;
+    line-height: 1.5 !important;
+    padding: 0 8px !important;
+    margin-top: 20px !important;
+  }
+  
+  /* Bottom Section - Mobile optimized */
+  .footer-bottom-section {
+    padding: 20px 16px !important;
+    margin-top: 20px !important;
+    text-align: center !important;
+  }
+  
+  .footer-bottom-section .MuiTypography-body2 {
+    font-size: 0.8rem !important;
+    text-align: center !important;
+    margin-bottom: 8px !important;
+    padding: 0 8px !important;
+    line-height: 1.4 !important;
+  }
+  
+  .footer-bottom-section .MuiTypography-body2:last-of-type {
+    font-size: 0.75rem !important;
+    margin-bottom: 16px !important;
+  }
+  
+  /* Back to Top Button - Mobile centered */
+  .footer-bottom-section .MuiBox-root {
+    display: flex !important;
+    justify-content: center !important;
+    margin-top: 20px !important;
+  }
+  
+  .footer-bottom-section button {
+    font-size: 0.85rem !important;
+    padding: 10px 20px !important;
+    border-radius: 25px !important;
+  }
+  
+  /* Divider - Mobile spacing */
+  .MuiDivider-root {
+    margin: 20px 0 !important;
+    opacity: 0.3 !important;
+  }
+}
+
+/* Very small mobile devices */
+@media (max-width: 480px) {
+  .MuiGrid-container {
+    padding: 0 12px !important;
+  }
+  
+  .footer-brand-section .MuiTypography-h4 {
+    font-size: 1.6rem !important;
+  }
+  
+  .footer-brand-section .MuiTypography-body1 {
+    font-size: 0.85rem !important;
+    padding: 0 4px !important;
+  }
+  
+  .footer-contact-section .MuiTypography-h6 {
+    font-size: 1rem !important;
+  }
+  
+  .footer-contact-section .MuiTypography-body2 {
+    font-size: 0.8rem !important;
+  }
+  
+  .footer-contact-section .MuiStack-root .MuiTypography-body2,
+  .footer-contact-section .MuiStack-root .MuiLink-root {
+    font-size: 0.75rem !important;
+  }
+  
+  .footer-contact-section .MuiTypography-body2:last-child {
+    font-size: 0.75rem !important;
+  }
+  
+  .footer-bottom-section .MuiTypography-body2 {
+    font-size: 0.75rem !important;
+  }
+  
+  .footer-bottom-section .MuiTypography-body2:last-of-type {
+    font-size: 0.7rem !important;
+  }
+  
+  .footer-bottom-section button {
+    font-size: 0.8rem !important;
+    padding: 8px 16px !important;
+  }
+  
+  .footer-brand-section .MuiStack-root .MuiLink-root {
+    font-size: 0.8rem !important;
+    padding: 5px 10px !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .MuiGrid-container {
+    padding: 0 8px !important;
+  }
+  
+  .footer-brand-section,
+  .footer-contact-section {
+    padding: 0 8px !important;
+  }
+  
+  .footer-brand-section .MuiTypography-h4 {
+    font-size: 1.5rem !important;
+    letter-spacing: 1px !important;
+  }
+  
+  .footer-contact-section .MuiIconButton-root {
+    padding: 8px !important;
+    margin: 0 2px !important;
+  }
+}

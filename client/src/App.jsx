@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
-import theme from './styles/theme';
+import { createResponsiveTheme } from './styles/theme';
 import { AuthProvider } from "./context/AuthContext";
 import UniverseStory from './pages/UniverseStory';
 import UniverseEventDetail from './pages/UniverseEventDetail';
@@ -21,6 +21,7 @@ import PlanetDetails from './pages/PlanetDetails';
 //import './styles/responsive.css'; 
 
 function App() {
+  const theme = createResponsiveTheme();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
