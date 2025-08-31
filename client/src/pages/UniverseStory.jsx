@@ -3,6 +3,7 @@ import { Box, Typography, Container, Button } from '@mui/material';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
+import '../styles/universeStory.css';
 
 // Add a color/glow for each event for more "feeling"
 const eventStyles = [
@@ -84,6 +85,7 @@ function AnimatedEvent({ event, idx, onLearnMore }) {
   return (
     <Box
       ref={ref}
+      className="universe-event-card"
       sx={{
         position: 'relative',
         mb: 8,
@@ -93,7 +95,7 @@ function AnimatedEvent({ event, idx, onLearnMore }) {
         background: style.bg,
         color: 'white',
         transition: 'background 0.8s',
-        left: '70px',
+        right: '100px',
       }}
     >
       {/* Cosmic background glow */}
@@ -111,6 +113,7 @@ function AnimatedEvent({ event, idx, onLearnMore }) {
         }}
       />
       <Box
+        className="universe-event-content"
         sx={{
           position: 'relative',
           zIndex: 1,
@@ -124,10 +127,12 @@ function AnimatedEvent({ event, idx, onLearnMore }) {
           initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
           animate={inView ? { opacity: 1, scale: 1, rotate: 0 } : {}}
           transition={{ duration: 0.9, type: 'spring', bounce: 0.3 }}
+          className="universe-event-text"
           style={{ flex: 1, marginBottom: 16, marginRight: 32 }}
         >
           <Typography
             variant="h3"
+            className="universe-event-title"
             sx={{
               fontFamily: 'Orbitron',
               mb: 1,
@@ -142,12 +147,17 @@ function AnimatedEvent({ event, idx, onLearnMore }) {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            <Typography variant="h6" sx={{ mb: 2, color: 'rgba(255,255,255,0.85)' }}>
+            <Typography 
+              variant="h6" 
+              className="universe-event-description"
+              sx={{ mb: 2, color: 'rgba(255,255,255,0.85)' }}
+            >
               {event.text}
             </Typography>
             <Button
               variant="contained"
               color="secondary"
+              className="universe-event-button"
               sx={{ mt: 3, fontWeight: 600, borderRadius: 2, boxShadow: style.glow }}
               onClick={onLearnMore}
             >
@@ -159,6 +169,7 @@ function AnimatedEvent({ event, idx, onLearnMore }) {
           initial={{ opacity: 0, scale: 1.1, y: 40 }}
           animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
           transition={{ delay: 0.3, duration: 1.1, type: 'spring', bounce: 0.2 }}
+          className="universe-event-image-container"
           style={{
             flex: 1,
             display: 'flex',
@@ -169,6 +180,7 @@ function AnimatedEvent({ event, idx, onLearnMore }) {
           <motion.img
             src={event.image}
             alt={event.title}
+            className="universe-event-image"
             style={{
               width: '100%',
               maxWidth: 360,
@@ -189,9 +201,14 @@ function UniverseStory() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8, marginLeft: '210px' }}>
+    <Box className="universe-story-container" sx={{ bgcolor: 'background.default', minHeight: '100vh', pb: 8, marginLeft: '210px' }}>
       <Container maxWidth="md" sx={{ pt: 8 }}>
-        <Typography variant="h2" align="center" sx={{ fontFamily: 'Orbitron', mb: 6, ml: '150px' }}>
+        <Typography 
+          variant="h1" 
+          align="center" 
+          className="universe-story-title"
+          sx={{ fontFamily: 'Orbitron', mb: 6, marginRight: '22%' }}
+        >
           The Story of the Universe
         </Typography>
         {events.map((event, idx) => (
@@ -203,7 +220,13 @@ function UniverseStory() {
           />
         ))}
         <Box sx={{ textAlign: 'center', mt: 8 }}>
-          <Button variant="contained" color="secondary" size="large" onClick={() => navigate('/')}>
+          <Button 
+            variant="contained" 
+            color="secondary" 
+            size="large" 
+            className="universe-back-button"
+            onClick={() => navigate('/')}
+          >
             Back to Home
           </Button>
         </Box>

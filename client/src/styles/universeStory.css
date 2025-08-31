@@ -1,0 +1,186 @@
+/* Universe Story Mobile Responsive Styles */
+
+/* Main container responsive adjustments */
+.universe-story-container {
+  margin-left: 0 !important;
+  padding: 0 16px;
+}
+
+.universe-story-title {
+  font-size: 2.5rem !important;
+  margin-right: 0 !important;
+  margin-bottom: 2rem !important;
+  text-align: center;
+  padding: 0 8px;
+}
+
+/* Event card responsive styles */
+.universe-event-card {
+  margin-bottom: 3rem !important;
+  right: 0 !important;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.universe-event-content {
+  flex-direction: column !important;
+  padding: 16px !important;
+}
+
+.universe-event-text {
+  margin-right: 0 !important;
+  margin-bottom: 16px !important;
+  text-align: center;
+}
+
+.universe-event-title {
+  font-size: 1.8rem !important;
+  text-align: center;
+  margin-bottom: 1rem !important;
+}
+
+.universe-event-description {
+  font-size: 1rem !important;
+  text-align: center;
+  margin-bottom: 1.5rem !important;
+}
+
+.universe-event-button {
+  margin-top: 1rem !important;
+  width: 100%;
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.universe-event-image-container {
+  margin-bottom: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.universe-event-image {
+  width: 100% !important;
+  max-width: 280px !important;
+  height: auto !important;
+  border-radius: 12px !important;
+}
+
+.universe-back-button {
+  margin-top: 3rem !important;
+  padding: 12px 24px !important;
+}
+
+/* Tablet adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .universe-story-container {
+    margin-left: 100px !important;
+    padding: 0 24px;
+  }
+  
+  .universe-story-title {
+    font-size: 3rem !important;
+    margin-right: 10% !important;
+  }
+  
+  .universe-event-content {
+    flex-direction: row !important;
+    padding: 24px !important;
+  }
+  
+  .universe-event-text {
+    margin-right: 24px !important;
+    margin-bottom: 0 !important;
+    text-align: left;
+    flex: 1;
+  }
+  
+  .universe-event-title {
+    font-size: 2.2rem !important;
+    text-align: left;
+  }
+  
+  .universe-event-description {
+    text-align: left;
+  }
+  
+  .universe-event-button {
+    width: auto;
+    margin-left: 0;
+  }
+  
+  .universe-event-image {
+    max-width: 320px !important;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .universe-story-title {
+    font-size: 2rem !important;
+    line-height: 1.2;
+  }
+  
+  .universe-event-title {
+    font-size: 1.5rem !important;
+  }
+  
+  .universe-event-description {
+    font-size: 0.9rem !important;
+  }
+  
+  .universe-event-image {
+    max-width: 250px !important;
+  }
+  
+  .universe-event-content {
+    padding: 12px !important;
+  }
+}
+
+/* Large desktop - restore original layout */
+@media (min-width: 1025px) {
+  .universe-story-container {
+    margin-left: 210px !important;
+  }
+  
+  .universe-story-title {
+    margin-right: 22% !important;
+    font-size: 3.5rem !important;
+  }
+  
+  .universe-event-card {
+    right: 100px !important;
+  }
+  
+  .universe-event-content {
+    flex-direction: row !important;
+    padding: 32px !important;
+  }
+  
+  .universe-event-text {
+    margin-right: 32px !important;
+    margin-bottom: 16px !important;
+    text-align: left;
+  }
+  
+  .universe-event-title {
+    font-size: 2.5rem !important;
+    text-align: left;
+  }
+  
+  .universe-event-description {
+    text-align: left;
+  }
+  
+  .universe-event-button {
+    width: auto;
+    margin-left: 0;
+  }
+  
+  .universe-event-image {
+    max-width: 360px !important;
+  }
+}
