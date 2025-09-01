@@ -93,16 +93,16 @@ function Footer() {
             Explore
           </Typography>
           <Stack direction="row" spacing={3} flexWrap="wrap" sx={{ mb: 3 }}>
-            <Link href="#planets" sx={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', '&:hover': { color: '#4c63d2' } }}>
-              Planets
+            <Link href="chatbot" sx={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', '&:hover': { color: '#4c63d2' } }}>
+              Chat Bot
             </Link>
-            <Link href="#satellites" sx={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', '&:hover': { color: '#4c63d2' } }}>
+            <Link href="satellites" sx={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', '&:hover': { color: '#4c63d2' } }}>
               Satellites
             </Link>
-            <Link href="#apod" sx={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', '&:hover': { color: '#4c63d2' } }}>
-              APOD
+            <Link href="gallery" sx={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', '&:hover': { color: '#4c63d2' } }}>
+              Gallery
             </Link>
-            <Link href="#universe" sx={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', '&:hover': { color: '#4c63d2' } }}>
+            <Link href="universe" sx={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', '&:hover': { color: '#4c63d2' } }}>
               Universe
             </Link>
           </Stack>
@@ -117,7 +117,7 @@ function Footer() {
           {/* Developer Info */}
           <Box sx={{ mb: 3 }}>
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mb: 1 }}>
-              Developed by <strong>Your Name</strong>
+              Developed by <strong>DINRAJ K DINESH</strong>
             </Typography>
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 2 }}>
               Full Stack Developer & Space Enthusiast
@@ -127,7 +127,7 @@ function Footer() {
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
               <LocationOnIcon sx={{ fontSize: 18, color: '#4c63d2' }} />
               <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-                Your City, Your Country
+                Kottayam, Kerala, India
               </Typography>
             </Stack>
             
@@ -149,7 +149,7 @@ function Footer() {
           <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
             <IconButton
               component="a"
-              href="https://github.com/yourusername"
+              href="https://github.com/dinraj910"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ 
@@ -168,7 +168,7 @@ function Footer() {
             
             <IconButton
               component="a"
-              href="https://linkedin.com/in/yourprofile"
+              href="https://www.linkedin.com/in/dinraj-k-dinesh-07956b254/"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ 
@@ -187,7 +187,7 @@ function Footer() {
 
             <IconButton
               component="a"
-              href="mailto:your@email.com"
+              href="#"
               sx={{ 
                 color: 'white', 
                 backgroundColor: 'rgba(255,255,255,0.1)',
@@ -226,10 +226,10 @@ function Footer() {
           <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem' }}>
             For collaborations and business inquiries:<br />
             <Link 
-              href="mailto:business@yourdomain.com" 
+              href="dinrajdinesh564@gmail.com" 
               sx={{ color: '#4c63d2', textDecoration: 'none' }}
             >
-              business@yourdomain.com
+              dinrajdinesh564@gmail.com
             </Link>
           </Typography>
         </Grid>
@@ -251,7 +251,7 @@ function Footer() {
                 overflow: 'hidden',
                 maxWidth: '500px',
                 bottom: 18,
-                left: 10,
+                left: '20%',
                 //background: 'linear-gradient(135deg, #1b2735 0%, #090a0f 100%)',
                 p: 2,
                 //border: '1px solid rgba(76, 99, 210, 0.2)',

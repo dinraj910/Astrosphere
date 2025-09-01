@@ -96,12 +96,12 @@ const planetData = {
         description: "Mercury's heavily cratered surface resembles Earth's Moon"
       },
       {
-        url: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://cdn.mos.cms.futurecdn.net/3L2GqSaMr5ypERByKMK7wU.jpg",
         title: "Mercury Transit",
         description: "Mercury passing in front of the Sun as seen from Earth"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://www.universetoday.com/article_images/Magnetosphere_rendition-1024x560.jpg",
         title: "Mercury's Magnetosphere",
         description: "Artist's impression of Mercury's magnetic field"
       }
@@ -189,12 +189,12 @@ const planetData = {
         description: "Venus shrouded in its thick, toxic atmosphere"
       },
       {
-        url: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://cdn.sci.esa.int/documents/34571/35316/1567217467486-PIA00160.jpg/1373ab2d-7005-61fc-4c4d-743a1cffb0a9?version=1.0&t=1567217467974",
         title: "Venus Surface Radar Map",
         description: "Radar mapping reveals Venus's volcanic surface"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCWM31Bl-Nh8aa_Eh1je-6HW8FjLVTHIDqFQ&s",
         title: "Venus Transit",
         description: "Venus crossing in front of the Sun"
       }
@@ -281,12 +281,12 @@ const planetData = {
         description: "The Blue Marble - Earth as seen from space"
       },
       {
-        url: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/internal_resources/5054/5-Things-Moon_Comparison.jpg?w=1280&h=720&fit=clip&crop=faces%2Cfocalpoint",
         title: "Earth and Moon",
         description: "Earth and its natural satellite, the Moon"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://eoimages.gsfc.nasa.gov/images/imagerecords/6000/6226/aurora_img_2005254.jpg",
         title: "Earth's Aurora",
         description: "Northern Lights caused by Earth's magnetosphere"
       }
@@ -379,12 +379,12 @@ const planetData = {
         description: "The red, rocky surface of Mars"
       },
       {
-        url: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://cdn.mos.cms.futurecdn.net/FgDxtn3qXx4vf8AHj2NYGm.jpg",
         title: "Olympus Mons",
         description: "The largest volcano in the solar system"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://preview.redd.it/oop5spv13a591.jpg?auto=webp&s=cd542ee7909e452d9c613e7cbbc5bccacdf392d5",
         title: "Mars Polar Ice Cap",
         description: "Seasonal ice cap at Mars's south pole"
       }
@@ -477,12 +477,12 @@ const planetData = {
         description: "The famous Great Red Spot storm on Jupiter"
       },
       {
-        url: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://www.thoughtco.com/thmb/gWwnS-gbxxbE-5Pf9tdFhlToZP0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Jupiter-and-moons-58b82f8c3df78c060e64eb8b.jpg",
         title: "Jupiter and its Moons",
         description: "Jupiter with its four largest Galilean moons"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmC0ciAKTmaZ-OnGamh4ZAEBmxBbL_kPRBsQ&s",
         title: "Jupiter's Atmospheric Bands",
         description: "Jupiter's distinctive atmospheric bands and zones"
       }
@@ -570,12 +570,12 @@ const planetData = {
         description: "Saturn's iconic ring system in all its glory"
       },
       {
-        url: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://external-preview.redd.it/cold-water-thrown-on-hope-of-life-in-ocean-of-saturns-icy-v0--xerhPwX6twoLBqqf_yIzrcA-Vm2QXSOvU3nA025qS4.jpg?auto=webp&s=740435c220217a5b72229935c237797f1f43b130",
         title: "Saturn and Titan",
         description: "Saturn with its largest moon, Titan"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://i.redd.it/7u0syr27ezfb1.jpg",
         title: "Saturn's Hexagon",
         description: "The mysterious hexagonal storm at Saturn's north pole"
       }
@@ -649,12 +649,12 @@ const planetData = {
         description: "Uranus showing its distinctive blue-green color"
       },
       {
-        url: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://cdn.britannica.com/84/145484-050-B49C232F/image-Uranus-moons-camera-Voyager-2-smallest.jpg",
         title: "Uranus and its Moons",
         description: "Uranus with some of its 27 known moons"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://researchmatters.in/sites/researchmatters.in/files/styles/large_800w_scale/public/jupiter.png?itok=HyABnInB",
         title: "Uranus Ring System",
         description: "The faint rings of Uranus discovered in 1977"
       }
@@ -732,12 +732,12 @@ const planetData = {
         description: "Neptune's distinctive deep blue color from methane"
       },
       {
-        url: "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://cdn.mos.cms.futurecdn.net/VN8RpsrDfqQn5iQ85YWg43.jpg",
         title: "Neptune and Triton",
         description: "Neptune with its largest moon Triton"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Neptune_storms.jpg/640px-Neptune_storms.jpg",
         title: "Neptune's Storms",
         description: "The dynamic storm systems of Neptune"
       }
@@ -825,12 +825,12 @@ const planetData = {
         description: "Our star, the Sun, source of all energy in our solar system"
       },
       {
-        url: "https://images.unsplash.com/photo-1566207474742-de921626ad0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://images.squarespace-cdn.com/content/v1/59c3bad759cc68f757a465a3/1531082991716-SMIVWOO1UP25DHKA2ZAZ/solar+flares.jpg",
         title: "Solar Flare",
         description: "A massive solar flare erupting from the Sun's surface"
       },
       {
-        url: "https://images.unsplash.com/photo-1518066000-611a194d1ddc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+        url: "https://www.weather.gov/images/fsd/astro/Sun_sunspot.jpg",
         title: "Sunspots",
         description: "Dark sunspots on the Sun's surface showing magnetic activity"
       }
