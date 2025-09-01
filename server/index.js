@@ -884,16 +884,23 @@ app.post('/api/chatbot/chat', async (req, res) => {
     // Validate message input
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       console.log('❌ Invalid message received:', { message, body: req.body });
-      
-      // Return a friendly fallback response instead of error
+      // Return OpenAI-style fallback response
       const fallbackResponses = [
         "🌌 Hello! I'm AstroBot, your space exploration assistant. What would you like to know about the universe?",
         "🚀 Hi there! Ask me anything about space, astronomy, planets, or cosmic phenomena!",
-        "⭐ Welcome to the cosmos! I'm here to help you explore the wonders of space.",
+        "⭐ Welcome to the cosmos! I'm here to help you explore the wonders of space."
       ];
-      
       const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-      return res.json({ response: randomResponse });
+      return res.json({
+        choices: [
+          {
+            message: {
+              role: 'assistant',
+              content: randomResponse
+            }
+          }
+        ]
+      });
     }
 
     console.log('💬 Chatbot received message:', message);
@@ -919,9 +926,17 @@ app.post('/api/chatbot/chat', async (req, res) => {
         "🪐 Did you know that space is mostly empty, yet contains billions of galaxies?",
         "🛰️ Astronomy and space science help us understand our place in the universe."
       ];
-      
       const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-      return res.json({ response: randomResponse });
+      return res.json({
+        choices: [
+          {
+            message: {
+              role: 'assistant',
+              content: randomResponse
+            }
+          }
+        ]
+      });
     }
 
     console.log('🤖 Sending to GROQ API with messages:', JSON.stringify(messageArray, null, 2));
@@ -943,25 +958,52 @@ app.post('/api/chatbot/chat', async (req, res) => {
         "I'm here to help with space-related questions!";
 
       console.log('✅ GROQ API response received');
-      res.json({ response: botResponse });
+      // Return OpenAI-style response
+      res.json({
+        choices: [
+          {
+            message: {
+              role: 'assistant',
+              content: botResponse
+            }
+          }
+        ]
+      });
     } catch (apiError) {
       console.error('❌ GROQ API error:', apiError.response?.data || apiError.message);
-      // Fallback to simple response if API fails
+      // Fallback to OpenAI-style response if API fails
       const fallbackResponses = [
         "🌌 I'm having trouble connecting to my knowledge base, but I'd love to discuss space with you!",
         "🚀 Let me share what I know about the cosmos while I reconnect to my systems!",
         "⭐ Space is fascinating! What would you like to explore - planets, stars, or galaxies?"
       ];
-      
       const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-      res.json({ response: randomResponse });
+      res.json({
+        choices: [
+          {
+            message: {
+              role: 'assistant',
+              content: randomResponse
+            }
+          }
+        ]
+      });
     }
 
   } catch (error) {
     console.error('❌ Chatbot API error:', error);
-    // Return fallback instead of error
+    // Return OpenAI-style fallback instead of error
     const fallbackResponse = "🌌 I'm here to help with space questions! Try asking me about planets, stars, or space missions.";
-    res.json({ response: fallbackResponse });
+    res.json({
+      choices: [
+        {
+          message: {
+            role: 'assistant',
+            content: fallbackResponse
+          }
+        }
+      ]
+    });
   }
 });
 
