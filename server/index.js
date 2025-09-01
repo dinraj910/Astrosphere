@@ -565,6 +565,37 @@ app.get('/api/gallery/search', async (req, res) => {
   }
 });
 
+// Gallery download endpoint - alias for nasa-gallery download
+app.get('/api/gallery/search/download/:imageId', async (req, res) => {
+  try {
+    const { imageId } = req.params;
+    const { url } = req.query;
+    
+    console.log(`📥 Gallery download request for: ${imageId}, URL: ${url}`);
+    
+    if (!url) {
+      return res.status(400).json({ error: 'Image URL is required' });
+    }
+
+    // Proxy the image download
+    const response = await axios.get(url, {
+      responseType: 'stream',
+      timeout: 30000
+    });
+
+    // Set appropriate headers for download
+    res.setHeader('Content-Type', response.headers['content-type'] || 'image/jpeg');
+    res.setHeader('Content-Disposition', `attachment; filename="${imageId}.jpg"`);
+    res.setHeader('Content-Length', response.headers['content-length'] || '');
+
+    // Pipe the image data to response
+    response.data.pipe(res);
+  } catch (error) {
+    console.error('Gallery download error:', error.message);
+    res.status(500).json({ error: 'Failed to download image' });
+  }
+});
+
 // Add NASA Gallery route
 app.get('/api/nasa-gallery', async (req, res) => {
   try {
@@ -840,18 +871,34 @@ const GROQ_API_KEY = process.env.GROQ_API_KEY;
 // Chatbot API alias
 app.post('/api/chatbot/chat', async (req, res) => {
   try {
-    const { message } = req.body;
+    let { message, messages } = req.body;
+    
+    // Handle both message formats - single message or messages array
+    if (!message && messages && Array.isArray(messages)) {
+      // Extract user message from messages array
+      const userMessage = messages.find(msg => msg.role === 'user');
+      message = userMessage ? userMessage.content : '';
+    }
     
     // Validate message input
     if (!message || typeof message !== 'string' || message.trim().length === 0) {
       console.log('❌ Invalid message received:', { message, body: req.body });
-      return res.status(400).json({ error: 'Message is required and cannot be empty' });
+      
+      // Return a friendly fallback response instead of error
+      const fallbackResponses = [
+        "🌌 Hello! I'm AstroBot, your space exploration assistant. What would you like to know about the universe?",
+        "🚀 Hi there! Ask me anything about space, astronomy, planets, or cosmic phenomena!",
+        "⭐ Welcome to the cosmos! I'm here to help you explore the wonders of space.",
+      ];
+      
+      const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      return res.json({ response: randomResponse });
     }
 
     console.log('💬 Chatbot received message:', message);
     
     // Transform single message to messages array format
-    const messages = [
+    const messageArray = [
       {
         role: "system",
         content: "You are AstroBot, an enthusiastic space exploration assistant. Provide engaging, educational responses about astronomy, space missions, cosmic phenomena, and space science. Keep responses informative but accessible."
@@ -876,12 +923,12 @@ app.post('/api/chatbot/chat', async (req, res) => {
       return res.json({ response: randomResponse });
     }
 
-    console.log('🤖 Sending to GROQ API with messages:', JSON.stringify(messages, null, 2));
+    console.log('🤖 Sending to GROQ API with messages:', JSON.stringify(messageArray, null, 2));
 
     try {
       const groqResponse = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
         model: 'llama3-8b-8192',
-        messages: messages,
+        messages: messageArray,
         max_tokens: 500,
         temperature: 0.7
       }, {
@@ -911,7 +958,9 @@ app.post('/api/chatbot/chat', async (req, res) => {
 
   } catch (error) {
     console.error('❌ Chatbot API error:', error);
-    res.status(500).json({ error: 'Failed to process chat message' });
+    // Return fallback instead of error
+    const fallbackResponse = "🌌 I'm here to help with space questions! Try asking me about planets, stars, or space missions.";
+    res.json({ response: fallbackResponse });
   }
 });
 
