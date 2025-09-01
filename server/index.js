@@ -590,14 +590,51 @@ app.get('/api/nasa-gallery', async (req, res) => {
 // Cosmic Objects API routes
 app.get('/api/cosmic-objects/search', async (req, res) => {
   try {
+    const { page = 1, limit = 20, q = '', type = '' } = req.query;
+    
     // Fallback cosmic objects data
-    const objects = [
-      { id: 1, name: 'Andromeda Galaxy', type: 'galaxy', description: 'Nearest major galaxy to Milky Way' },
-      { id: 2, name: 'Orion Nebula', type: 'nebula', description: 'Star-forming region in constellation Orion' },
-      { id: 3, name: 'Saturn', type: 'planet', description: 'Ringed gas giant planet' },
-      { id: 4, name: 'Alpha Centauri', type: 'star', description: 'Nearest star system to Earth' }
+    let objects = [
+      { id: 1, name: 'Andromeda Galaxy', type: 'galaxy', description: 'Nearest major galaxy to Milky Way', image: 'https://images-assets.nasa.gov/image/hubble-andromeda-galaxy-largest-nasa-hubble-space-telescope-image-ever-assembled_17102078911_o/hubble-andromeda-galaxy-largest-nasa-hubble-space-telescope-image-ever-assembled_17102078911_o~medium.jpg' },
+      { id: 2, name: 'Orion Nebula', type: 'nebula', description: 'Star-forming region in constellation Orion', image: 'https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000393/GSFC_20171208_Archive_e000393~medium.jpg' },
+      { id: 3, name: 'Saturn', type: 'planet', description: 'Ringed gas giant planet', image: 'https://images-assets.nasa.gov/image/PIA12567/PIA12567~medium.jpg' },
+      { id: 4, name: 'Alpha Centauri', type: 'star', description: 'Nearest star system to Earth', image: 'https://images-assets.nasa.gov/image/0202291/0202291~medium.jpg' },
+      { id: 5, name: 'Eagle Nebula', type: 'nebula', description: 'Star-forming region with famous Pillars of Creation', image: 'https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000351/GSFC_20171208_Archive_e000351~medium.jpg' },
+      { id: 6, name: 'Jupiter', type: 'planet', description: 'Largest planet in our solar system', image: 'https://images-assets.nasa.gov/image/PIA07782/PIA07782~medium.jpg' },
+      { id: 7, name: 'Crab Nebula', type: 'nebula', description: 'Supernova remnant in constellation Taurus', image: 'https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000456/GSFC_20171208_Archive_e000456~medium.jpg' },
+      { id: 8, name: 'Mars', type: 'planet', description: 'The Red Planet', image: 'https://images-assets.nasa.gov/image/PIA16239/PIA16239~medium.jpg' }
     ];
-    res.json({ objects, total: objects.length });
+
+    // Filter by type if specified
+    if (type && type !== 'all') {
+      objects = objects.filter(obj => obj.type.toLowerCase() === type.toLowerCase());
+    }
+
+    // Filter by search query if specified
+    if (q) {
+      objects = objects.filter(obj => 
+        obj.name.toLowerCase().includes(q.toLowerCase()) ||
+        obj.description.toLowerCase().includes(q.toLowerCase()) ||
+        obj.type.toLowerCase().includes(q.toLowerCase())
+      );
+    }
+
+    // Calculate pagination
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const startIndex = (pageNum - 1) * limitNum;
+    const endIndex = startIndex + limitNum;
+    const paginatedObjects = objects.slice(startIndex, endIndex);
+    
+    res.json({ 
+      objects: paginatedObjects, 
+      total: objects.length,
+      pagination: {
+        current: pageNum,
+        total: objects.length,
+        pages: Math.ceil(objects.length / limitNum),
+        limit: limitNum
+      }
+    });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch cosmic objects' });
   }
@@ -605,7 +642,16 @@ app.get('/api/cosmic-objects/search', async (req, res) => {
 
 app.get('/api/cosmic-objects/types', async (req, res) => {
   try {
-    const types = ['galaxy', 'nebula', 'planet', 'star', 'cluster', 'comet', 'asteroid'];
+    const types = [
+      { id: 'all', name: 'All Objects', count: 8 },
+      { id: 'galaxy', name: 'Galaxies', count: 1 },
+      { id: 'nebula', name: 'Nebulae', count: 3 },
+      { id: 'planet', name: 'Planets', count: 3 },
+      { id: 'star', name: 'Stars', count: 1 },
+      { id: 'cluster', name: 'Clusters', count: 0 },
+      { id: 'comet', name: 'Comets', count: 0 },
+      { id: 'asteroid', name: 'Asteroids', count: 0 }
+    ];
     res.json({ types });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch types' });
