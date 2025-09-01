@@ -1,0 +1,27 @@
+# Render Blueprint for Astrosphere
+# This file defines both services in one configuration
+
+services:
+  # Backend Service
+  - type: web
+    name: astrosphere-server
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    
+  # Frontend Service  
+  - type: web
+    name: astrosphere-client
+    env: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: NODE_ENV
+        value: production

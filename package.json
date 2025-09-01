@@ -4,7 +4,11 @@
   "description": "A hyper-modern space encyclopedia with interactive UI, high-quality images, and real-time space data.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm install && npm run build",
+    "start": "cd server && npm start",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
+    "install-deps": "cd server && npm install && cd ../client && npm install"
   },
   "repository": {
     "type": "git",
@@ -16,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/dinraj910/Astrosphere/issues"
   },
-  "homepage": "https://github.com/dinraj910/Astrosphere#readme"
+  "homepage": "https://github.com/dinraj910/Astrosphere#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
