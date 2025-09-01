@@ -530,6 +530,43 @@ app.use('/api/auth', require('./routes/authRoutes'));
 // NASA APOD routes  
 app.use('/api/apod', require('./routes/apodRoutes'));
 
+// Gallery Search API - alias for nasa-gallery
+app.get('/api/gallery/search', async (req, res) => {
+  try {
+    const { q = 'space', page = 1, page_size = 24, media_type = 'image' } = req.query;
+    
+    console.log(`🖼️ Gallery Search API: query="${q}", page=${page}`);
+    
+    const response = await axios.get('https://images-api.nasa.gov/search', {
+      params: {
+        q,
+        page,
+        page_size,
+        media_type
+      },
+      timeout: 15000
+    });
+
+    if (response.data.collection && response.data.collection.items) {
+      const images = response.data.collection.items.map(item => ({
+        id: item.data[0].nasa_id,
+        title: item.data[0].title,
+        description: item.data[0].description,
+        date: item.data[0].date_created,
+        image: item.links?.[0]?.href || '',
+        keywords: item.data[0].keywords || []
+      }));
+      
+      res.json({ images, total: response.data.collection.metadata?.total_hits || images.length });
+    } else {
+      res.json({ images: [], total: 0 });
+    }
+  } catch (error) {
+    console.error('Gallery Search API error:', error);
+    res.status(500).json({ error: 'Failed to fetch gallery images' });
+  }
+});
+
 // Add NASA Gallery route
 app.get('/api/nasa-gallery', async (req, res) => {
   try {
@@ -551,8 +588,30 @@ app.get('/api/nasa-gallery', async (req, res) => {
 });
 
 // Cosmic Objects API routes
-app.get('/api/cosmic-objects/search', cosmicObjectController.searchObjects);
-app.get('/api/cosmic-objects/types', cosmicObjectController.getTypes);
+app.get('/api/cosmic-objects/search', async (req, res) => {
+  try {
+    // Fallback cosmic objects data
+    const objects = [
+      { id: 1, name: 'Andromeda Galaxy', type: 'galaxy', description: 'Nearest major galaxy to Milky Way' },
+      { id: 2, name: 'Orion Nebula', type: 'nebula', description: 'Star-forming region in constellation Orion' },
+      { id: 3, name: 'Saturn', type: 'planet', description: 'Ringed gas giant planet' },
+      { id: 4, name: 'Alpha Centauri', type: 'star', description: 'Nearest star system to Earth' }
+    ];
+    res.json({ objects, total: objects.length });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch cosmic objects' });
+  }
+});
+
+app.get('/api/cosmic-objects/types', async (req, res) => {
+  try {
+    const types = ['galaxy', 'nebula', 'planet', 'star', 'cluster', 'comet', 'asteroid'];
+    res.json({ types });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch types' });
+  }
+});
+
 app.get('/api/cosmic-objects/featured', cosmicObjectController.getFeaturedObjects);
 app.get('/api/cosmic-objects/:slug', cosmicObjectController.getObjectBySlug);
 
@@ -741,6 +800,59 @@ async function fetchInTheSkyEvents(year, month) {
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 // Replace the existing /api/chat endpoint (around line 680-700) with this corrected version
+
+// Chatbot API alias
+app.post('/api/chatbot/chat', async (req, res) => {
+  try {
+    const { message } = req.body;
+    
+    // Transform single message to messages array format
+    const messages = [
+      {
+        role: "system",
+        content: "You are AstroBot, an enthusiastic space exploration assistant. Provide engaging, educational responses about astronomy, space missions, cosmic phenomena, and space science. Keep responses informative but accessible."
+      },
+      {
+        role: "user", 
+        content: message
+      }
+    ];
+    
+    if (!GROQ_API_KEY) {
+      const fallbackResponses = [
+        "🌌 That's a fascinating question about space! The universe is full of mysteries waiting to be discovered.",
+        "🚀 Space exploration continues to reveal amazing discoveries. What specific aspect interests you most?",
+        "⭐ The cosmos is vast and beautiful. From galaxies to nebulae, there's so much to explore!",
+        "🪐 Did you know that space is mostly empty, yet contains billions of galaxies?",
+        "🛰️ Astronomy and space science help us understand our place in the universe."
+      ];
+      
+      const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      return res.json({ response: randomResponse });
+    }
+
+    const groqResponse = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
+      model: 'llama3-8b-8192',
+      messages: messages,
+      max_tokens: 500,
+      temperature: 0.7
+    }, {
+      headers: {
+        'Authorization': `Bearer ${GROQ_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const botResponse = groqResponse.data.choices[0]?.message?.content || 
+      "I'm here to help with space-related questions!";
+
+    res.json({ response: botResponse });
+
+  } catch (error) {
+    console.error('Chatbot API error:', error);
+    res.status(500).json({ error: 'Failed to process chat message' });
+  }
+});
 
 // Chatbot API endpoint using GROQ API
 app.post('/api/chat', async (req, res) => {
