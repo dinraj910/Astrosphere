@@ -928,7 +928,7 @@ app.post('/api/chatbot/chat', async (req, res) => {
 
     try {
       const groqResponse = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
-        model: 'mixtral-8x7b-32768', // Updated to supported model
+        model: 'llama-3-70b-8192', // Updated to supported model
         messages: messageArray,
         max_tokens: 500,
         temperature: 0.7
