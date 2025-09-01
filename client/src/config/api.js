@@ -15,6 +15,7 @@ export const apiConfig = {
     cosmicEvents: `${API_BASE_URL}/api/cosmic-events`,
     apod: `${API_BASE_URL}/api/apod`,
     nasaGallery: `${API_BASE_URL}/api/nasa-gallery`,
+    cosmicObjects: `${API_BASE_URL}/api/cosmic-objects`,
   }
 };
 

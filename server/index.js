@@ -527,8 +527,28 @@ app.get('/', (req, res) => {
 // Auth routes
 app.use('/api/auth', require('./routes/authRoutes'));
 
-// NASA APOD routes
-app.use('/api/nasa', require('./routes/apodRoutes'));
+// NASA APOD routes  
+app.use('/api/apod', require('./routes/apodRoutes'));
+
+// Add NASA Gallery route
+app.get('/api/nasa-gallery', async (req, res) => {
+  try {
+    const { q = 'space', page = 1, page_size = 24, media_type = 'image' } = req.query;
+    
+    console.log(`🖼️ NASA Gallery API: query="${q}", page=${page}`);
+    
+    const response = await axios.get('https://images-api.nasa.gov/search', {
+      params: { q, page, page_size, media_type },
+      timeout: 10000
+    });
+    
+    res.json(response.data);
+    
+  } catch (error) {
+    console.error('NASA Gallery error:', error.message);
+    res.status(500).json({ error: 'Failed to fetch gallery images' });
+  }
+});
 
 // Cosmic Objects API routes
 app.get('/api/cosmic-objects/search', cosmicObjectController.searchObjects);
