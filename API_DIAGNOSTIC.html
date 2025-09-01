@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Diagnostic - Astrosphere</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a2e; color: white; }
+        .endpoint { margin: 10px 0; padding: 10px; background: #16213e; border-radius: 5px; }
+        .test-btn { background: #0f3460; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; }
+        .result { margin-top: 10px; padding: 10px; background: #0a0a0a; border-radius: 3px; white-space: pre-wrap; }
+        .success { border-left: 3px solid #4CAF50; }
+        .error { border-left: 3px solid #f44336; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Astrosphere API Diagnostic</h1>
+    <p>Server: <span id="serverUrl">https://astrosphere-server.onrender.com</span></p>
+    
+    <div class="endpoint">
+        <h3>Health Check</h3>
+        <button class="test-btn" onclick="testEndpoint('/health')">Test</button>
+        <div id="result-health" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>API Status</h3>
+        <button class="test-btn" onclick="testEndpoint('/api/status')">Test</button>
+        <div id="result-status" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Satellites API</h3>
+        <button class="test-btn" onclick="testEndpoint('/api/satellites')">Test</button>
+        <div id="result-satellites" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Cosmic Events</h3>
+        <button class="test-btn" onclick="testEndpoint('/api/cosmic-events')">Test</button>
+        <div id="result-cosmic-events" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Gallery Search</h3>
+        <button class="test-btn" onclick="testEndpoint('/api/gallery/search?q=space')">Test</button>
+        <div id="result-gallery-search" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Cosmic Objects Search</h3>
+        <button class="test-btn" onclick="testEndpoint('/api/cosmic-objects/search')">Test</button>
+        <div id="result-cosmic-objects-search" class="result" style="display:none;"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Chatbot</h3>
+        <button class="test-btn" onclick="testChatbot()">Test</button>
+        <div id="result-chatbot-chat" class="result" style="display:none;"></div>
+    </div>
+
+    <script>
+        const serverUrl = 'https://astrosphere-server.onrender.com';
+
+        async function testEndpoint(endpoint) {
+            const resultId = 'result-' + endpoint.replace(/[^a-zA-Z0-9]/g, '-').replace(/^-+|-+$/g, '').replace(/-+/g, '-');
+            const resultDiv = document.getElementById(resultId);
+            
+            if (!resultDiv) {
+                console.error('Result div not found for:', endpoint, 'Expected ID:', resultId);
+                return;
+            }
+            
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch(serverUrl + endpoint);
+                const data = await response.json();
+                
+                resultDiv.textContent = `Status: ${response.status}\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+
+        async function testChatbot() {
+            const resultDiv = document.getElementById('result-chatbot-chat');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testing chatbot...';
+            resultDiv.className = 'result';
+            
+            try {
+                const response = await fetch(serverUrl + '/api/chatbot/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: 'Hello, tell me about space!' })
+                });
+                
+                const data = await response.json();
+                
+                resultDiv.textContent = `Status: ${response.status}\n${JSON.stringify(data, null, 2)}`;
+                resultDiv.className = 'result ' + (response.ok ? 'success' : 'error');
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

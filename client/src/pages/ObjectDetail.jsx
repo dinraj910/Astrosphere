@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { OpenInNew, ArrowBack } from '@mui/icons-material';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiConfig } from '../config/api';
 
 function ObjectDetail() {
   const { slug } = useParams();
@@ -26,7 +27,7 @@ function ObjectDetail() {
 
   const fetchObject = async () => {
     try {
-      const response = await axios.get(`/api/cosmic-objects/${slug}`);
+      const response = await axios.get(`${apiConfig.endpoints.cosmicObjects}/${slug}`);
       setObject(response.data);
     } catch (error) {
       console.error('Error fetching object:', error);

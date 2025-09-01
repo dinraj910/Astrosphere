@@ -86,7 +86,7 @@ function Gallery() {
         query = `${category} ${searchQuery}`.trim();
       }
 
-      const response = await axios.get(`/api/nasa-gallery`, {
+      const response = await axios.get(apiConfig.endpoints.nasaGallery, {
         params: {
           q: query,
           page: currentPage,

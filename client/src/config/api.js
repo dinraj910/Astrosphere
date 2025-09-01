@@ -17,11 +17,11 @@ export const apiConfig = {
       login: `${API_BASE_URL}/api/auth/login`,
       register: `${API_BASE_URL}/api/auth/register`,
     },
-    chat: `${API_BASE_URL}/api/chat`,
+    chat: `${API_BASE_URL}/api/chatbot/chat`,
     satellites: `${API_BASE_URL}/api/satellites`,
     cosmicEvents: `${API_BASE_URL}/api/cosmic-events`,
     apod: `${API_BASE_URL}/api/apod`,
-    nasaGallery: `${API_BASE_URL}/api/nasa-gallery`,
+    nasaGallery: `${API_BASE_URL}/api/gallery/search`,
     cosmicObjects: `${API_BASE_URL}/api/cosmic-objects`,
   }
 };

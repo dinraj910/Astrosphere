@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { Search, OpenInNew, Language } from '@mui/icons-material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import { apiConfig } from '../config/api';
 
 function UniverseExplorer() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,7 +40,7 @@ function UniverseExplorer() {
 
   const fetchTypes = async () => {
     try {
-      const response = await axios.get('/api/cosmic-objects/types');
+      const response = await axios.get(`${apiConfig.endpoints.cosmicObjects}/types`);
       setTypes(response.data);
     } catch (error) {
       console.error('Error fetching types:', error);
@@ -60,8 +61,8 @@ function UniverseExplorer() {
       // Update URL for SEO
       setSearchParams(params);
       
-      console.log('Fetching from:', `/api/cosmic-objects/search?${params}`);
-      const response = await axios.get(`/api/cosmic-objects/search?${params}`);
+      console.log('Fetching from:', `${apiConfig.endpoints.cosmicObjects}/search?${params}`);
+      const response = await axios.get(`${apiConfig.endpoints.cosmicObjects}/search?${params}`);
       const data = response.data;
       
       console.log('API Response:', data);

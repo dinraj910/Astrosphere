@@ -11,6 +11,7 @@ import {
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
+import { apiConfig } from '../config/api';
 
 // Static galaxy data with complete information - this ensures no "Unknown" values
 const staticGalaxyData = [
@@ -325,7 +326,7 @@ function Galaxy() {
       
       try {
         // Try to fetch from API first
-        const cosmicResponse = await axios.get('/api/cosmic-objects/search?type=galaxy&limit=50');
+        const cosmicResponse = await axios.get(`${apiConfig.endpoints.cosmicObjects}/search?type=galaxy&limit=50`);
         
         if (cosmicResponse.data?.objects?.length > 0) {
           // Process API data
