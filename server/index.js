@@ -21,10 +21,11 @@ const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: process.env.NODE_ENV === 'production' 
-        ? [process.env.CLIENT_URL, 'https://astrosphere.onrender.com'] 
+        ? '*' // Allow all origins for WebSocket in production
         : "http://localhost:5173",
     methods: ["GET", "POST"],
-    credentials: true
+    credentials: false, // Set to false for wildcard origin
+    allowEIO3: true // Enable compatibility with older Socket.IO versions
   }
 });
 
