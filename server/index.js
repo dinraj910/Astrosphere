@@ -831,22 +831,35 @@ app.post('/api/chatbot/chat', async (req, res) => {
       return res.json({ response: randomResponse });
     }
 
-    const groqResponse = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
-      model: 'llama3-8b-8192',
-      messages: messages,
-      max_tokens: 500,
-      temperature: 0.7
-    }, {
-      headers: {
-        'Authorization': `Bearer ${GROQ_API_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    });
+    try {
+      const groqResponse = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
+        model: 'llama3-8b-8192',
+        messages: messages,
+        max_tokens: 500,
+        temperature: 0.7
+      }, {
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
-    const botResponse = groqResponse.data.choices[0]?.message?.content || 
-      "I'm here to help with space-related questions!";
+      const botResponse = groqResponse.data.choices[0]?.message?.content || 
+        "I'm here to help with space-related questions!";
 
-    res.json({ response: botResponse });
+      res.json({ response: botResponse });
+    } catch (apiError) {
+      console.error('GROQ API error:', apiError);
+      // Fallback to simple response if API fails
+      const fallbackResponses = [
+        "🌌 I'm having trouble connecting to my knowledge base, but I'd love to discuss space with you!",
+        "🚀 Let me share what I know about the cosmos while I reconnect to my systems!",
+        "⭐ Space is fascinating! What would you like to explore - planets, stars, or galaxies?"
+      ];
+      
+      const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      res.json({ response: randomResponse });
+    }
 
   } catch (error) {
     console.error('Chatbot API error:', error);
