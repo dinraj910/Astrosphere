@@ -27,6 +27,7 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { apiConfig } from '../config/api';
 
 const ChatbotPage = () => {
   const [messages, setMessages] = useState([
@@ -56,7 +57,7 @@ const ChatbotPage = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/chat', { 
+      const response = await axios.post(apiConfig.endpoints.chat, { 
         messages: [...messages, userMessage] 
       });
       

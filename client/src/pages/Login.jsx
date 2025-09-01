@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { apiConfig } from '../config/api';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ function LoginPage() {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(apiConfig.endpoints.auth.login, {
         email,
         password,
       });

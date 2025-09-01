@@ -21,6 +21,7 @@ import {
   Minimize as MinimizeIcon
 } from '@mui/icons-material';
 import axios from 'axios';
+import { apiConfig } from '../config/api';
 import '../styles/chatbot.css';
 
 const Chatbot = () => {
@@ -62,7 +63,7 @@ const Chatbot = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/chat', { 
+      const response = await axios.post(apiConfig.endpoints.chat, { 
         messages: [...messages, userMessage] 
       });
       

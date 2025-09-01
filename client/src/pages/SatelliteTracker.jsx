@@ -16,6 +16,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle } from 'react-leaflet';
 import L from 'leaflet';
 import io from 'socket.io-client';
+import { apiConfig } from '../config/api';
 import 'leaflet/dist/leaflet.css';
 
 // Import leaflet marker images
@@ -133,7 +134,7 @@ function SatelliteTracker() {
 
   useEffect(() => {
     // Connect to Socket.IO server
-    socketRef.current = io('http://localhost:5000');
+    socketRef.current = io(apiConfig.socketURL);
     
     socketRef.current.on('connect', () => {
       console.log('Connected to satellite tracker');

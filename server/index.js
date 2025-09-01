@@ -20,18 +20,44 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173",
-    methods: ["GET", "POST"]
+    origin: process.env.NODE_ENV === 'production' 
+        ? [process.env.CLIENT_URL, 'https://astrosphere.onrender.com'] 
+        : "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
 // Middleware
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: process.env.NODE_ENV === 'production' 
+        ? [process.env.CLIENT_URL, 'https://astrosphere.onrender.com'] 
+        : 'http://localhost:5173',
+    credentials: true
 }));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
+
+// Health check endpoint for Render
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// API status endpoint
+app.get('/api/status', (req, res) => {
+  res.status(200).json({ 
+    status: 'API is running',
+    version: '1.0.0',
+    endpoints: ['/api/satellites', '/api/cosmic-events', '/api/apod', '/api/chat'],
+    apiCallCount: apiCallCount
+  });
+});
 
 // Enhanced satellite data storage with orbital prediction
 let satelliteCache = new Map();
@@ -1349,6 +1375,20 @@ const initializeSatelliteData = async () => {
   console.log(`📊 No API calls used during initialization`);
 };
 
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Global error handler:', err.stack);
+  res.status(500).json({
+    error: 'Something went wrong!',
+    message: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+  });
+});
+
+// 404 handler for API routes
+app.use('/api/*', (req, res) => {
+  res.status(404).json({ error: 'API endpoint not found' });
+});
+
 // Fallback to React app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
@@ -1356,8 +1396,18 @@ app.get('*', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
-    console.log(`🚀 Server is running on port http://localhost:${PORT} 🚀🪐🌙🛰️`);
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  server.close(() => {
+    console.log('Process terminated');
+    mongoose.connection.close();
+  });
+});
+
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server is running on port ${PORT} 🚀🪐🌙🛰️`);
+    console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`📊 API Limits - Daily: ${API_LIMITS.daily}, Hourly: ${API_LIMITS.hourly}`);
     
     // Initialize satellite data after server starts

@@ -11,6 +11,7 @@ import {
   ArrowUpward, GetApp, ZoomIn
 } from '@mui/icons-material';
 import axios from 'axios';
+import { apiConfig } from '../config/api';
 
 // Image categories for filtering
 const categories = [
@@ -272,7 +273,7 @@ function Gallery() {
       const downloadUrl = image.highRes || image.url;
       
       // Use our backend proxy to handle CORS issues
-      const proxyUrl = `http://localhost:5000/api/nasa-gallery/download/${encodeURIComponent(image.nasa_id || image.title.replace(/[^a-z0-9]/gi, '_'))}?url=${encodeURIComponent(downloadUrl)}`;
+      const proxyUrl = `${apiConfig.endpoints.nasaGallery}/download/${encodeURIComponent(image.nasa_id || image.title.replace(/[^a-z0-9]/gi, '_'))}?url=${encodeURIComponent(downloadUrl)}`;
       
       // Create a temporary link for download
       const link = document.createElement('a');

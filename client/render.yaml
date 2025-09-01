@@ -1,0 +1,14 @@
+# Client build configuration for Render
+
+# Build Command: npm run build
+# Publish Directory: dist
+
+# Environment Variables Required:
+# NODE_ENV=production
+# VITE_API_URL=https://your-server-url.onrender.com
+# VITE_SOCKET_URL=https://your-server-url.onrender.com
+
+# Deployment Notes:
+# - Vite builds to 'dist' folder by default
+# - Make sure API URLs are updated for production
+# - Enable static site hosting on Render

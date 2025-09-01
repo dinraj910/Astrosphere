@@ -3,6 +3,7 @@ import { Container, Box, Typography, TextField, Button, Paper, Grid, Link as Mui
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiConfig } from '../config/api';
 
 function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -19,7 +20,7 @@ function RegisterPage() {
         return;
     }
     try {
-      await axios.post('http://localhost:5000/api/auth/register', {
+      await axios.post(apiConfig.endpoints.auth.register, {
         username,
         email,
         password,
