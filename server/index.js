@@ -852,6 +852,14 @@ app.post('/api/chatbot/chat', async (req, res) => {
   try {
     const { message } = req.body;
     
+    // Validate message input
+    if (!message || typeof message !== 'string' || message.trim().length === 0) {
+      console.log('❌ Invalid message received:', { message, body: req.body });
+      return res.status(400).json({ error: 'Message is required and cannot be empty' });
+    }
+
+    console.log('💬 Chatbot received message:', message);
+    
     // Transform single message to messages array format
     const messages = [
       {
@@ -860,11 +868,12 @@ app.post('/api/chatbot/chat', async (req, res) => {
       },
       {
         role: "user", 
-        content: message
+        content: message.trim()
       }
     ];
     
     if (!GROQ_API_KEY) {
+      console.log('🔑 No GROQ API key, using fallback response');
       const fallbackResponses = [
         "🌌 That's a fascinating question about space! The universe is full of mysteries waiting to be discovered.",
         "🚀 Space exploration continues to reveal amazing discoveries. What specific aspect interests you most?",
@@ -876,6 +885,8 @@ app.post('/api/chatbot/chat', async (req, res) => {
       const randomResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
       return res.json({ response: randomResponse });
     }
+
+    console.log('🤖 Sending to GROQ API with messages:', JSON.stringify(messages, null, 2));
 
     try {
       const groqResponse = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
@@ -893,9 +904,10 @@ app.post('/api/chatbot/chat', async (req, res) => {
       const botResponse = groqResponse.data.choices[0]?.message?.content || 
         "I'm here to help with space-related questions!";
 
+      console.log('✅ GROQ API response received');
       res.json({ response: botResponse });
     } catch (apiError) {
-      console.error('GROQ API error:', apiError);
+      console.error('❌ GROQ API error:', apiError.response?.data || apiError.message);
       // Fallback to simple response if API fails
       const fallbackResponses = [
         "🌌 I'm having trouble connecting to my knowledge base, but I'd love to discuss space with you!",
@@ -908,7 +920,7 @@ app.post('/api/chatbot/chat', async (req, res) => {
     }
 
   } catch (error) {
-    console.error('Chatbot API error:', error);
+    console.error('❌ Chatbot API error:', error);
     res.status(500).json({ error: 'Failed to process chat message' });
   }
 });
