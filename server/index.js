@@ -31,7 +31,7 @@ const io = new Server(server, {
 // Middleware
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? [process.env.CLIENT_URL, 'https://astrosphere.onrender.com'] 
+        ? ['*', 'https://astrosphere.onrender.com', 'https://astrosphere-server.onrender.com'] 
         : 'http://localhost:5173',
     credentials: true
 }));
@@ -54,8 +54,18 @@ app.get('/api/status', (req, res) => {
   res.status(200).json({ 
     status: 'API is running',
     version: '1.0.0',
-    endpoints: ['/api/satellites', '/api/cosmic-events', '/api/apod', '/api/chat'],
-    apiCallCount: apiCallCount
+    endpoints: [
+      '/api/satellites', 
+      '/api/cosmic-events', 
+      '/api/apod', 
+      '/api/chat',
+      '/api/cosmic-objects/search',
+      '/api/cosmic-objects/types',
+      '/api/gallery/search',
+      '/api/chatbot/chat'
+    ],
+    apiCallCount: apiCallCount,
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -547,20 +557,8 @@ app.get('/api/gallery/search', async (req, res) => {
       timeout: 15000
     });
 
-    if (response.data.collection && response.data.collection.items) {
-      const images = response.data.collection.items.map(item => ({
-        id: item.data[0].nasa_id,
-        title: item.data[0].title,
-        description: item.data[0].description,
-        date: item.data[0].date_created,
-        image: item.links?.[0]?.href || '',
-        keywords: item.data[0].keywords || []
-      }));
-      
-      res.json({ images, total: response.data.collection.metadata?.total_hits || images.length });
-    } else {
-      res.json({ images: [], total: 0 });
-    }
+    // Return NASA's original format that the frontend expects
+    res.json(response.data);
   } catch (error) {
     console.error('Gallery Search API error:', error);
     res.status(500).json({ error: 'Failed to fetch gallery images' });
@@ -642,16 +640,8 @@ app.get('/api/cosmic-objects/search', async (req, res) => {
 
 app.get('/api/cosmic-objects/types', async (req, res) => {
   try {
-    const types = [
-      { id: 'all', name: 'All Objects', count: 8 },
-      { id: 'galaxy', name: 'Galaxies', count: 1 },
-      { id: 'nebula', name: 'Nebulae', count: 3 },
-      { id: 'planet', name: 'Planets', count: 3 },
-      { id: 'star', name: 'Stars', count: 1 },
-      { id: 'cluster', name: 'Clusters', count: 0 },
-      { id: 'comet', name: 'Comets', count: 0 },
-      { id: 'asteroid', name: 'Asteroids', count: 0 }
-    ];
+    // Return simple array format that frontend expects
+    const types = ['all', 'galaxy', 'nebula', 'planet', 'star', 'cluster', 'comet', 'asteroid'];
     res.json({ types });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch types' });
