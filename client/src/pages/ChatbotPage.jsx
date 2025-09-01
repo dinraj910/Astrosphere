@@ -89,8 +89,7 @@ const ChatbotPage = () => {
     { text: "Tell me about Mars exploration", icon: <RocketIcon /> },
     { text: "How do black holes form?", icon: <PlanetIcon /> },
     { text: "What can we see with telescopes?", icon: <TelescopeIcon /> },
-    { text: "Explain the Big Bang theory", icon: <StarIcon /> },
-    { text: "What are exoplanets?", icon: <PlanetIcon /> }
+    { text: "Explain the Big Bang theory", icon: <StarIcon /> }
   ];
 
   const handleQuickQuestion = (question) => {
@@ -247,12 +246,13 @@ const ChatbotPage = () => {
                 border: '1px solid rgba(148, 163, 184, 0.2)',
                 borderRadius: { xs: 2, sm: 3, md: 4 },
                 overflow: 'hidden',
-                height: { xs: '60vh', sm: '65vh', md: '600px' },
+                height: { xs: '75vh', sm: '70vh', md: '600px' },
                 display: 'flex',
                 flexDirection: 'column',
                 boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(76, 99, 210, 0.2)',
                 width: '100%',
-                maxWidth: '100%'
+                maxWidth: '100%',
+                marginBottom: { xs: 5, sm: 5, md: 4 }
               }}
             >
               {/* Chat Header */}

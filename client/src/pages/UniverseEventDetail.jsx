@@ -22,7 +22,7 @@ const eventDetails = [
     ],
     gallery: [
       "https://www.science-sparks.com/wp-content/uploads/2022/06/Big-Bang-Diagram-scaled.jpg",
-      "https://earthsky.org/upl/2021/06/Big-Bang-Concept.gif",
+      "https://i.pinimg.com/originals/ef/62/15/ef62159fccabc474c22cdc6c73d36736.gif",
       "https://media.istockphoto.com/id/177339031/photo/space-warp-travel-trough-universe.jpg?s=612x612&w=0&k=20&c=C6U7SHZwUFLxkB-LGPLCdCsaOMmyBodlrBm4lzjT44o=",
       "https://media.istockphoto.com/id/1365558184/photo/big-bang-explosion-time-warp-in-space-universe.jpg?s=612x612&w=0&k=20&c=1mYKwUpnYHS0FSmzz3axtB-lIXLJ5DGsYJSkuj9K99M="
     ],
@@ -41,9 +41,10 @@ const eventDetails = [
       "Supernova explosions seeded the cosmos with heavy elements.",
     ],
     gallery: [
-      "https://cdn.mos.cms.futurecdn.net/2b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b-1200-80.jpg",
-      "https://www.nasa.gov/sites/default/files/thumbnails/image/firststars.jpg",
-      "https://www.eso.org/public/archives/images/screen/eso1907a.jpg"
+      "https://www.earth.com/assets/_next/image/?url=https%3A%2F%2Fcff2.earth.com%2Fuploads%2F2025%2F08%2F04085114%2FUniverse-first-molecule-1400x850.jpg&w=1200&q=75",
+      "https://nsf-gov-resources.nsf.gov/styles/featured_news/s3/2022-11/distantstar.jpg?VersionId=G4RMLj.T072pQVhAGbVeoND75fmDBZqv&itok=vEmw56oA",
+      "https://res.cloudinary.com/jerrick/image/upload/c_scale,f_jpg,q_auto/6880ce4e201d90001d606411.webp",
+      "https://cdn.britannica.com/50/62750-050-C12B4D5F/evolution.jpg"
     ],
     quote: "“We are made of star-stuff.” – Carl Sagan"
   },
@@ -60,9 +61,11 @@ const eventDetails = [
       "Supermassive black holes often reside at galaxy centers.",
     ],
     gallery: [
-      "https://cdn.spacetelescope.org/archives/images/screen/heic1509a.jpg",
-      "https://www.nasa.gov/sites/default/files/thumbnails/image/milkyway.jpg",
-      "https://www.eso.org/public/archives/images/screen/eso1907a.jpg"
+      "https://www.cfa.harvard.edu/sites/default/files/styles/max_650x650/public/2019-04/WhyGalaxiesDiffer_2.jpg?itok=rr6RSnd1",
+      "https://scx2.b-cdn.net/gfx/news/hires/2011/milkyway.jpg",
+      "https://www.science.org/do/10.1126/science.z6r95kt/full/_20240521_nid_too_many_galaxies-1716411514473.jpg",
+      "https://images.theconversation.com/files/394/original/See_Explanation._Clicking_on_the_picture_will_download_the_highest_resolution_version_available.jpg?ixlib=rb-4.1.0&q=45&auto=format&w=926&fit=clip",
+      "https://cdn.britannica.com/47/111347-050-F03ABE95/cluster-M80-image-Hubble-Space-Telescope-hundreds.jpg"
     ],
     quote: "“The cosmos is within us. We are made of star-stuff.” – Carl Sagan"
   },
@@ -79,9 +82,10 @@ const eventDetails = [
       "Comets and asteroids are leftover building blocks.",
     ],
     gallery: [
-      "https://upload.wikimedia.org/wikipedia/commons/4/4c/Solar_System_Formation.jpg",
-      "https://www.nasa.gov/sites/default/files/thumbnails/image/solar_system_diagram.jpg",
-      "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2015/02/planck_and_the_cosmic_microwave_background/15398413-1-eng-GB/Planck_and_the_cosmic_microwave_background_pillars.jpg"
+      "https://cdn.mos.cms.futurecdn.net/v5n22xGyNNHLzSnSArbrVH-1200-80.jpg",
+      "https://media.sketchfab.com/models/febde2b6e3f64b06965620fd3ddc97c2/thumbnails/781c37830a844e2db8c6cd2dfbaaddec/6a7daa7b99c0480f92c7090cb690ea58.jpeg",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/The_Mysterious_Case_of_the_Disappearing_Dust.jpg/1200px-The_Mysterious_Case_of_the_Disappearing_Dust.jpg",
+      "https://orbitaltoday.com/wp-content/uploads/2025/04/Solar-System-formation.jpg"
     ],
     quote: "“Somewhere, something incredible is waiting to be known.” – Carl Sagan"
   },
@@ -98,9 +102,10 @@ const eventDetails = [
       "Earth's magnetic field protects life from solar wind.",
     ],
     gallery: [
-      "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg",
-      "https://www.nasa.gov/sites/default/files/thumbnails/image/earth_day_2021.jpg",
-      "https://www.sciencealert.com/images/2020-04/processed/earth-blue-marble-nasa_1024.jpg"
+      "https://tvfinternational.com/assets/Uploads/_resampled/FillWyIxOTAwIiwiMTAwMCJd/Birth-of-Planet-Earth.png",
+      "https://images.newscientist.com/wp-content/uploads/2014/06/dn25702-1_800.jpg",
+      "https://i.makeagif.com/media/8-20-2016/S6q6-6.gif",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwkyYLllsr4U6BUGMYKsQIoazSk-qkJ42bvA&s"
     ],
     quote: "“Look again at that dot. That's here. That's home. That's us.” – Carl Sagan"
   },
@@ -117,9 +122,10 @@ const eventDetails = [
       "Humans are a recent branch on the tree of life.",
     ],
     gallery: [
-      "https://upload.wikimedia.org/wikipedia/commons/7/7e/Cambrian_explosion.png",
-      "https://www.nhm.ac.uk/content/dam/nhmwww/discover/cambrian-explosion/cambrian-explosion-full-width.jpg",
-      "https://www.nasa.gov/sites/default/files/thumbnails/image/earth_life.jpg"
+      "https://i.natgeofe.com/n/a339c30c-5df1-4cf3-b07d-7321fd40e878/C0580555-Early_Earth_illustration.jpg",
+      "https://cdn.images.express.co.uk/img/dynamic/151/590x/evolution-809313.jpg?r=1686998680160",
+      "https://www.scienceinschool.org/wp-content/uploads/2020/01/issue49_lifeonearth_protocells.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyDOiu7qjd6Mfrfdadz_eiuh1X7F6ghizThA&s"
     ],
     quote: "“Life is the universe's way of knowing itself.” – Carl Sagan"
   },
@@ -136,9 +142,10 @@ const eventDetails = [
       "Curiosity drives exploration and discovery.",
     ],
     gallery: [
-      "https://upload.wikimedia.org/wikipedia/commons/3/3a/Hubble_Space_Telescope.jpg",
-      "https://www.nasa.gov/sites/default/files/thumbnails/image/astronaut-spacewalk.jpg",
-      "https://cdn.mos.cms.futurecdn.net/2b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b-1200-80.jpg"
+      "https://singularityhub.com/uploads/2021/12/ancient_humans_hunting_woolly_mammoth.jpeg?auto=webp&auto=webp&optimize=high&quality=70&width=1440",
+      "https://scitechdaily.com/images/Reconstruction-of-Ancient-Human-in-Lazaret-Cave.jpg",
+      "https://thumbs.dreamstime.com/b/prehistoric-scene-depicting-group-early-humans-engaged-activities-inside-cave-entrance-some-working-stone-379846685.jpg",
+      "https://images.nationalgeographic.org/image/upload/t_edhub_resource_key_image/v1638890289/EducationHub/photos/assyria.jpg"
     ],
     quote: "“Somewhere, something incredible is waiting to be known.” – Carl Sagan"
   },
@@ -155,9 +162,13 @@ const eventDetails = [
       "James Webb Space Telescope explores the early universe.",
     ],
     gallery: [
-      "https://upload.wikimedia.org/wikipedia/commons/9/99/Apollo_11_Lunar_Module_on_the_Moon.jpg",
-      "https://mars.nasa.gov/system/news_items/main_images/9447_PIA25681-FigureA-web.jpg",
-      "https://cdn.spacetelescope.org/archives/images/screen/heic1509a.jpg"
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKrkCnpe4GR7mJV9o9rF-EAblVyp9E57rJkg&s",
+      "https://cdn.britannica.com/98/78098-050-7998488E/Astronauts-John-Grunsfeld-space-shuttle-Richard-Linnehan-March-8-2002.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTX_ec8WxQh-y9JehCchKH39Ni_ifsjYvXVLQ&s",
+      "https://cdn.mos.cms.futurecdn.net/2rzDuuKcnCjrLPrZnPE4qE.jpg",
+      "https://space.skyrocket.de/img_lau/starship_b9-s25__2.jpg",
+      "https://upload.wikimedia.org/wikipedia/commons/d/d6/STS120LaunchHiRes-edit1.jpg",
+      "https://c.ndtvimg.com/gws/ms/10-fascinating-facts-about-international-space-station/assets/6.jpeg?1740329430"
     ],
     quote: "“To confine our attention to terrestrial matters would be to limit the human spirit.” – Stephen Hawking"
   }

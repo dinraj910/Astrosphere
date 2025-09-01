@@ -13,7 +13,7 @@ import UniverseExplorer from './pages/UniverseExplorer';
 import ObjectDetail from './pages/ObjectDetail';
 import SatelliteTracker from './pages/SatelliteTracker';
 import Galaxy from './pages/Galaxy';
-import CosmicEvents from './pages/CosmicEvents';
+import CosmicEvents from './pages/CosmicEvents.jsx';
 import Gallery from './pages/Gallery';
 import Chatbot from './components/Chatbot';
 import ChatbotPage from './pages/ChatbotPage';
