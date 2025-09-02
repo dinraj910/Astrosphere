@@ -942,11 +942,22 @@ app.post('/api/chatbot/chat', async (req, res) => {
     console.log('🤖 Sending to GROQ API with messages:', JSON.stringify(messageArray, null, 2));
 
     try {
+      // Use llama-3.3-70b-versatile for best free factual Q&A (Groq recommended)
       const groqResponse = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
-        model: 'openai/gpt-oss-120b', // Updated to openai/gpt-oss-120b as requested
-        messages: messageArray,
+        model: 'llama-3.3-70b-versatile',
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are AstroBot, an expert assistant. Only answer questions strictly related to space, astronomy, astrophysics, astrochemistry, astrobiology, physics, and chemistry. Refuse all other topics. Answers must be factual, concise, and clearly structured with headings, bullet points, or tables if appropriate. If the question is not about these topics, politely refuse."
+          },
+          {
+            role: "user",
+            content: message.trim()
+          }
+        ],
         max_tokens: 500,
-        temperature: 0.7
+        temperature: 0.3
       }, {
         headers: {
           'Authorization': `Bearer ${GROQ_API_KEY}`,
@@ -955,7 +966,7 @@ app.post('/api/chatbot/chat', async (req, res) => {
       });
 
       const botResponse = groqResponse.data.choices[0]?.message?.content || 
-        "I'm here to help with space-related questions!";
+        "I'm here to help with space, astronomy, and science questions!";
 
       console.log('✅ GROQ API response received');
       // Return OpenAI-style response
