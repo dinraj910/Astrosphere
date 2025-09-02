@@ -23,7 +23,6 @@ import {
 import axios from 'axios';
 import { apiConfig } from '../config/api';
 import '../styles/chatbot.css';
-import ReactMarkdown from 'react-markdown';
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
