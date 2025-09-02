@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Grid, Card, CardMedia, Box, Button } from '@mui/material';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import '../styles/planetsSection.css';
 
 function PlanetsSection({ planets }) {
@@ -125,8 +126,8 @@ function PlanetsSection({ planets }) {
                     fontSize: { xs: '0.8rem', sm: '0.875rem' },
                     px: { xs: 2, sm: 3 }
                   }}
-                  component="a"
-                  href={planet.path}
+                  component={Link}
+                  to={planet.path}
                 >
                   Explore
                 </Button>

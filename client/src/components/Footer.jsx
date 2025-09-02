@@ -251,7 +251,6 @@ function Footer() {
                 overflow: 'hidden',
                 maxWidth: '500px',
                 bottom: 18,
-                left: '20%',
                 //background: 'linear-gradient(135deg, #1b2735 0%, #090a0f 100%)',
                 p: 2,
                 //border: '1px solid rgba(76, 99, 210, 0.2)',

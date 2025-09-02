@@ -1089,7 +1089,8 @@ function CosmicEvents() {
                           fontFamily: 'Orbitron',
                           color: 'white',
                           fontWeight: 'bold',
-                          fontSize: { xs: '1.8rem', sm: '2.2rem', md: '2.8rem' },
+                          //reduce font size for all screen
+                          fontSize: { xs: '1.5rem', sm: '1.8rem', md: '2rem' },
                           textShadow: '0 2px 10px rgba(0,0,0,0.5)',
                           mb: 0.5
                         }}
