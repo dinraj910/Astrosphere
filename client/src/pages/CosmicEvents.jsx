@@ -13,24 +13,24 @@ import {
 // Enhanced image collection for cosmic events
 const cosmicEventImages = {
   eclipse: [
-    "https://images.unsplash.com/photo-1566753323558-f4e0952af115?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-    "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+    "https://c.tadst.com/gfx/600x337/eclipse-traditions.jpg?1",
+    "https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2017/08/a_partial_solar_eclipse_seen_from_space/17109542-1-eng-GB/A_partial_solar_eclipse_seen_from_space_pillars.png"
   ],
   moon: [
-    "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-    "https://images.unsplash.com/photo-1465101162946-4377e57745c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+    "https://cdn.britannica.com/96/208796-050-47869FC7/full-moon.jpg",
+    "https://cdn.britannica.com/96/208796-050-47869FC7/full-moon.jpg"
   ],
   meteor: [
-    "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-    "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+    "https://science.nasa.gov/wp-content/uploads/2023/06/perseids-radiant-credit-preston-dyches-cc-by-nc-2-0.jpg",
+    "https://science.nasa.gov/wp-content/uploads/2023/06/perseids-radiant-credit-preston-dyches-cc-by-nc-2-0.jpg"
   ],
   planet: [
-    "https://images.unsplash.com/photo-1614313913007-2b4ae8ce32d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-    "https://images.unsplash.com/photo-1614728563728-1e01c815d309?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+    "https://bsmedia.business-standard.com/_media/bs/img/article/2017-10/27/full/1509117174-9225.jpg?im=FitAndFill=(826,465)",
+    "https://bsmedia.business-standard.com/_media/bs/img/article/2017-10/27/full/1509117174-9225.jpg?im=FitAndFill=(826,465)"
   ],
   general: [
-    "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-    "https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+    "https://images.firstpost.com/wp-content/uploads/2018/12/geminids-meteor-shower-2018-1280-720.jpg",
+    "https://images.firstpost.com/wp-content/uploads/2018/12/geminids-meteor-shower-2018-1280-720.jpg"
   ]
 };
 
