@@ -950,17 +950,7 @@ app.post('/api/chatbot/chat', async (req, res) => {
       // Use llama-3.3-70b-versatile for best free factual Q&A (Groq recommended)
       const groqResponse = await axios.post('https://api.groq.com/openai/v1/chat/completions', {
         model: 'llama-3.3-70b-versatile',
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are AstroBot, an expert assistant. Only answer questions strictly related to space, astronomy, astrophysics, astrochemistry, astrobiology, physics, and chemistry. Refuse all other topics. Answers must be factual, concise, and clearly structured with headings, bullet points, or tables if appropriate. If the question is not about these topics, politely refuse."
-          },
-          {
-            role: "user",
-            content: message.trim()
-          }
-        ],
+        messages: messageArray,
         max_tokens: 500,
         temperature: 0.3
       }, {
