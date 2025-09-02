@@ -1,0 +1,602 @@
+/* SatelliteTracker Mobile Responsive Styles */
+
+/* Base styles - Mobile first approach */
+.satellite-tracker-container {
+  width: 100% !important;
+  padding: 8px !important;
+}
+
+.satellite-tracker-main {
+  width: 100% !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+/* Map section mobile fixes */
+.satellite-map-section {
+  width: 100% !important;
+  min-height: 400px !important;
+  height: 50vh !important;
+}
+
+.satellite-map-container {
+  height: 400px !important;
+  border-radius: 12px !important;
+}
+
+/* Search controls mobile */
+.satellite-search-container {
+  position: absolute !important;
+  top: 12px !important;
+  left: 12px !important;
+  right: 60px !important;
+  z-index: 1000 !important;
+}
+
+.satellite-search-field {
+  font-size: 14px !important;
+}
+
+.satellite-search-results {
+  max-height: 200px !important;
+  font-size: 14px !important;
+}
+
+/* Map controls mobile */
+.satellite-map-controls {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.satellite-map-controls .MuiFab-root {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* Side panel mobile fixes */
+  .satellite-cosmic-bg {
+    width: 100vw !important;
+    min-height: 600px !important;
+    height: 100% !important;
+    background: radial-gradient(ellipse at center, #23234f 0%, #0a0a1a 100%);
+    position: relative !important;
+    overflow: hidden !important;
+    z-index: 1 !important;
+    margin-top: 0 !important;
+    animation: cosmicFade 10s infinite alternate;
+  }
+
+  @keyframes cosmicFade {
+    0% { filter: brightness(1) blur(0px); }
+    100% { filter: brightness(1.1) blur(2px); }
+  }
+
+  .satellite-cosmic-bg .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    opacity: 0.7;
+    animation: twinkle 2s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+
+.satellite-side-panel {
+  width: 100% !important;
+  min-width: 100% !important;
+  position: relative !important;
+  right: 0 !important;
+}
+
+.satellite-details-card {
+  width: 100% !important;
+  margin-bottom: 16px !important;
+}
+
+.satellite-stats-grid {
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+}
+
+/* Satellite list mobile */
+.satellite-list-card {
+  width: 100% !important;
+  right: 0 !important;
+  position: relative !important;
+}
+
+.satellite-list-item {
+  padding: 12px !important;
+}
+  .satellite-quick-stats {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 680px !important;
+    width: 700px !important;
+    max-width: 90vw !important;
+    background: rgba(0, 188, 212, 0.08);
+    color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 188, 212, 0.12);
+    padding: 24px 32px;
+    font-family: Orbitron, sans-serif;
+    font-size: 1.3rem;
+    z-index: 4 !important;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+.satellite-list-avatar {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.satellite-list-content {
+  font-size: 14px !important;
+}
+
+.satellite-list-chips {
+  flex-wrap: wrap !important;
+  gap: 4px !important;
+}
+
+.satellite-list-chips .MuiChip-root {
+  font-size: 10px !important;
+  height: 20px !important;
+}
+
+/* Categories section mobile */
+.satellite-categories-card {
+  width: 100% !important;
+  right: 0 !important;
+  position: relative !important;
+}
+
+.satellite-categories-grid {
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+}
+
+.satellite-category-item {
+  padding: 16px !important;
+}
+
+.satellite-category-icon {
+  font-size: 1.5rem !important;
+}
+
+.satellite-category-count {
+  font-size: 1.2rem !important;
+}
+
+/* Header mobile */
+.satellite-header-title {
+  font-size: 2rem !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+}
+
+.satellite-header-subtitle {
+  font-size: 1rem !important;
+  text-align: center !important;
+}
+
+.satellite-status-chips {
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.satellite-status-chips .MuiChip-root {
+  font-size: 12px !important;
+  height: 28px !important;
+}
+
+/* Dialog mobile fixes */
+.satellite-dialog .MuiDialog-paper {
+  margin: 12px !important;
+  width: calc(100% - 24px) !important;
+  max-width: none !important;
+}
+
+.satellite-dialog-header {
+  padding: 16px !important;
+  flex-direction: column !important;
+  text-align: center !important;
+}
+
+.satellite-dialog-avatar {
+  width: 60px !important;
+  height: 60px !important;
+  margin: 0 auto 16px auto !important;
+}
+
+.satellite-dialog-title {
+  font-size: 1.5rem !important;
+}
+
+.satellite-dialog-content {
+  padding: 16px !important;
+}
+
+.satellite-dialog-grid {
+  grid-template-columns: 1fr !important;
+  gap: 20px !important;
+}
+
+/* Notification mobile */
+.satellite-notification {
+  bottom: 80px !important;
+  left: 16px !important;
+  right: 16px !important;
+  width: auto !important;
+}
+
+/* Loading screen mobile */
+.satellite-loading-container {
+  padding: 20px !important;
+}
+
+.satellite-loading-icon {
+  font-size: 60px !important;
+}
+
+.satellite-loading-title {
+  font-size: 1.8rem !important;
+  text-align: center !important;
+}
+
+.satellite-loading-progress {
+  width: 250px !important;
+}
+
+/* Statistics section mobile */
+.satellite-stats-section {
+  grid-template-columns: 1fr !important;
+  gap: 16px !important;
+}
+
+.satellite-stat-item {
+  text-align: center !important;
+}
+
+.satellite-stat-number {
+  font-size: 2rem !important;
+}
+
+/* Custom satellite markers mobile */
+.enhanced-satellite-icon {
+  transform: scale(0.8) !important;
+}
+
+/* Tablet styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .satellite-tracker-main {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  .satellite-map-section {
+    height: 60vh !important;
+  }
+
+  .satellite-map-container {
+    height: 500px !important;
+  }
+
+  .satellite-side-panel {
+    width: 100% !important;
+  }
+
+  .satellite-categories-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .satellite-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .satellite-header-title {
+    font-size: 3rem !important;
+  }
+
+  .satellite-dialog-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* Desktop styles (preserve existing layout) */
+@media (min-width: 1025px) {
+  .satellite-tracker-container {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  /* Remove Material-UI Container padding/margins */
+  .satellite-tracker-container .MuiContainer-root {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: none !important;
+  }
+
+  .satellite-tracker-main {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 24px !important;
+    width: 100% !important;
+    margin-bottom: 30px !important;
+  }
+
+  .satellite-map-section {
+    flex: 2 !important;
+    min-height: 700px !important;
+    height: auto !important;
+  }
+
+  .satellite-map-container {
+    height: 750px !important;
+  }
+
+  .satellite-side-panel {
+    flex: 1 !important;
+    width: auto !important;
+    min-width: 400px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    padding-left: 0 !important;
+  }
+
+  /* Position cards below the main section in a row */
+  .satellite-tracker-bottom-row {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    margin-top: 40px !important;
+  }
+
+  .satellite-list-card {
+    position: absolute !important;
+    width: 150% !important;
+    height: 600px !important;
+    max-width: 100vw !important;
+    margin: 0 auto !important;
+    box-shadow: 0 8px 32px rgba(0, 188, 212, 0.15) !important;
+    transition: all 0.3s ease !important;
+    z-index: 100 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    scrollbar-width: none !important;
+    right: 70% !important;
+  }
+
+  .satellite-list-card::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .satellite-list-card:hover {
+    box-shadow: 0 12px 40px rgba(0, 188, 212, 0.25) !important;
+    transform: translateY(-4px) !important;
+  }
+
+
+  .satellite-categories-card:hover {
+    box-shadow: 0 12px 40px rgba(63, 81, 181, 0.25) !important;
+    transform: translateY(-2px) !important;
+  }
+
+  /* Custom scrollbar styling for both cards */
+  .satellite-list-card::-webkit-scrollbar,
+  .satellite-categories-card::-webkit-scrollbar {
+    width: 8px !important;
+  }
+
+  .satellite-list-card::-webkit-scrollbar-track,
+  .satellite-categories-card::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 10px !important;
+  }
+
+  .satellite-list-card::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00bcd4, #0097a7) !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(0, 188, 212, 0.3) !important;
+  }
+
+  .satellite-list-card::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #00acc1, #00838f) !important;
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.5) !important;
+  }
+
+  .satellite-categories-card::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #3f51b5, #303f9f) !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(63, 81, 181, 0.3) !important;
+  }
+
+  .satellite-categories-card::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #3949ab, #283593) !important;
+    box-shadow: 0 0 10px rgba(63, 81, 181, 0.5) !important;
+  }
+
+  /* Firefox scrollbar styling */
+  .satellite-list-card,
+  .satellite-categories-card {
+    scrollbar-width: thin !important;
+  }
+
+  .satellite-list-card {
+    scrollbar-color: #00bcd4 rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .satellite-categories-card {
+    scrollbar-color: #3f51b5 rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .satellite-categories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  }
+
+  .satellite-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .satellite-header-title {
+    font-size: 4rem !important;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 480px) {
+  .satellite-tracker-container {
+    padding: 4px !important;
+  }
+
+  .satellite-map-section {
+    height: 40vh !important;
+  .satellite-tracker-bottom-row {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    margin-top: 40px !important;
+  }
+    min-height: 300px !important;
+  }
+
+  .satellite-map-container {
+    height: 300px !important;
+    border-radius: 8px !important;
+  }
+
+  .satellite-search-container {
+    left: 8px !important;
+    right: 50px !important;
+    position: static !important;
+    width: 500px !important;
+    max-width: 90vw !important;
+    margin: 0 auto !important;
+    box-shadow: 0 8px 32px rgba(0, 188, 212, 0.15) !important;
+    transition: all 0.3s ease !important;
+    z-index: 100 !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    font-size: 1.5rem !important;
+    padding: 0 8px !important;
+  }
+
+  .satellite-header-subtitle {
+    font-size: 0.9rem !important;
+    padding: 0 8px !important;
+  }
+
+  .satellite-status-chips .MuiChip-root {
+    font-size: 10px !important;
+    height: 24px !important;
+  }
+
+  .satellite-details-card {
+    margin: 8px !important;
+  }
+
+  .satellite-stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .satellite-categories-grid {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  .satellite-list-item {
+    padding: 8px !important;
+  }
+
+  .satellite-list-avatar {
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .satellite-dialog-header {
+    padding: 12px !important;
+  }
+
+  .satellite-dialog-content {
+    padding: 12px !important;
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .satellite-map-section {
+    height: 70vh !important;
+  }
+
+  .satellite-map-container {
+    height: 350px !important;
+  }
+
+  .satellite-header-title {
+    font-size: 1.8rem !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .enhanced-satellite-icon {
+    transform: scale(1) !important;
+  }
+}
+
+/* Focus and accessibility improvements for mobile */
+@media (max-width: 768px) {
+  .satellite-search-field:focus,
+  .satellite-list-item:focus,
+  .satellite-category-item:focus {
+    outline: 2px solid #00bcd4 !important;
+    outline-offset: 2px !important;
+  }
+
+  .satellite-map-controls .MuiFab-root:focus {
+    outline: 2px solid #00bcd4 !important;
+    outline-offset: 4px !important;
+  }
+}
+
+/* Animation optimizations for mobile */
+@media (max-width: 768px) {
+  .satellite-tracker-container * {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+
+  .enhanced-satellite-icon {
+    animation: none !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .satellite-map-controls,
+  .satellite-search-container,
+  .satellite-notification {
+    display: none !important;
+  }
+
+  .satellite-map-container {
+    height: 400px !important;
+    break-inside: avoid !important;
+  }
+}

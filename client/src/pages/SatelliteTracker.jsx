@@ -17,6 +17,7 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle } from 'react-
 import L from 'leaflet';
 import io from 'socket.io-client';
 import { apiConfig } from '../config/api';
+import '../styles/satelliteTrackerResponsive.css';
 import 'leaflet/dist/leaflet.css';
 
 // Import leaflet marker images
@@ -343,12 +344,15 @@ function SatelliteTracker() {
   }
 
   return (
-    <Box sx={{ 
-      bgcolor: 'background.default', 
-      minHeight: '100vh', 
-      pt: 8,
-      background: 'linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%)'
-    }}>
+    <Box 
+      className="satellite-tracker-container"
+      sx={{ 
+        bgcolor: 'background.default', 
+        minHeight: '100vh', 
+        pt: 8,
+        background: 'linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%)'
+      }}
+    >
       <Container maxWidth="xl">
         {/* Enhanced Header */}
         <motion.div
@@ -358,6 +362,7 @@ function SatelliteTracker() {
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
             <Typography
+              className="satellite-header-title"
               variant="h1"
               sx={{
                 fontFamily: 'Orbitron',
@@ -421,14 +426,18 @@ function SatelliteTracker() {
         </motion.div>
 
         {/* Main Content */}
-        <Box sx={{ 
-          display: 'flex', 
-          flexDirection: { xs: 'column', lg: 'row' }, 
-          gap: 3,
-          width: '1330px'
-        }}>
+        <Box 
+          className="satellite-tracker-main"
+          sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', lg: 'row' }, 
+            gap: 3,
+            width: '1330px'
+          }}
+        >
           {/* Enhanced Map Section */}
           <motion.div
+            className="satellite-map-section"
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -705,6 +714,7 @@ function SatelliteTracker() {
 
           {/* Enhanced Sidebar */}
           <motion.div
+            className="satellite-side-panel"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -897,315 +907,131 @@ function SatelliteTracker() {
               )}
 
               {/* Enhanced Active Satellites List */}
-              <Card sx={{ 
-                borderRadius: 4,
-                background: 'rgba(0, 0, 0, 0.8)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)',
-                position: 'relative',
-                right: '650px',
-                width: '800px'
-              }}>
-                <CardContent>
-                  <Typography variant="h5" sx={{ 
-                    mb: 3, 
-                    fontFamily: 'Orbitron',
-                    fontWeight: 600,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2
-                  }}>
-                    <Badge badgeContent={satellites.length} color="primary">
-                      <Satellite />
-                    </Badge>
-                    ACTIVE SATELLITES
-                  </Typography>
-                  
-                  <Box sx={{ maxHeight: 500, overflow: 'auto' }}>
-                    {satellites.map((satellite, index) => (
-                      <motion.div
-                        key={satellite.noradId}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                      >
-                        <Card
-                          sx={{
-                            mb: 2,
-                            cursor: 'pointer',
-                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                            background: selectedSatellite?.noradId === satellite.noradId 
-                              ? 'linear-gradient(135deg, rgba(0, 188, 212, 0.2), rgba(63, 81, 181, 0.2))'
-                              : 'rgba(255, 255, 255, 0.05)',
-                            border: `2px solid ${selectedSatellite?.noradId === satellite.noradId ? getCategoryColor(satellite.category) : 'transparent'}`,
-                            borderRadius: 3,
-                            '&:hover': {
-                              transform: 'translateY(-4px)',
-                              boxShadow: `0 12px 30px ${getCategoryColor(satellite.category)}40`,
-                              background: `linear-gradient(135deg, ${getCategoryColor(satellite.category)}20, rgba(255, 255, 255, 0.1))`
-                            }
-                          }}
-                          onClick={() => handleSatelliteSelect(satellite)}
+              <Box className="satellite-tracker-bottom-row">
+                <Card className="satellite-list-card">
+                  <CardContent>
+                    <Typography variant="h5" sx={{ 
+                      mb: 3, 
+                      fontFamily: 'Orbitron',
+                      fontWeight: 600,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 2
+                    }}>
+                      <Badge badgeContent={satellites.length} color="primary">
+                        <Satellite />
+                      </Badge>
+                      ACTIVE SATELLITES
+                    </Typography>
+                    
+                    <Box sx={{ maxHeight: 500, overflow: 'auto' }}>
+                      {satellites.map((satellite, index) => (
+                        <motion.div
+                          key={satellite.noradId}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.05 }}
                         >
-                          <CardContent sx={{ p: 2 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                              <Avatar 
-                                src={satelliteImages[satellite.noradId] || satelliteImages.default}
-                                sx={{ width: 50, height: 50, mr: 2 }}
-                              />
-                              <Box sx={{ flex: 1 }}>
-                                <Typography variant="body1" sx={{ 
-                                  fontWeight: 700,
-                                  fontSize: '1rem',
-                                  color: getCategoryColor(satellite.category),
-                                  fontFamily: 'Orbitron'
-                                }}>
-                                  {satellite.name}
-                                </Typography>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
-                                  <Chip 
-                                    label={satellite.category}
-                                    size="small"
-                                    sx={{ 
-                                      bgcolor: getCategoryColor(satellite.category),
-                                      color: 'white',
-                                      fontSize: '0.7rem'
-                                    }}
-                                  />
-                                  <Chip 
-                                    label={`P${satellite.priority}`}
-                                    size="small"
-                                    color={satellite.priority === 1 ? 'error' : satellite.priority === 2 ? 'warning' : 'default'}
-                                  />
-                                  <Chip 
-                                    label={satellite.dataSource?.toUpperCase() || 'LOADING'}
-                                    size="small"
-                                    sx={{
-                                      bgcolor: 
-                                        satellite.dataSource === 'api' ? '#4caf50' :
-                                        satellite.dataSource === 'predicted' ? '#ff9800' :
-                                        satellite.dataSource === 'mock' ? '#9c27b0' : '#757575',
-                                      color: 'white',
-                                      fontSize: '0.6rem'
-                                    }}
-                                  />
+                          <Card
+                            sx={{
+                              mb: 2,
+                              cursor: 'pointer',
+                              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                              background: selectedSatellite?.noradId === satellite.noradId 
+                                ? 'linear-gradient(135deg, rgba(0, 188, 212, 0.2), rgba(63, 81, 181, 0.2))'
+                                : 'rgba(255, 255, 255, 0.05)',
+                              border: `2px solid ${selectedSatellite?.noradId === satellite.noradId ? getCategoryColor(satellite.category) : 'transparent'}`,
+                              borderRadius: 3,
+                              '&:hover': {
+                                transform: 'translateY(-4px)',
+                                boxShadow: `0 12px 30px ${getCategoryColor(satellite.category)}40`,
+                                background: `linear-gradient(135deg, ${getCategoryColor(satellite.category)}20, rgba(255, 255, 255, 0.1))`
+                              }
+                            }}
+                            onClick={() => handleSatelliteSelect(satellite)}
+                          >
+                            <CardContent sx={{ p: 2 }}>
+                              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                <Avatar 
+                                  src={satelliteImages[satellite.noradId] || satelliteImages.default}
+                                  sx={{ width: 50, height: 50, mr: 2 }}
+                                />
+                                <Box sx={{ flex: 1 }}>
+                                  <Typography variant="body1" sx={{ 
+                                    fontWeight: 700,
+                                    fontSize: '1rem',
+                                    color: getCategoryColor(satellite.category),
+                                    fontFamily: 'Orbitron'
+                                  }}>
+                                    {satellite.name}
+                                  </Typography>
+                                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
+                                    <Chip 
+                                      label={satellite.category}
+                                      size="small"
+                                      sx={{ 
+                                        bgcolor: getCategoryColor(satellite.category),
+                                        color: 'white',
+                                        fontSize: '0.7rem'
+                                      }}
+                                    />
+                                    <Chip 
+                                      label={`P${satellite.priority}`}
+                                      size="small"
+                                      color={satellite.priority === 1 ? 'error' : satellite.priority === 2 ? 'warning' : 'default'}
+                                    />
+                                    <Chip 
+                                      label={satellite.dataSource?.toUpperCase() || 'LOADING'}
+                                      size="small"
+                                      sx={{
+                                        bgcolor: 
+                                          satellite.dataSource === 'api' ? '#4caf50' :
+                                          satellite.dataSource === 'predicted' ? '#ff9800' :
+                                          satellite.dataSource === 'mock' ? '#9c27b0' : '#757575',
+                                        color: 'white',
+                                        fontSize: '0.6rem'
+                                      }}
+                                    />
+                                  </Box>
+                                </Box>
+                                <Box sx={{ textAlign: 'right' }}>
+                                  <Typography variant="caption" color="text.secondary">
+                                    ALTITUDE
+                                  </Typography>
+                                  <Typography variant="body2" sx={{ fontWeight: 700, fontFamily: 'monospace' }}>
+                                    {satellite.position ? Math.round(satellite.position.sataltitude) : '---'} km
+                                  </Typography>
                                 </Box>
                               </Box>
-                              <Box sx={{ textAlign: 'right' }}>
+                              
+                              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Typography variant="caption" color="text.secondary">
-                                  ALTITUDE
+                                  Last Update: {satellite.lastUpdated ? new Date(satellite.lastUpdated).toLocaleTimeString() : 'Pending...'}
                                 </Typography>
-                                <Typography variant="body2" sx={{ fontWeight: 700, fontFamily: 'monospace' }}>
-                                  {satellite.position ? Math.round(satellite.position.sataltitude) : '---'} km
-                                </Typography>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                  <Box
+                                    sx={{
+                                      width: 12,
+                                      height: 12,
+                                      borderRadius: '50%',
+                                      backgroundColor: satellite.position ? '#4caf50' : '#ff9800',
+                                      boxShadow: `0 0 12px ${satellite.position ? '#4caf50' : '#ff9800'}`,
+                                      animation: satellite.position ? 'pulse 2s infinite' : 'none'
+                                    }}
+                                  />
+                                  <Typography variant="caption" sx={{ fontFamily: 'monospace' }}>
+                                    {satellite.position ? 'ACTIVE' : 'STANDBY'}
+                                  </Typography>
+                                </Box>
                               </Box>
-                            </Box>
-                            
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Typography variant="caption" color="text.secondary">
-                                Last Update: {satellite.lastUpdated ? new Date(satellite.lastUpdated).toLocaleTimeString() : 'Pending...'}
-                              </Typography>
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <Box
-                                  sx={{
-                                    width: 12,
-                                    height: 12,
-                                    borderRadius: '50%',
-                                    backgroundColor: satellite.position ? '#4caf50' : '#ff9800',
-                                    boxShadow: `0 0 12px ${satellite.position ? '#4caf50' : '#ff9800'}`,
-                                    animation: satellite.position ? 'pulse 2s infinite' : 'none'
-                                  }}
-                                />
-                                <Typography variant="caption" sx={{ fontFamily: 'monospace' }}>
-                                  {satellite.position ? 'ACTIVE' : 'STANDBY'}
-                                </Typography>
-                              </Box>
-                            </Box>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
-                    ))}
-                  </Box>
-                </CardContent>
-              </Card>
-
-              {/* Mission Categories */}
-              <Card sx={{ 
-                mt: 3,
-                borderRadius: 4,
-                background: 'rgba(0, 0, 0, 0.8)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)',
-                position: 'relative',
-                right: '650px',
-                width: '800px'
-              }}>
-                <CardContent>
-                  <Typography variant="h5" sx={{ 
-                    mb: 3, 
-                    fontFamily: 'Orbitron',
-                    fontWeight: 600,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2
-                  }}>
-                    <Explore sx={{ color: '#00bcd4' }} />
-                    MISSION CATEGORIES
-                  </Typography>
-                  
-                  <Box sx={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', 
-                    gap: 2,
-                    mb: 3
-                  }}>
-                    {Object.entries({
-                      'Space Stations': { icon: '🏛️', color: '#ff1744', count: satellites.filter(s => s.category === 'Space Stations').length },
-                      'Scientific': { icon: '🔬', color: '#3f51b5', count: satellites.filter(s => s.category === 'Scientific').length },
-                      'Earth Observation': { icon: '🌍', color: '#4caf50', count: satellites.filter(s => s.category === 'Earth Observation').length },
-                      'Communication': { icon: '📡', color: '#00bcd4', count: satellites.filter(s => s.category === 'Communication').length },
-                      'Navigation': { icon: '🧭', color: '#ff9800', count: satellites.filter(s => s.category === 'Navigation').length },
-                      'Weather': { icon: '⛈️', color: '#8bc34a', count: satellites.filter(s => s.category === 'Weather').length }
-                    }).map(([category, data]) => (
-                      <motion.div
-                        key={category}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <Box 
-                          sx={{ 
-                            p: 2.5, 
-                            bgcolor: `${data.color}20`,
-                            borderRadius: 3,
-                            border: `1px solid ${data.color}40`,
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            '&:hover': {
-                              bgcolor: `${data.color}30`,
-                              border: `2px solid ${data.color}60`,
-                              transform: 'translateY(-2px)',
-                              boxShadow: `0 8px 25px ${data.color}40`
-                            }
-                          }}
-                          onClick={() => {
-                            const categorySats = satellites.filter(s => s.category === category);
-                            if (categorySats.length > 0) {
-                              handleSatelliteSelect(categorySats[0]);
-                            }
-                          }}
-                        >
-                          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                            <Typography variant="h4" sx={{ fontSize: '2rem' }}>
-                              {data.icon}
-                            </Typography>
-                            <Typography variant="h5" sx={{ 
-                              color: data.color, 
-                              fontFamily: 'Orbitron',
-                              fontWeight: 700 
-                            }}>
-                              {data.count}
-                            </Typography>
-                          </Box>
-                          <Typography variant="body2" sx={{ 
-                            fontWeight: 600,
-                            color: 'white',
-                            fontSize: '0.9rem',
-                            lineHeight: 1.2
-                          }}>
-                            {category}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                            Active Satellites
-                          </Typography>
-                        </Box>
-                      </motion.div>
-                    ))}
-                  </Box>
-
-                  {/* Quick Stats */}
-                  <Box sx={{ 
-                    p: 3,
-                    bgcolor: 'rgba(255, 255, 255, 0.05)',
-                    borderRadius: 3,
-                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                  }}>
-                    <Typography variant="h6" sx={{ 
-                      mb: 2, 
-                      fontFamily: 'Orbitron',
-                      color: '#00bcd4',
-                      textAlign: 'center'
-                    }}>
-                      📊 ORBITAL STATISTICS
-                    </Typography>
-                    <Box sx={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: 'repeat(3, 1fr)', 
-                      gap: 3 
-                    }}>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h4" sx={{ 
-                          color: '#4caf50', 
-                          fontFamily: 'Orbitron',
-                          fontWeight: 700,
-                          mb: 1
-                        }}>
-                          {satellites.filter(s => s.position && s.position.sataltitude > 400).length}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ 
-                          textTransform: 'uppercase',
-                          fontWeight: 600,
-                          letterSpacing: '0.5px'
-                        }}>
-                          HIGH ORBIT
-                        </Typography>
-                        <Typography variant="caption" display="block" color="text.secondary">
-                          &gt;400km
-                        </Typography>
-                      </Box>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h4" sx={{ 
-                          color: '#ff9800', 
-                          fontFamily: 'Orbitron',
-                          fontWeight: 700,
-                          mb: 1
-                        }}>
-                          {satellites.filter(s => s.priority === 1).length}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ 
-                          textTransform: 'uppercase',
-                          fontWeight: 600,
-                          letterSpacing: '0.5px'
-                        }}>
-                          PRIORITY
-                        </Typography>
-                        <Typography variant="caption" display="block" color="text.secondary">
-                          MISSIONS
-                        </Typography>
-                      </Box>
-                      <Box sx={{ textAlign: 'center' }}>
-                        <Typography variant="h4" sx={{ 
-                          color: '#ff1744', 
-                          fontFamily: 'Orbitron',
-                          fontWeight: 700,
-                          mb: 1
-                        }}>
-                          {connectionStatus === 'connected' ? satellites.filter(s => s.position).length : 0}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ 
-                          textTransform: 'uppercase',
-                          fontWeight: 600,
-                          letterSpacing: '0.5px'
-                        }}>
-                          LIVE TRACKING
-                        </Typography>
-                        <Typography variant="caption" display="block" color="text.secondary">
-                          ACTIVE NOW
-                        </Typography>
-                      </Box>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      ))}
                     </Box>
-                  </Box>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Box>
             </Box>
           </motion.div>
         </Box>

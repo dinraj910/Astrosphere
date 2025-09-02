@@ -247,7 +247,7 @@ const ChatbotPage = () => {
                 border: '1px solid rgba(148, 163, 184, 0.2)',
                 borderRadius: { xs: 2, sm: 3, md: 4 },
                 overflow: 'hidden',
-                height: { xs: '75vh', sm: '70vh', md: '600px' },
+                height: { xs: '90vh', sm: '85vh', md: '800px' }, // Increased height for all views
                 display: 'flex',
                 flexDirection: 'column',
                 boxShadow: '0 25px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(76, 99, 210, 0.2)',
