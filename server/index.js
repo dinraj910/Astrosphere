@@ -874,16 +874,21 @@ app.post('/api/chatbot/chat', async (req, res) => {
   try {
     let { message, messages } = req.body;
     
-    // Handle both message formats - single message or messages array
-    if (!message && messages && Array.isArray(messages)) {
-      // Extract user message from messages array
-      const userMessage = messages.find(msg => msg.role === 'user');
-      message = userMessage ? userMessage.content : '';
+    // Always use the latest user message from the request body
+    let userContent = "";
+    if (typeof message === "string" && message.trim().length > 0) {
+      userContent = message.trim();
+    } else if (messages && Array.isArray(messages)) {
+      // Find the last user message in the array
+      const userMessages = messages.filter(msg => msg.role === 'user' && typeof msg.content === 'string');
+      if (userMessages.length > 0) {
+        userContent = userMessages[userMessages.length - 1].content.trim();
+      }
     }
-    
-    // Validate message input
-    if (!message || typeof message !== 'string' || message.trim().length === 0) {
-      console.log('❌ Invalid message received:', { message, body: req.body });
+
+    // Validate userContent
+    if (!userContent || typeof userContent !== 'string' || userContent.length === 0) {
+      console.log('❌ Invalid message received:', { message, messages, body: req.body });
       // Return OpenAI-style fallback response
       const fallbackResponses = [
         "🌌 Hello! I'm AstroBot, your space exploration assistant. What would you like to know about the universe?",
@@ -903,17 +908,17 @@ app.post('/api/chatbot/chat', async (req, res) => {
       });
     }
 
-    console.log('💬 Chatbot received message:', message);
-    
-    // Transform single message to messages array format
+    console.log('💬 Chatbot received message:', userContent);
+
+    // Always send the latest user message to Groq
     const messageArray = [
       {
         role: "system",
-        content: "You are AstroBot, an enthusiastic space exploration assistant. Provide engaging, educational responses about astronomy, space missions, cosmic phenomena, and space science. Keep responses informative but accessible."
+        content: "You are AstroBot, an expert assistant. Only answer questions strictly related to space, astronomy, astrophysics, astrochemistry, astrobiology, physics, and chemistry. Refuse all other topics. Answers must be factual, concise, and clearly structured with headings, bullet points, or tables if appropriate. If the question is not about these topics, politely refuse."
       },
       {
-        role: "user", 
-        content: message.trim()
+        role: "user",
+        content: userContent
       }
     ];
     
