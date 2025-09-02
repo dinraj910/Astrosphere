@@ -23,6 +23,7 @@ import {
 import axios from 'axios';
 import { apiConfig } from '../config/api';
 import '../styles/chatbot.css';
+import ReactMarkdown from 'react-markdown';
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -357,7 +358,6 @@ const Chatbot = () => {
                           <BotIcon sx={{ fontSize: '16px' }} />
                         </Avatar>
                       )}
-                      
                       {msg.role === 'user' && (
                         <Avatar
                           className="chatbot-message-avatar"
@@ -373,7 +373,6 @@ const Chatbot = () => {
                           <PersonIcon sx={{ fontSize: '16px' }} />
                         </Avatar>
                       )}
-
                       <Paper
                         elevation={msg.role === 'user' ? 4 : 2}
                         className={`chatbot-message-paper ${msg.role === 'user' ? 'user' : ''}`}
@@ -395,19 +394,35 @@ const Chatbot = () => {
                           backdropFilter: 'blur(10px)',
                         }}
                       >
-                        <Typography 
-                          variant="body2" 
-                          className="chatbot-message-text"
-                          sx={{ 
-                            whiteSpace: 'pre-line',
-                            lineHeight: 1.5,
-                            fontSize: '0.85rem',
-                            color: 'white',
-                            fontWeight: msg.role === 'user' ? 500 : 400
-                          }}
-                        >
-                          {msg.content}
-                        </Typography>
+                        {msg.role === 'assistant' ? (
+                          <Typography 
+                            variant="body2" 
+                            className="chatbot-message-text"
+                            sx={{ 
+                              whiteSpace: 'pre-line',
+                              lineHeight: 1.5,
+                              fontSize: '0.85rem',
+                              color: 'white',
+                              fontWeight: 400
+                            }}
+                          >
+                            {msg.content}
+                          </Typography>
+                        ) : (
+                          <Typography 
+                            variant="body2" 
+                            className="chatbot-message-text"
+                            sx={{ 
+                              whiteSpace: 'pre-line',
+                              lineHeight: 1.5,
+                              fontSize: '0.85rem',
+                              color: 'white',
+                              fontWeight: 500
+                            }}
+                          >
+                            {msg.content}
+                          </Typography>
+                        )}
                       </Paper>
                     </Box>
                   </Fade>
